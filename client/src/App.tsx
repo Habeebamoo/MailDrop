@@ -1,7 +1,21 @@
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route
+} from "react-router-dom"
+
+import HomePage from "./pages/HomePage"
+
 const App = () => {
-  return (
-    <h1>apdp</h1>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<HomePage />} />
+      </>
+    )
   )
+  return <RouterProvider router={router} />
 }
 
 export default App

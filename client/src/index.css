@@ -15,10 +15,42 @@
 	src: url("./fonts/Outfit/static/Outfit-Medium.ttf");
 }
 
+@font-face {
+	font-family: "roboto";
+	src: url("./fonts/Roboto_Condensed/static/RobotoCondensed-Medium.ttf");
+}
+
+@utility flex-center {
+	@apply flex justify-center items-center;
+}
+
+@utility flex-start {
+	@apply flex justify-start items-center;
+}
+
+@utility flex-between {
+	@apply flex justify-between items-center;
+}
+
+@utility flex-end {
+	@apply flex justify-end items-center;
+}
+
+@utility btn-primary {
+	@apply py-1 bg-primary text-white rounded-md px-3 hover:bg-transparent hover:text-primary border-1 border-primary cursor-pointer;
+}
+
+.test {
+	color: rgb(121, 120, 120);
+}
+
 @theme {
-	--color-primary: #7916ff;
-	--color-primary2: #4f46e5;
+	--color-primary: #4f46e5;
+	--color-accent: rgb(121, 120, 120);
+	--color-bg: rgb(238, 240, 241);
+	--color-bg2: rgb(218, 220, 221);
 	--font-inter: "inter";
 	--font-open: "opensans";
-	--font-outfit: "outfit"
+	--font-outfit: "outfit";
+	--font-roboto: "roboto";
 }
