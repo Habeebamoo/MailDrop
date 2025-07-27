@@ -1,1 +1,24 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+@font-face {
+	font-family: "inter";
+	src: url("./fonts/Inter/static/Inter_18pt-Medium.ttf");
+}
+
+@font-face {
+	font-family: "opensans";
+	src: url("./fonts/Open_Sans/static/OpenSans-Medium.ttf");
+}
+
+@font-face {
+	font-family: "outfit";
+	src: url("./fonts/Outfit/static/Outfit-Medium.ttf");
+}
+
+@theme {
+	--color-primary: #7916ff;
+	--color-primary2: #4f46e5;
+	--font-inter: "inter";
+	--font-open: "opensans";
+	--font-outfit: "outfit"
+}
