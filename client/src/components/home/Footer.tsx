@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.jpg"
+import logo from "../../assets/logo.png"
 
 const Footer = () => {
   const year = new Date().getFullYear()

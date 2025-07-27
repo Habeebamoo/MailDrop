@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.jpg"
+import logo from "../../assets/logo.png"
 import { RiMenu3Line } from "react-icons/ri"
 import { LiaTimesSolid } from "react-icons/lia"
 import NavBar from "./NavBar"
