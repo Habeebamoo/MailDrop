@@ -10,7 +10,7 @@ const Hero = () => {
           <div className="max-sm:flex-center sm:flex-start">
             <p className="bg-bg2 font-outfit flex-start py-1 px-2 rounded font-open text-sm text-primary">
             <FaStar color="gold" />
-            <span className="ml-1">New: Email Management Platform</span>
+            <span className="ml-1">New: Email Marketing Platform</span>
             </p>
           </div>
           <h1 className="font-inter text-primary text-3xl max-sm:text-center mt-3">Email Made Simple & Secure</h1>
