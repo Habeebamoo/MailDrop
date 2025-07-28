@@ -46,8 +46,16 @@
 	@apply py-1 bg-primary text-white rounded-md px-3 hover:bg-transparent hover:text-primary border-1 border-primary cursor-pointer;
 }
 
+@utility nav-link {
+	@apply flex-start gap-1 text-accent cursor-pointer ml-1 font-outfit hover:text-white;
+}
+
+@utility nav-link-active {
+	@apply flex-start gap-1 text-white cursor-pointer ml-1 font-outfit;
+}
+
 .test {
-	color: #d4d3d6;
+	color: #f1f1f1;
 }
 
 @theme {
@@ -55,6 +63,7 @@
 	--color-secondary: #111827;
 	--color-accent: rgb(121, 120, 120);
 	--color-accentLight: #d4d3d6;
+	--color-accentXLight: #f1f1f1;
 	--color-bg: rgb(238, 240, 241);
 	--color-bg2: rgb(218, 220, 221);
 	--color-fade: rgba(0, 0, 0, 0.2);

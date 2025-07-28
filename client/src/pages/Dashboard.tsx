@@ -7,7 +7,7 @@ const Dashboard = () => {
   const [navActive, setNavActive] = useState<boolean>(false)
 
   return (
-    <main className="bg-accentLight">
+    <main className="bg-accentXLight">
       <Header />
       <Navbar />
       <Outlet />

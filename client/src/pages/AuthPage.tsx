@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
+import googleIcon from "../assets/google.png"
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
 
-  const handleAuth = () => {
+  const handleAuth = (e: React.FormEvent) => {
+    e.preventDefault()
     window.location.href = "/dashboard"
   }
 
@@ -25,7 +27,10 @@ const AuthPage = () => {
         <h1 className="text-xl font-outfit text-primary text-center">{isLogin ? "Welcome Back" : "Create Your Account"}</h1>
         <p className="text-sm text-accent text-center">{isLogin ? "Sign in to your MailDrop account to continue" : "Sign up to create an account with MailDrop"}</p>
         <div>
-          <button className="font-inter text-sm p-2 border-1 w-full mt-6 rounded-md border-accentLight">Continue with Google</button>
+          <button className="font-inter text-sm p-2 border-1 w-full mt-6 rounded-md border-accentLight flex-center hover:bg-accentLight cursor-pointer">
+            <img src={googleIcon} className="h-4" />
+            <span className="ml-2">Continue with Google</span>
+          </button>
         </div>
         <div className="h-[1px] bg-accentLight mt-7"></div>
         <form className="mt-5">
