@@ -5,6 +5,10 @@ const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
 
+  const handleAuth = () => {
+    window.location.href = "/dashboard"
+  }
+
   const toggleLogin = () => {
     setIsLogin(!isLogin)
   }
@@ -61,7 +65,7 @@ const AuthPage = () => {
             <div onClick={togglePassword} className="absolute top-[42px] right-[10px] cursor-pointer">{passwordIcon}</div>
           </div>
           <p className="text-sm ml-1 text-primary font-outfit mb-3 mt-3 cursor-pointer hover:font-inter">Forgot Password?</p>
-          <button className="py-2 btn-primary w-full">{isLogin ? "Login" : "Sign Up"}</button>
+          <button onClick={handleAuth} className="py-2 btn-primary w-full">{isLogin ? "Login" : "Sign Up"}</button>
           <p className="text-center text-sm text-accent mt-4">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <span className="text-primary cursor-pointer font-outfit" onClick={toggleLogin}>{isLogin ? "Sign Up" : "Login"}</span>

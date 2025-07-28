@@ -57,6 +57,7 @@
 	--color-accentLight: #d4d3d6;
 	--color-bg: rgb(238, 240, 241);
 	--color-bg2: rgb(218, 220, 221);
+	--color-fade: rgba(0, 0, 0, 0.2);
 	--font-inter: "inter";
 	--font-open: "opensans";
 	--font-outfit: "outfit";
