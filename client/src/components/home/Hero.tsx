@@ -16,7 +16,7 @@ const Hero = () => {
             <span className="ml-1">New: Email Marketing Platform</span>
             </p>
           </div>
-          <h1 className="font-inter text-primary text-3xl max-lg:text-center mt-3">Email Made Simple & Secure</h1>
+          <h1 className="font-inter text-primary text-3xl max-lg:text-center mt-3">Email Marketing Made Simple & Secure</h1>
           <p className="max-lg:text-center text-sm max-lg:mt-2 lg:mt-1 text-accent max-lg:w-[90%] mx-auto">
             Experience the future of email with MailDrop. Intelligent organization, bulletproof security and lightning-fast perfomance in one beautiful package
           </p>

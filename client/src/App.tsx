@@ -7,6 +7,7 @@ import {
 
 import HomePage from "./pages/HomePage"
 import AuthPage from "./pages/AuthPage"
+import NotFoundPage from "./pages/NotFoundPage"
 
 const App = () => {
   const router = createBrowserRouter(
@@ -14,6 +15,7 @@ const App = () => {
       <>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </>
     )
   )
