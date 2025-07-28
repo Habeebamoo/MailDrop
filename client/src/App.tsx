@@ -6,12 +6,14 @@ import {
 } from "react-router-dom"
 
 import HomePage from "./pages/HomePage"
+import AuthPage from "./pages/AuthPage"
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<AuthPage />} />
       </>
     )
   )
