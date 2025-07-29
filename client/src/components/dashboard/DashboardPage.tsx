@@ -1,8 +1,11 @@
 import { CgMail } from "react-icons/cg"
 import { FaRegHandPointer } from "react-icons/fa"
 import { FiUsers } from "react-icons/fi"
+import { useTheme } from "../../context/ThemeContext"
 
 const DashboardPage = () => {
+  const { theme } = useTheme()
+
   return (
     <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25">
       <h1 className="text-2xl text-primary font-inter mt-4 dark:text-white">Overview</h1>
@@ -11,21 +14,21 @@ const DashboardPage = () => {
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
-            <CgMail size={20} color="#231e88" />
+            <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">0</h1>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Total Subscribers</p>
-            <FiUsers size={18} color="#231e88" />
+            <FiUsers size={18} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">0</h1>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Clicks</p>
-            <FaRegHandPointer size={17} color="#231e88" />
+            <FaRegHandPointer size={17} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">0</h1>
         </div>

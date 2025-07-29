@@ -22,7 +22,7 @@ const Settings = () => {
       <h1 className="text-xl text-primary dark:text-white font-inter mt-4">Settings</h1>
       <p className="text-sm text-accent mb-6">Manage your account settings and preference</p>
       <div className="md:grid md:grid-cols-2 gap-2 items-start">
-        <div className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary">
+        <div className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary dark:text-white">
           <div className="flex-start gap-2">
             <FiUser size={20} />
             <h1 className="text-xl font-outfit">Profile Information</h1>
@@ -63,7 +63,7 @@ const Settings = () => {
           </div>
         </div>
         <div className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 max-md:mt-4">
-          <div className="flex-start gap-2 text-primary">
+          <div className="flex-start gap-2 text-primary dark:text-white">
             <FaGears size={20} />
             <h1 className="text-xl font-outfit">Quick Action</h1>
           </div>
