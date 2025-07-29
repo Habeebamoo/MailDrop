@@ -20,12 +20,12 @@ const Hero = () => {
           <p className="max-lg:text-center text-sm max-lg:mt-2 lg:mt-1 text-accent max-lg:w-[90%] mx-auto">
             Experience the future of email with MailDrop. Intelligent organization, bulletproof security and lightning-fast perfomance in one beautiful package
           </p>
-          <button onClick={() => navigate("/login")} className="max-lg:mx-auto max-lg:mt-4 lg:mt-2 px-4 btn-primary flex-center">
+          <button onClick={() => navigate("/login")} className="max-lg:mx-auto max-md:py-2 max-lg:mt-4 lg:mt-2 px-4 btn-primary flex-center">
             <span className="mr-2">Start Free Trail</span>
             <FaArrowRight size={14} />
           </button>
         </div>
-        <div className="max-sm:mt-4 lg:ml-5">
+        <div className="max-sm:mt-10 lg:ml-5">
           <div className="flex-center">
             <img src={heroImg} className="max-lg:h-[350px] lg:h-[250px]" />
           </div>
