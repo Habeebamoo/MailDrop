@@ -1,5 +1,5 @@
 import { CgMail } from "react-icons/cg"
-import { FaArrowRight, FaRegHandPointer } from "react-icons/fa"
+import { FaRegHandPointer } from "react-icons/fa"
 import { FiUsers } from "react-icons/fi"
 
 const DashboardPage = () => {
