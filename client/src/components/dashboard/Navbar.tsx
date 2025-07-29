@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className="max-md:hidden fixed top-0 bottom-0 left-0 w-[170px] bg-secondary">
         <div className="mt-17 pl-3">
           <NavLink 
-            to={"/dashboard"} 
+            to={"/dashboard/home"} 
             className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}
           >
             {({ isActive }) => (
@@ -63,7 +63,7 @@ const Navbar = () => {
         <div className="fixed bottom-0 left-0 right-0 p-3 rounded-t-lg">
           <div className="backdrop-blur-md bg-white/30 shadow-lg p-4 rounded-full flex justify-around items-center">
             <NavLink
-              to={"/dashboard"}
+              to={"/dashboard/home"}
             >
               {({ isActive }) => (
                 <FiHome color={isActive ? "#000" : "rgb(121, 120, 120)"} size={20} />

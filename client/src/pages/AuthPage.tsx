@@ -8,7 +8,7 @@ const AuthPage = () => {
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault()
-    window.location.href = "/dashboard"
+    window.location.href = "/dashboard/home"
   }
 
   const toggleLogin = () => {

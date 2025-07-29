@@ -36,7 +36,7 @@ const DashboardPage = () => {
           <p>Campaign</p>
           <p>Status</p>
           <p>Clicks</p>
-          <p>Subscribed</p>
+          <p>Subscribers</p>
           <p>Created</p>
         </div>
         <div className="grid grid-cols-5 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">

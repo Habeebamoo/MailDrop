@@ -10,6 +10,7 @@ import AuthPage from "./pages/AuthPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import Dashboard from "./pages/Dashboard"
 import DashboardPage from "./components/dashboard/DashboardPage"
+import Campaigns from "./components/dashboard/Campaigns"
 
 const App = () => {
   const router = createBrowserRouter(
@@ -18,7 +19,8 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/dashboard" element={<Dashboard />} >
-          <Route path="" element={<DashboardPage />} />
+          <Route path="home" element={<DashboardPage />} />
+          <Route path="campaigns" element={<Campaigns />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </>
