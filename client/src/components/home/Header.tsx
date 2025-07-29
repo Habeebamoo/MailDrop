@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <header className="p-3 fixed top-0 left-0 right-0">
-      <nav className="bg-white rounded-md p-3">
+      <nav className="bg-white rounded-md p-3 border-1 border-accentLight">
         <div className="flex-between">
           <div className="flex-start">
             <img src={logo} alt="Logo" className="h-[30px]" />
