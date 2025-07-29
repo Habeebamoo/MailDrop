@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard"
 import DashboardPage from "./components/dashboard/DashboardPage"
 import Campaigns from "./components/dashboard/Campaigns"
 import Settings from "./components/dashboard/Settings"
+import Leads from "./components/dashboard/Leads"
 
 const App = () => {
   const router = createBrowserRouter(
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} >
           <Route path="home" element={<DashboardPage />} />
           <Route path="campaigns" element={<Campaigns />} />
+          <Route path="leads" element={<Leads />} />
           <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

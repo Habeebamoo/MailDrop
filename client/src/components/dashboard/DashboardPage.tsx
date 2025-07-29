@@ -1,7 +1,8 @@
 import { CgMail } from "react-icons/cg"
-import { FaRegHandPointer } from "react-icons/fa"
+import { FaChartPie, FaRegHandPointer } from "react-icons/fa"
 import { FiUsers } from "react-icons/fi"
 import { useTheme } from "../../context/ThemeContext"
+import { BsGraphUp } from "react-icons/bs"
 
 const DashboardPage = () => {
   const { theme } = useTheme()
@@ -56,6 +57,16 @@ const DashboardPage = () => {
           </div>
           <p>386</p>
           <p>2024-9-20</p>
+        </div>
+      </div>
+      <div className="bg-white p-4 dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-6">
+        <div className="flex-start gap-2">
+          <BsGraphUp color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <h1 className="font-inter dark:text-accent">Campaign Perfomance</h1>
+        </div>
+        <div className="p-14 mt-2 flex-center flex-col gap-4">
+          <FaChartPie size={50} color="rgb(121, 120, 120)" />
+          <p className="text-accent text-sm">Chart visualization would go here</p>
         </div>
       </div>
     </section>

@@ -4,10 +4,12 @@ import Navbar from "../components/dashboard/Navbar"
 
 const Dashboard = () => {
   return (
-    <main className="bg-accentXLight dark:bg-dark">
+    <main className="bg-accentXLight dark:bg-dark min-h-scren flex flex-col">
       <Header />
       <Navbar />
-      <Outlet />
+      <main className="flex-1">
+        <Outlet />
+      </main>
     </main>
   )
 }
