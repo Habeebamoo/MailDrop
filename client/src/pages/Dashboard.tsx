@@ -4,7 +4,7 @@ import Navbar from "../components/dashboard/Navbar"
 
 const Dashboard = () => {
   return (
-    <main className="bg-accentXLight">
+    <main className="bg-accentXLight dark:bg-dark">
       <Header />
       <Navbar />
       <Outlet />

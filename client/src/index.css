@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
 	font-family: "inter";
 	src: url("./fonts/Inter/static/Inter_18pt-Medium.ttf");
@@ -55,12 +57,13 @@
 }
 
 .test {
-	color: #f1f1f1;
+	color: #121720;
 }
 
 @theme {
 	--color-primary: #231e88;
 	--color-secondary: #111827;
+	--color-dark: #130f1e;
 	--color-accent: rgb(121, 120, 120);
 	--color-accentLight: #d4d3d6;
 	--color-accentXLight: #f1f1f1;

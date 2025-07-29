@@ -3,10 +3,10 @@ import { SlArrowRight } from "react-icons/sl"
 const Campaigns = () => {
   return (
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25">
-      <h1 className="text-xl text-primary font-inter mt-3">Campaigns</h1>
+      <h1 className="text-xl text-primary font-inter mt-3 dark:text-white">Campaigns</h1>
       <p className="text-sm text-accent mb-4">Create and manage your email campaigns</p>
-      <div className="bg-white rounded-sm mt-2">
-        <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight py-3 text-center">
+      <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-2">
+        <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 dark:text-white py-3 text-center">
           <p>Campaign</p>
           <p>Status</p>
           <p>Created</p>
