@@ -33,9 +33,9 @@ const AuthPage = () => {
           </button>
         </div>
         <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-accentLight"></div>
-          <span className="mx-4 text-accentLight text-[11px]">OR CONTINUE WITH EMAIL</span>
-          <div className="flex-grow border-t border-accentLight"></div>
+          <div className="flex-grow border-t border-accent"></div>
+          <span className="mx-4 text-accent text-[11px]">OR CONTINUE WITH EMAIL</span>
+          <div className="flex-grow border-t border-accent"></div>
         </div>
         <form className="mt-5">
           {!isLogin &&
