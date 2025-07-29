@@ -4,7 +4,7 @@ const Footer = () => {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="bg-secondary px-6 py-8">
+    <footer className="bg-secondary px-6 py-10">
       <div className="flex-start">
         <img src={logo} className="h-[30px]" />
         <span className="text-xl font-outfit ml-2 text-white">MailDrop</span>

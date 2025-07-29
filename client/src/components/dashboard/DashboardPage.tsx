@@ -32,28 +32,25 @@ const DashboardPage = () => {
       </div>
       <h1 className="text-xl text-primary font-inter mt-6">Recent Campaigns</h1>
       <div className="bg-white rounded-sm mt-2">
-        <div className="grid grid-cols-5 gap-1 font-inter text-sm border-b-1 border-b-accentLight py-3 text-center">
+        <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight py-3 text-center">
           <p>Campaign</p>
           <p>Status</p>
-          <p>Clicks</p>
           <p>Subscribers</p>
           <p>Created</p>
         </div>
-        <div className="grid grid-cols-5 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
+        <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
           <p>Summer Sale 2024</p>
           <div>
             <p className="bg-green-400 px-2 py-1 rounded-md text-white inline">Active</p>
           </div>
-          <p>201</p>
           <p>76</p>
           <p>2024-8-24</p>
         </div>
-        <div className="grid grid-cols-5 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
+        <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
           <p>Affiliate Marketing</p>
           <div>
             <p className="bg-red-400 px-2 py-1 rounded-md text-white inline">Paused</p>
           </div>
-          <p>554</p>
           <p>386</p>
           <p>2024-9-20</p>
         </div>
