@@ -2,7 +2,7 @@ import { SlArrowRight } from "react-icons/sl"
 
 const Campaigns = () => {
   return (
-    <section className="md:ml-[170px] mt-[50px] px-3 pt-2 pb-25">
+    <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25">
       <h1 className="text-xl text-primary font-inter mt-3">Campaigns</h1>
       <p className="text-sm text-accent mb-4">Create and manage your email campaigns</p>
       <div className="bg-white rounded-sm mt-2">

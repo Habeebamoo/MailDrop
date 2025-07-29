@@ -55,10 +55,6 @@ const DashboardPage = () => {
           <p>2024-9-20</p>
         </div>
       </div>
-      <button className="flex-center gap-2 btn-primary mt-3 ml-1 cursor-pointer">
-        <span className="text-sm">View All</span>
-        <FaArrowRight size={12} />
-      </button>
     </section>
   )
 }

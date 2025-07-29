@@ -32,7 +32,11 @@ const AuthPage = () => {
             <span className="ml-2">Continue with Google</span>
           </button>
         </div>
-        <div className="h-[1px] bg-accentLight mt-7"></div>
+        <div className="flex items-center my-6">
+          <div className="flex-grow border-t border-accentLight"></div>
+          <span className="mx-4 text-accentLight text-[11px]">OR CONTINUE WITH EMAIL</span>
+          <div className="flex-grow border-t border-accentLight"></div>
+        </div>
         <form className="mt-5">
           {!isLogin &&
             <div className="mb-3">

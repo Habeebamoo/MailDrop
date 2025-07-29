@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div>
       <div className="max-md:hidden fixed top-0 bottom-0 left-0 w-[170px] bg-secondary">
-        <div className="mt-17 pl-3">
+        <div className="mt-20 pl-3">
           <NavLink 
             to={"/dashboard/home"} 
             className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}
@@ -66,28 +66,28 @@ const Navbar = () => {
               to={"/dashboard/home"}
             >
               {({ isActive }) => (
-                <FiHome color={isActive ? "#000" : "rgb(121, 120, 120)"} size={20} />
+                <FiHome color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink
               to={"/dashboard/campaigns"}
             >
               {({ isActive }) => (
-                <FiEdit color={isActive ? "#000" : "rgb(121, 120, 120)"} size={20} />
+                <FiEdit color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink
               to={"/dashboard/leads"}
             >
               {({ isActive }) => (
-                <FiUsers color={isActive ? "#000" : "rgb(121, 120, 120)"} size={20} />
+                <FiUsers color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink
               to={"/dashboard/settings"}
             >
               {({ isActive }) => (
-                <FaGear color={isActive ? "#000" : "rgb(121, 120, 120)"} size={20} />
+                <FaGear color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
           </div>
