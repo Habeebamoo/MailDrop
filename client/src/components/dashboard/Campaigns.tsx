@@ -1,4 +1,3 @@
-import { HiArrowRightEndOnRectangle } from "react-icons/hi2"
 import { SlArrowRight } from "react-icons/sl"
 
 const Campaigns = () => {

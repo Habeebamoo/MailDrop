@@ -5,7 +5,7 @@ import { FiUsers } from "react-icons/fi"
 const DashboardPage = () => {
   return (
     <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25">
-      <h1 className="text-2xl text-primary font-inter mt-4">Dashboard</h1>
+      <h1 className="text-2xl text-primary font-inter mt-4">Overview</h1>
       <p className="text-sm text-accent mt-1">Welcome back, Here's what's happening with your email campaigns</p>
       <div className="md:grid md:grid-cols-3 md:gap-2 mt-4">
         <div className="bg-white p-4 rounded-md max-md:mb-3">
