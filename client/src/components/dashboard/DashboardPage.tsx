@@ -8,7 +8,7 @@ const DashboardPage = () => {
   const { theme } = useTheme()
 
   return (
-    <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25">
+    <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       <h1 className="text-2xl text-primary font-inter mt-4 dark:text-white">Overview</h1>
       <p className="text-sm text-accent mt-1">Welcome back, Here's what's happening with your email campaigns</p>
       <div className="md:grid md:grid-cols-3 md:gap-2 mt-4">

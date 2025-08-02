@@ -18,7 +18,7 @@ const Settings = () => {
   }
 
   return (
-    <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25">
+    <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       <h1 className="text-xl text-primary dark:text-white font-inter mt-4">Settings</h1>
       <p className="text-sm text-accent mb-6">Manage your account settings and preference</p>
       <div className="md:grid md:grid-cols-2 gap-2 items-start">

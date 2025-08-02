@@ -29,7 +29,7 @@ const Main = () => {
             <FiLink color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">Unique Sharable Links</h1>
-          <p className="text-accent text-sm mt-1">Generate campaigns-specific links to share across social media, email or website in both text and QR CODE format</p>
+          <p className="text-accent text-sm mt-1">Generate campaigns-specific links to share across social media, emails or websites in both text and QR CODE format</p>
         </div>
         <div className="bg-white p-4 rounded-md mb-4">
           <div className="bg-primary p-2 rounded-md inline-block">
