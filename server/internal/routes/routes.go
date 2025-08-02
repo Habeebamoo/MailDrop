@@ -16,7 +16,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler) *gin.Engine {
 		AllowCredentials: true,
 	}))
 
-	api := router.Group("/api/")
+	api := router.Group("/api")
 
 	auth := api.Group("/auth")
 	{
