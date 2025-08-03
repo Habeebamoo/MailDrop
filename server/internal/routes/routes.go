@@ -2,12 +2,14 @@ package routes
 
 import (
 	"github.com/Habeebamoo/MailDrop/internal/handlers"
+	"github.com/Habeebamoo/MailDrop/internal/middlewares"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func ConfigureRoutes(userHandler handlers.UserHandler) *gin.Engine {
 	router := gin.Default()
+	router.Use(middlewares.RequireAPIKey())
 
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
@@ -22,6 +24,11 @@ func ConfigureRoutes(userHandler handlers.UserHandler) *gin.Engine {
 	{
 		auth.POST("/register", userHandler.Register)
 		auth.POST("/login", userHandler.Login)
+	}
+
+	user := api.Group("/user", middlewares.AuthenticateUser())
+	{
+		user.GET("/me", userHandler.GetUser)
 	}
 	
 	return router
