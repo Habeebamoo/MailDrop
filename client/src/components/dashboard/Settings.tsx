@@ -41,19 +41,19 @@ const Settings = () => {
           </div>
           <div className="mt-6">
             <div className="mb-2">
-              <label htmlFor="name" className="block font-outfit dark:text-accentLight">Full Name</label>
+              <label htmlFor="name" className="block font-outfit text-black dark:text-accentLight">Full Name</label>
               <input type="text" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" />
             </div>
             <div className="mb-2">
-              <label htmlFor="email" className="block font-outfit dark:text-accentLight">Email Address</label>
+              <label htmlFor="email" className="block font-outfit text-black dark:text-accentLight">Email Address</label>
               <input type="email" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" />
             </div>
             <div className="mb-2">
-              <label htmlFor="phone" className="block font-outfit dark:text-accentLight">Phone Number</label>
+              <label htmlFor="phone" className="block font-outfit text-black dark:text-accentLight">Phone Number</label>
               <input type="tel" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" />
             </div>
             <div className="mb-2">
-              <label htmlFor="bio" className="block font-outfit dark:text-accentLight">Bio</label>
+              <label htmlFor="bio" className="block font-outfit text-black dark:text-accentLight">Bio</label>
               <textarea name="bio" rows={4} id="bio" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 resize-none dark:bg-gray-800 dark:border-gray-700"></textarea>
             </div>
             <button className="mt-4 flex-center gap-2 btn-primary">
