@@ -6,6 +6,7 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/service"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type UserHandler struct {
@@ -50,5 +51,18 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 }
 
 func (usrHdl *UserHandler) GetUser(c *gin.Context) {
-	
+	raw, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized Access"})
+		return
+	}
+
+	userId := raw.(uuid.UUID)
+	user, statusCode, err := usrHdl.svc.GetUser(userId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, user)
 }

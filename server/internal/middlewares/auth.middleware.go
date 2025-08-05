@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 )
 
 func RequireAPIKey() gin.HandlerFunc {
@@ -51,11 +52,13 @@ func AuthenticateUser() gin.HandlerFunc {
 			return 
 		}
 
-		userId, ok := claims["userId"].(string)
+		userIdStr, ok := claims["userId"].(string)
 		if !ok {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token Payload"})
 			return 
 		}
+
+		userId, _ := uuid.Parse(userIdStr)
 
 		c.Set("userId", userId)
 		c.Next()

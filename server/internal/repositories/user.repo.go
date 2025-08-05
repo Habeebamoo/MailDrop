@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -13,6 +14,7 @@ type UserRepository interface {
 	InsertUser(models.UserRequest) (int, error)
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
+	GetUserById(uuid.UUID) (models.User, int, error)
 }
 
 type UserRepo struct {
@@ -81,6 +83,18 @@ func (userRepo *UserRepo) Exists(email string) bool {
 func (userRepo *UserRepo) GetUser(email string) (models.User, int, error) {
 	var user models.User
 	err := userRepo.db.First(&user, "email = ?", email).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return models.User{}, http.StatusNotFound, fmt.Errorf("user does not exists")
+		}
+		return models.User{} ,500, fmt.Errorf("internal server error")
+	}
+	return user, 200, nil
+}
+
+func (userRepo *UserRepo) GetUserById(userId uuid.UUID) (models.User, int, error) {
+	var user models.User
+	err := userRepo.db.Preload("Profile").First(&user, "user_id = ?", userId).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return models.User{}, http.StatusNotFound, fmt.Errorf("user does not exists")

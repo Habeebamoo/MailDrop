@@ -7,11 +7,13 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
+	"github.com/google/uuid"
 )
 
 type UserService interface {
 	CreateUser(models.UserRequest) (int, error)
 	LoginUser(models.UserLogin) (string, int, error)
+	GetUser(uuid.UUID) (models.User, int, error)
 }
 
 type UserSvc struct {
@@ -42,4 +44,8 @@ func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error)
 
 	token, _ := utils.GenerateJWT(user.UserId)
 	return token, 200, nil
+}
+
+func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {
+	return userSvc.repo.GetUserById(userId)
 }

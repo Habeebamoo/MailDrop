@@ -19,7 +19,7 @@ func VerifyPassword(hashedPassword, password string) error {
 
 func GenerateJWT(userId uuid.UUID) (string, error) {
 	claims := jwt.MapClaims{
-		"userId": userId,
+		"userId": userId.String(),
 		"exp": time.Now().Add(24*time.Hour).Unix(),
 	}
 
