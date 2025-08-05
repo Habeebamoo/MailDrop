@@ -25,7 +25,7 @@ const Hero = () => {
             <FaArrowRight size={14} />
           </button>
         </div>
-        <div className="max-sm:mt-12 lg:ml-5">
+        <div className="max-sm:my-20 lg:ml-5">
           <div className="flex-center">
             <img src={heroImg} className="max-lg:h-[350px] lg:h-[250px]" />
           </div>

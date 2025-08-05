@@ -1,6 +1,6 @@
-import { BsCircleFill, BsGraphUp } from "react-icons/bs"
+import { BsCircleFill } from "react-icons/bs"
 import { useTheme } from "../../context/ThemeContext"
-import { GoHistory } from "react-icons/go"
+import { GoHistory, GoPulse } from "react-icons/go"
 
 const History = ({ title, backupText, history }: { title: string, backupText: string, history: any[] }) => {
   const { theme } = useTheme()
@@ -19,7 +19,7 @@ const History = ({ title, backupText, history }: { title: string, backupText: st
     <>
       <div className="bg-white p-4 dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-6">
         <div className="flex-start gap-2">
-          <BsGraphUp color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <GoPulse color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           <h1 className="font-inter dark:text-accent">{title}</h1>
         </div>
         <div className="mt-5">
