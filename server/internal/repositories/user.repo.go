@@ -3,6 +3,7 @@ package repositories
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Habeebamoo/MailDrop/internal/models"
 	"gorm.io/gorm"
@@ -25,10 +26,31 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 func (userRepo *UserRepo) InsertUser(user models.UserRequest) (int, error) {
 	err := userRepo.db.Create(&user).Error
 	if err != nil {
-		if err == gorm.ErrDuplicatedKey {
-			return http.StatusBadRequest, fmt.Errorf("user already exist")
+		if strings.Contains(err.Error(), "duplicate key value") {
+			return http.StatusNotAcceptable, fmt.Errorf("user already exist")
 		}
 		return 500, fmt.Errorf("internal server error")
+	}
+
+	var createdUser models.User
+	err = userRepo.db.First(&createdUser, "email = ?", user.Email).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to get user")
+	}
+
+	userProfile := models.Profile{
+		UserId: createdUser.UserId,
+		ProfilePic: "",
+		Bio: "Campaign Admin",
+		TotalCampaigns: 0,
+		TotalSubscribers: 0,
+		TotalClicks: 0,
+		TotalEmails: 0,
+	}
+
+	err = userRepo.db.Create(&userProfile).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user profile")
 	}
 
 	return 201, nil

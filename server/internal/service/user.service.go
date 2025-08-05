@@ -24,7 +24,7 @@ func NewUserService(repo repositories.UserRepository) UserService {
 
 func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	hashedPassword, _ := utils.HashPassword(userReq.Password)
-	userReq.Provider = "email"
+	userReq.AuthType = "email"
 	userReq.Password = hashedPassword
 
 	return userSvc.repo.InsertUser(userReq)
