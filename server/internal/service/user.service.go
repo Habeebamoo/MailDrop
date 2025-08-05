@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Habeebamoo/MailDrop/internal/models"
-	"github.com/Habeebamoo/MailDrop/internal/repositories"
-	"github.com/Habeebamoo/MailDrop/internal/utils"
+	"github.com/Habeebamoo/MailDrop/server/internal/models"
+	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
+	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 )
 
 type UserService interface {

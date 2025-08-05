@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/Habeebamoo/MailDrop/internal/models"
-	"github.com/Habeebamoo/MailDrop/internal/service"
+	"github.com/Habeebamoo/MailDrop/server/internal/models"
+	"github.com/Habeebamoo/MailDrop/server/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

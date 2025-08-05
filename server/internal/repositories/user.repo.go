@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Habeebamoo/MailDrop/internal/models"
+	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"gorm.io/gorm"
 )
 
@@ -23,7 +23,16 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserRepo{db: db}
 }
 
-func (userRepo *UserRepo) InsertUser(user models.UserRequest) (int, error) {
+func (userRepo *UserRepo) InsertUser(userReq models.UserRequest) (int, error) {
+	//assing user request to user struct
+	user := models.User{
+		Name: userReq.Name,
+		Email: userReq.Email,
+		Password: userReq.Password,
+		AuthType: userReq.AuthType,
+	}
+
+	//create the user
 	err := userRepo.db.Create(&user).Error
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value") {
@@ -32,12 +41,14 @@ func (userRepo *UserRepo) InsertUser(user models.UserRequest) (int, error) {
 		return 500, fmt.Errorf("internal server error")
 	}
 
+	//get created user
 	var createdUser models.User
 	err = userRepo.db.First(&createdUser, "email = ?", user.Email).Error
 	if err != nil {
 		return 500, fmt.Errorf("failed to get user")
 	}
 
+	//assign user profile
 	userProfile := models.Profile{
 		UserId: createdUser.UserId,
 		ProfilePic: "",
@@ -48,6 +59,7 @@ func (userRepo *UserRepo) InsertUser(user models.UserRequest) (int, error) {
 		TotalEmails: 0,
 	}
 
+	//create user profile
 	err = userRepo.db.Create(&userProfile).Error
 	if err != nil {
 		return 500, fmt.Errorf("failed to create user profile")

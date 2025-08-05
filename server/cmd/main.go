@@ -9,11 +9,12 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Habeebamoo/MailDrop/internal/database"
-	"github.com/Habeebamoo/MailDrop/internal/handlers"
-	"github.com/Habeebamoo/MailDrop/internal/repositories"
-	"github.com/Habeebamoo/MailDrop/internal/routes"
-	"github.com/Habeebamoo/MailDrop/internal/service"
+	"github.com/Habeebamoo/MailDrop/server/internal/database"
+	"github.com/Habeebamoo/MailDrop/server/internal/handlers"
+	"github.com/Habeebamoo/MailDrop/server/internal/models"
+	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
+	"github.com/Habeebamoo/MailDrop/server/internal/routes"
+	"github.com/Habeebamoo/MailDrop/server/internal/service"
 	"github.com/joho/godotenv"
 )
 
@@ -24,6 +25,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	db.AutoMigrate(&models.User{}, &models.Profile{})
 
 	userRepo := repositories.NewUserRepository(db)
 	userSvc := service.NewUserService(userRepo)
@@ -43,6 +46,8 @@ func main() {
 		WriteTimeout: 10*time.Second,
 		IdleTimeout: 15*time.Second,
 	}
+
+	log.Println("Server Running on Port ", PORT)
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err == http.ErrServerClosed {

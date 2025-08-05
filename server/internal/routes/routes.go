@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/Habeebamoo/MailDrop/internal/handlers"
-	"github.com/Habeebamoo/MailDrop/internal/middlewares"
+	"github.com/Habeebamoo/MailDrop/server/internal/handlers"
+	"github.com/Habeebamoo/MailDrop/server/internal/middlewares"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )

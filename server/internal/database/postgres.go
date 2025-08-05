@@ -6,6 +6,6 @@ import (
 )
 
 func Initialize() (*gorm.DB, error) {
-	dsn := ""
+	dsn := "host=localhost port=5432 user=postgres password=habeeb1234 dbname=maildrop sslmode=disable"
 	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
 }
