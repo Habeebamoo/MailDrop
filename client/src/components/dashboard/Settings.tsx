@@ -49,10 +49,6 @@ const Settings = () => {
               <input type="email" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" />
             </div>
             <div className="mb-2">
-              <label htmlFor="phone" className="block font-outfit text-black dark:text-accentLight">Phone Number</label>
-              <input type="tel" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" />
-            </div>
-            <div className="mb-2">
               <label htmlFor="bio" className="block font-outfit text-black dark:text-accentLight">Bio</label>
               <textarea name="bio" rows={4} id="bio" className="py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 resize-none dark:bg-gray-800 dark:border-gray-700"></textarea>
             </div>

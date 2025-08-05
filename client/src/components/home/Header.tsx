@@ -3,9 +3,11 @@ import { RiMenu3Line } from "react-icons/ri"
 import { LiaTimesSolid } from "react-icons/lia"
 import NavBar from "./NavBar"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const Header = () => {
   const [navShown, setNavShown] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const toggleNav = () => {
     setNavShown(!navShown)
@@ -25,7 +27,7 @@ const Header = () => {
             <p className="text-lg text-primary font-inter cursor-pointer">Home</p>
             <p className="text-lg text-primary font-inter cursor-pointer">About</p>
           </div>
-          <button className="max-sm:hidden btn-primary">Get Started</button>
+          <button onClick={() => navigate("/login")} className="max-sm:hidden btn-primary">Get Started</button>
           <div onClick={toggleNav} className="sm:hidden cursor-pointer">
             {menuIcon}
           </div>

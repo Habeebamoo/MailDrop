@@ -1,5 +1,5 @@
 import { FaGear } from "react-icons/fa6"
-import { FiEdit, FiHome, FiUsers } from "react-icons/fi"
+import { FiEdit, FiHome, FiMail } from "react-icons/fi"
 import { NavLink } from "react-router-dom"
 
 const Navbar = () => {
@@ -34,13 +34,13 @@ const Navbar = () => {
         </div>
         <div className="mt-2 pl-3">
           <NavLink 
-            to={"/dashboard/leads"} 
+            to={"/dashboard/email"} 
             className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}
           >
             {({ isActive }) => (
               <div className="flex-center gap-1">
-                <FiUsers size={15} className={isActive ? "text-white" : "rgb(121, 120, 120)"} />
-                <span>Leads</span>
+                <FiMail size={15} className={isActive ? "text-white" : "rgb(121, 120, 120)"} />
+                <span>Emails</span>
               </div>
             )}
           </NavLink>
@@ -77,10 +77,10 @@ const Navbar = () => {
               )}
             </NavLink>
             <NavLink
-              to={"/dashboard/leads"}
+              to={"/dashboard/email"}
             >
               {({ isActive }) => (
-                <FiUsers color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
+                <FiMail color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink

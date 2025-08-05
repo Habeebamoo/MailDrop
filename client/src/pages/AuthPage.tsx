@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import googleIcon from "../assets/google.png"
+import { useNavigate } from "react-router-dom"
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault()
@@ -13,6 +15,10 @@ const AuthPage = () => {
 
   const toggleLogin = () => {
     setIsLogin(!isLogin)
+  }
+
+  const toForgotPassword = () => {
+    navigate("/forgot")
   }
 
   const togglePassword = () => {
@@ -45,7 +51,7 @@ const AuthPage = () => {
                 type="text" 
                 id="name" 
                 name="name" 
-                className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" 
+                className="block py-2 px-3 border-1 w-full text-accent rounded-md border-accentLight placeholder:text-sm font-outfit" 
                 placeholder="Enter your Fullname"
                 required
               />
@@ -57,7 +63,7 @@ const AuthPage = () => {
               type="email" 
               id="email" 
               name="email" 
-              className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" 
+              className="block py-2 px-3 border-1 w-full text-accent rounded-md border-accentLight placeholder:text-sm font-outfit" 
               placeholder="Enter your Email Address"
               required
             />
@@ -68,12 +74,17 @@ const AuthPage = () => {
               type={passwordShown ? "text" : "password"} 
               id="password" 
               name="password" 
-              className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" placeholder="Enter your Password"
+              className="block py-2 px-3 border-1 w-full text-accent rounded-md border-accentLight placeholder:text-sm font-outfit" placeholder="Enter your Password"
               required
             />
             <div onClick={togglePassword} className="absolute top-[42px] right-[10px] cursor-pointer">{passwordIcon}</div>
           </div>
-          <p className="text-sm ml-1 text-primary font-outfit mb-3 mt-3 cursor-pointer hover:font-inter">Forgot Password?</p>
+          <p 
+            onClick={toForgotPassword}  
+            className="text-sm ml-1 text-primary font-outfit mb-3 mt-3 cursor-pointer hover:font-inter"
+          >
+            Forgot Password?
+          </p>
           <button onClick={handleAuth} className="py-2 btn-primary w-full">{isLogin ? "Login" : "Sign Up"}</button>
           <p className="text-center text-sm text-accent mt-4">
             {isLogin ? "Don't have an account? " : "Already have an account? "}

@@ -12,7 +12,9 @@ import Dashboard from "./pages/Dashboard"
 import DashboardPage from "./components/dashboard/DashboardPage"
 import Campaigns from "./components/dashboard/Campaigns"
 import Settings from "./components/dashboard/Settings"
-import Leads from "./components/dashboard/Leads"
+import Emails from "./components/dashboard/Emails"
+import ForgotPage from "./pages/ForgotPage"
+import ResetPage from "./pages/ResetPage"
 
 const App = () => {
   const router = createBrowserRouter(
@@ -23,9 +25,12 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} >
           <Route path="home" element={<DashboardPage />} />
           <Route path="campaigns" element={<Campaigns />} />
-          <Route path="leads" element={<Leads />} />
+          <Route path="email" element={<Emails />} />
           <Route path="settings" element={<Settings />} />
         </Route>
+        <Route path="/forgot" element={<ForgotPage />} />
+        <Route path="/reset" element={<ResetPage />} />
+        <Route path="/campaign" />
         <Route path="*" element={<NotFoundPage />} />
       </>
     )
