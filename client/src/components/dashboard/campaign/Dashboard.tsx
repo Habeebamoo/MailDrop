@@ -1,4 +1,4 @@
-import { SlArrowLeft, SlArrowRight } from "react-icons/sl"
+import { SlArrowRight } from "react-icons/sl"
 import { useTheme } from "../../../context/ThemeContext"
 import { IoIosSend } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
@@ -71,13 +71,6 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
             <SlArrowRight />
           </div>
         </div>
-      </div>
-      <div className="flex-center gap-2 mt-4 text-accent">
-        <div className="cursor-pointer py-2 px-3 hover:bg-white rounded-lg"><SlArrowLeft /></div>
-        <div className="bg-white py-2 px-3 rounded-lg">1</div>
-        <div className="py-2 px-3 rounded-lg">2</div>
-        <div className="py-2 px-3 rounded-lg">3</div>
-        <div className="cursor-pointer py-2 px-3 hover:bg-white rounded-lg"><SlArrowRight /></div>
       </div>
     </section>
   )
