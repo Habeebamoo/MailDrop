@@ -65,12 +65,12 @@ const Settings = () => {
           </div>
           <button 
             onClick={handleTheme} 
-            className="flex-start gap-2 p-2 rounded-md mt-4 border-1 border-accentLight w-full hover:bg-accentLight cursor-pointer dark:bg-gray-800 dark:border-gray-700 dark:text-accent">
+            className="flex-start gap-2 p-2 rounded-md mt-4 border-1 bg-black text-white border-black hover:bg-transparent hover:text-black dark:bg-white dark:text-black dark:border-white dark:hover:text-white cursor-pointer">
             {theme == "light" ? <BiMoon size={20} /> : <FaSun size={20} />}
             <span className="font-outfit">Enable {theme == "light" ? "Dark" : "Light"} Theme</span>
           </button>
           <button 
-            className="flex-start gap-2 p-2 rounded-md mt-4 border-1 border-accentLight w-full text-red-500 hover:bg-accentLight cursor-pointer dark:bg-gray-800 dark:border-gray-700"
+            className="flex-start gap-2 p-2 rounded-md mt-4 border-1 bg-red-500 text-white border-red-500 hover:bg-transparent hover:text-red-500 cursor-pointer"
           >
             <HiArrowLeftStartOnRectangle size={20} />
             <span className="font-outfit">Sign Out</span>

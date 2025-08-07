@@ -6,16 +6,11 @@ import { CgMail } from "react-icons/cg"
 import { FiLink, FiUsers } from "react-icons/fi"
 import { FaRegHandPointer } from "react-icons/fa"
 import Pagination from "./Pagination"
+import { useEffect, useState } from "react"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
-  const { theme } = useTheme()
-
-  const goBack = () => {
-    setActiveTab("campaigns")
-  }
-
-  const Leads = [
+  const data = [
     {"name": "John Smith", "email": "john@example.com"},
     {"name": "Sarah Johnson", "email": "sarah@startup.io"},
     {"name": "Mike Davis", "email": "mike@business.com"},
@@ -28,6 +23,26 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     {"name": "John Charpel", "email": "johncharpel98@gmail.com"},
     {"name": "Emerik Chan", "email": "chanemerik@gmail.com"},
   ];
+
+  const [leads, setLeads] = useState<any[]>(data)
+  const [query, setQuery] = useState<string>("")
+  const { theme } = useTheme()
+
+  const goBack = () => {
+    setActiveTab("campaigns")
+  }
+
+  useEffect(() => {
+    if (query == "") setLeads(data)
+  }, [query])
+  
+
+  const searchLeads = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+    const lowerQuery = query.toLowerCase()
+    const result = leads.filter((item) => item.name.toLowerCase().includes(lowerQuery))
+    setLeads(result)
+  }
 
   return (
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
@@ -71,15 +86,19 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </button>
       </div>
       <p className="text-sm text-accent mb-4">Manage and track your leads</p>
+
       <div className="text-accent relative">
         <input 
           type="search"
           className="bg-white rounded-md py-1 px-8 border-1 border-accentLight text-sm"
+          value={query}
+          onChange={searchLeads}
           placeholder="Search leads..."
         />
         <BiSearch className="absolute top-[7px] left-[10px]" />
       </div>
-      <Pagination data={Leads} />
+      <Pagination data={leads} />
+
       <div className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 mt-6">
         <div className="flex-start gap-2 text-primary dark:text-white">
           <FaGears size={20} />

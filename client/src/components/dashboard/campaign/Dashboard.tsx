@@ -1,11 +1,21 @@
 import { SlArrowRight } from "react-icons/sl"
 import { useTheme } from "../../../context/ThemeContext"
 import { IoIosSend } from "react-icons/io";
-import { BiPlus } from "react-icons/bi";
+import { BiPlus, BiSearch } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
+import { GoHistory } from "react-icons/go";
+import { useEffect, useState } from "react";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
+  //default
+  const data: any[] = [
+    {name: "Summer Sale 2024", subscribers: 76, created: "2024-8-24"},
+    {name: "Affilate Marketing", subscribers: 388, created: "2024-9-20"}
+  ]
+
+  const [campaigns, setCampaigns] = useState<any[]>(data)
+  const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
 
   const newCampaign = () => {
@@ -14,6 +24,17 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
 
   const toLeads = () => {
     setActiveTab("leads")
+  }
+
+  useEffect(() => {
+    if (query == "") setCampaigns(data)
+  }, [query])
+
+  const searchCampaigns = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+    const lowerQuery = query.toLowerCase()
+    const result = campaigns.filter((item) => item.name.toLowerCase().includes(lowerQuery))
+    setCampaigns(result)
   }
   
   return (
@@ -43,34 +64,46 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
           <h1 className="font-inter text-xl mt-1 dark:text-white">0</h1>
         </div>
       </div>
-      <h1 className="text-primary my-6 dark:text-white text-xl font-outfit">All Campaigns</h1>
+      <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit">All Campaigns</h1>
+      <div className="text-accent relative my-4">
+        <input 
+          type="search"
+          className="bg-white rounded-md py-1 px-8 border-1 border-accentLight text-sm"
+          value={query}
+          onChange={searchCampaigns}
+          placeholder="Search campaigns..."
+        />
+        <BiSearch className="absolute top-[7px] left-[10px]" />
+      </div>
       <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-2">
-        <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 dark:text-white py-3 text-center">
-          <p>Campaign</p>
-          <p>Status</p>
-          <p>Created</p>
-          <p>Action</p>
-        </div>
-        <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
-          <p>Summer Sale 2024</p>
-          <div>
-            <p className="bg-green-400 px-2 py-1 rounded-md text-white inline">Active</p>
+      {campaigns.length >= 1 &&
+          <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 dark:text-white py-3 text-center">
+            <p>Campaign</p>
+            <p>Subscribers</p>
+            <p>Created</p>
+            <p>Action</p>
           </div>
-          <p>2024-8-24</p>
-          <div onClick={toLeads} className="flex-center cursor-pointer">
-            <SlArrowRight />
+        } 
+        {campaigns.length >= 1  &&
+          campaigns.map(campaign => {
+            return (
+              <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
+                <p>{campaign.name}</p>
+                <p>{campaign.subscribers}</p>
+                <p>{campaign.created}</p>
+                <div onClick={toLeads} className="flex-center cursor-pointer">
+                  <SlArrowRight />
+                </div>
+              </div>
+            )
+          })
+        }
+        {campaigns.length == 0 && 
+          <div className="p-14 mt-2 flex-center flex-col gap-4">
+            <GoHistory size={50} color="rgb(121, 120, 120)" />
+            <p className="text-accent text-sm">Your campaigns would go here</p>
           </div>
-        </div>
-        <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
-          <p>Affiliate Marketing</p>
-          <div>
-            <p className="bg-red-400 px-2 py-1 rounded-md text-white inline">Paused</p>
-          </div>
-          <p>2024-9-20</p>
-          <div onClick={toLeads} className="flex-center cursor-pointer">
-            <SlArrowRight />
-          </div>
-        </div>
+        }
       </div>
     </section>
   )
