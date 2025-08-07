@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -24,6 +25,6 @@ func GenerateJWT(userId uuid.UUID) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString("secret")
+	return token.SignedString(os.Getenv("JWT_KEY"))
 }
 

@@ -3,6 +3,7 @@ package middlewares
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -17,7 +18,7 @@ func RequireAPIKey() gin.HandlerFunc {
 			return 
 		}
 
-		if apiKey != "secret" {
+		if apiKey != os.Getenv("API_KEY") {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid API Key"})
 			return 
 		}
