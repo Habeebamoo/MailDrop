@@ -12,8 +12,8 @@ func ConfigureRoutes(userHandler handlers.UserHandler) *gin.Engine {
 
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
-		AllowMethods: []string{"GET", "POST"},
-		AllowHeaders: []string{"Content-Type"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders: []string{"Origin", "Content-Type"},
 		AllowCredentials: true,
 	}))
 
