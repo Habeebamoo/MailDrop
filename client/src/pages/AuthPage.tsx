@@ -6,11 +6,56 @@ import { useNavigate } from "react-router-dom"
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
   const navigate = useNavigate()
 
-  const handleAuth = (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
-    window.location.href = "/dashboard/home"
+    
+    try {
+       if (isLogin) {
+        const res = await fetch("https:maildrop-znoo.onrender.com/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: form.email,
+            password: form.password
+          }),
+          credentials: "include"
+        })
+        const response = await res.json()
+
+        if (!res.ok) {
+          console.log(response.error)
+        } else {
+          console.log(response.message)
+        }
+       } else {
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(form),
+          credentials: "include"
+        })
+        const response = await res.json()
+        
+        if (!res.ok) {
+          console.log(response.error)
+        } else {
+          console.log(response.message)
+        }
+       }
+    } catch (err: any) {
+      console.log(err)
+    }
   }
 
   const toggleLogin = () => {
@@ -53,6 +98,8 @@ const AuthPage = () => {
                 name="name" 
                 className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" 
                 placeholder="Enter your Fullname"
+                value={form.name}
+                onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
                 required
               />
             </div>
@@ -65,6 +112,8 @@ const AuthPage = () => {
               name="email" 
               className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" 
               placeholder="Enter your Email Address"
+              value={form.email}
+              onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
               required
             />
           </div>
@@ -75,6 +124,8 @@ const AuthPage = () => {
               id="password" 
               name="password" 
               className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" placeholder="Enter your Password"
+              value={form.password}
+              onChange={(e) => setForm(prev => ({...prev, password: e.target.value}))}
               required
             />
             <div onClick={togglePassword} className="absolute top-[42px] right-[10px] cursor-pointer">{passwordIcon}</div>
