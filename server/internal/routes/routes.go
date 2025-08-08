@@ -9,7 +9,6 @@ import (
 
 func ConfigureRoutes(userHandler handlers.UserHandler) *gin.Engine {
 	router := gin.Default()
-	router.Use(middlewares.RequireAPIKey())
 
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
