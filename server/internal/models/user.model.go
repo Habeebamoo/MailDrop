@@ -5,7 +5,8 @@ import (
 )
 
 type User struct {
-	UserId    uuid.UUID   `json:"userId"    gorm:"unique;type:uuid;default:uuid_generate_v4()"`
+	Id        uint        `json:"-"         gorm:"autoIncrement"`
+	UserId    uuid.UUID   `json:"userId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
 	Name      string      `json:"name"`
 	Email     string      `json:"email"     gorm:"unique"`
 	Password  string      `json:"password"`
@@ -14,7 +15,8 @@ type User struct {
 }
 
 type Profile struct {
-	UserId            uuid.UUID  `json:"userId"`
+	Id                uint       `json:"-"                gorm:"autoIncrement"`
+	UserId            uuid.UUID  `json:"userId"           gorm:"type:uuid;primaryKey"`
 	ProfilePic        string     `json:"profilePic"`
 	Bio 			        string     `json:"bio"`
 	TotalCampaigns    int        `json:"totalCampaigns"`
