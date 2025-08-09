@@ -28,11 +28,22 @@ func main() {
 
 	db.AutoMigrate(&models.User{}, &models.Profile{})
 
+	//repositories
 	userRepo := repositories.NewUserRepository(db)
-	userSvc := service.NewUserService(userRepo)
-	userHandler := handlers.NewUserHandler(userSvc)
+	campaignRepo := repositories.NewCampaignRepository(db)
 
-	router := routes.ConfigureRoutes(userHandler)
+	//services
+	userService := service.NewUserService(userRepo)
+	campaignService := service.NewCampaignService(campaignRepo)
+
+	//handlers
+	userHandler := handlers.NewUserHandler(userService)
+	campaignHandler := handlers.NewCampaignHandler(campaignService)
+
+	router := routes.ConfigureRoutes(
+		userHandler, 
+		campaignHandler,
+	)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

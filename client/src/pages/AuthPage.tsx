@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -15,7 +16,8 @@ const AuthPage = () => {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+    setLoading(true)
+
     try {
        if (isLogin) {
         const res = await fetch("https:maildrop-znoo.onrender.com/api/auth/login", {
@@ -55,6 +57,8 @@ const AuthPage = () => {
        }
     } catch (err: any) {
       console.log(err)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -71,6 +75,18 @@ const AuthPage = () => {
   }
 
   const passwordIcon = passwordShown ? <FaEyeSlash color="rgb(121, 120, 120)" size={18} /> : <FaEye color="rgb(121, 120, 120)" size={18} />
+
+  const authText = 
+  isLogin ? 
+  <div className={`${loading && "flex-center gap-2"}`}>
+    {loading && "@"}
+    {loading ? "Loggin in" : "Login"}
+  </div> 
+  : 
+  <div className={`${loading && "flex-center gap-2"}`}>
+    {loading && "@"}
+    {loading ? "Signing up" : "Sign Up"}
+  </div>
 
   return (
     <main className="flex-center h-[100vh] bg-bg">
@@ -136,7 +152,13 @@ const AuthPage = () => {
           >
             Forgot Password?
           </p>
-          <button onClick={handleAuth} className="py-2 btn-primary w-full">{isLogin ? "Login" : "Sign Up"}</button>
+          <button 
+            onClick={handleAuth} 
+            className="py-2 btn-primary w-full"
+            disabled={loading}
+          >
+            {authText}
+          </button>
           <p className="text-center text-sm text-accent mt-4">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <span className="text-primary cursor-pointer font-outfit" onClick={toggleLogin}>{isLogin ? "Sign Up" : "Login"}</span>
