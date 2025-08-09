@@ -30,7 +30,7 @@ func (usrHdl *UserHandler) Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(statusCode, gin.H{"error": "Registeration Successful"})
+	c.JSON(statusCode, gin.H{"message": "Registeration Successful"})
 }
 
 func (usrHdl *UserHandler) Login(c *gin.Context) {

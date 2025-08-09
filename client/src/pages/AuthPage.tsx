@@ -20,7 +20,7 @@ const AuthPage = () => {
 
     try {
        if (isLogin) {
-        const res = await fetch("https:maildrop-znoo.onrender.com/api/auth/login", {
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
