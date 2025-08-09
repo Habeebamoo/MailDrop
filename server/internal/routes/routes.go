@@ -18,6 +18,9 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	}))
 
 	api := router.Group("/api")
+	api.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "All systems are working fine"})
+	})
 
 	//auth routes
 	auth := api.Group("/auth")
@@ -33,10 +36,13 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	}
 	
 	//campaign routes
-	api.POST("/campaign", middlewares.AuthenticateUser(), campaignHandler.CreateCampaign)
-	api.GET("/campaign", middlewares.AuthenticateUser(), campaignHandler.GetAllCampaigns)
-	api.GET("/campaign/:id", middlewares.AuthenticateUser(), campaignHandler.GetCampaign)
-	api.DELETE("/campaign/:id", middlewares.AuthenticateUser(), campaignHandler.DeleteCampaign)
+	campaign := api.Group("/campaign", middlewares.AuthenticateUser())
+	{
+		campaign.POST("/", campaignHandler.CreateCampaign)
+		campaign.GET("/", campaignHandler.GetAllCampaigns)
+		campaign.GET("/:id", campaignHandler.GetCampaign)
+		campaign.DELETE("/:id", campaignHandler.DeleteCampaign)
+	}
 
 	return router
 }
