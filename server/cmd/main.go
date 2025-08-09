@@ -26,7 +26,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db.AutoMigrate(&models.User{}, &models.Profile{})
+	//migrate struct to database tables
+	db.AutoMigrate(&models.User{}, &models.Profile{}, &models.Campaign{})
 
 	//repositories
 	userRepo := repositories.NewUserRepository(db)
