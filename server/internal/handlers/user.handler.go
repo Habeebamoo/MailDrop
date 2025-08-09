@@ -46,7 +46,7 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("auth_token", token, 3600, "/", "localhost", false, true)
+	c.SetCookie("auth_token", token, 3600, "/", "https://maildrop.netlify.app", true, true)
 	c.JSON(statusCode, gin.H{"message": "Login Successful"})
 }
 
