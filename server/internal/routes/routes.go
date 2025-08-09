@@ -11,7 +11,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"*"},
+		AllowOrigins: []string{"https://maildrop.netlify.app"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders: []string{"Origin", "Content-Type"},
 		AllowCredentials: true,
