@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/google/uuid"
@@ -30,6 +32,7 @@ func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignReques
 		LeadMagnet: campaignReq.LeadMagnet,
 		LeadMagnetUrl: campaignReq.LeadMagnetUrl,
 		Slug: "",
+		CreatedAt: time.Now(),
 	}
 
 	return campaignSvc.repo.CreateCampaign(campaign)

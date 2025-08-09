@@ -15,7 +15,7 @@ type Campaign struct {
 	LeadMagnet     bool       `json:"leadMagnet"`
 	LeadMagnetUrl  string     `json:"leadMagnetUrl"`
 	Slug           string     `json:"slug"`
-	CreatedAt      time.Time  `json:"createdAt"     gorm:"default:now"`
+	CreatedAt      time.Time  `json:"createdAt"`
 }
 
 type CampaignRequest struct {
