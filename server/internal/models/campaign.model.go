@@ -18,10 +18,25 @@ type Campaign struct {
 	CreatedAt      time.Time  `json:"createdAt"`
 }
 
+type Subscriber struct {
+	Id          uint       `json:"-"           gorm:"autoIncrement"`
+	CampaignId  uuid.UUID  `json:"campaignId"  gorm:"primaryKey"`
+	UserId      uuid.UUID  `json:"userId"`
+	Name        string     `json:"name"`
+	Email       string     `json:"email"`
+}
+
 type CampaignRequest struct {
 	UserId         string  `json:"userId"         binding:"required"`
 	Title          string  `json:"title"          binding:"required"`
 	Description    string  `json:"description"    binding:"required"`
 	LeadMagnet     bool    `json:"leadMagnet"     binding:"required"`
 	LeadMagnetUrl  string  `json:"leadMagnetUrl"  binding:"required"`
+}
+
+type SubscriberRequest struct {
+	CampaignId  uuid.UUID  `json:"campaignId"  binding:"required"`
+	UserId      uuid.UUID  `json:"userId"      binding:"required"`
+	Name        string     `json:"name"        binding:"required"`
+	Email       string     `json:"email"       binding:"required,email"`
 }

@@ -13,6 +13,9 @@ import (
 type CampaignRepository interface {
 	CreateCampaign(models.Campaign) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
+	GetAllCampaigns(uuid.UUID) ([]models.Campaign, int, error)
+	DeleteCampaign(uuid.UUID) (int, error)
+	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 }
 
 type CampaignRepo struct {
@@ -60,4 +63,42 @@ func (campaignRepo *CampaignRepo) GetCampaign(campaignId uuid.UUID) (models.Camp
 	}
 	
 	return campaign, 200, nil
+}
+
+func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Campaign, int, error) {
+	var campaigns []models.Campaign
+	err := campaignRepo.db.Find(&campaigns, "user_id = ?", userId).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return []models.Campaign{}, http.StatusNotFound, fmt.Errorf("you haven't created any campaigns")
+		}
+		return []models.Campaign{}, 500, fmt.Errorf("internal server error")
+	}
+
+	return campaigns, 200, nil
+}
+
+func (campaignRepo *CampaignRepo) DeleteCampaign(campaignId uuid.UUID) (int, error) {
+	res := campaignRepo.db.Where("campaign_id = ?", campaignId).Delete(&models.Campaign{})
+	if res.RowsAffected == 0 {
+		return 500, fmt.Errorf("failed to delete campaign")
+	}
+
+	if res.Error != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	return 200, nil
+}
+
+func (campaignRepo *CampaignRepo) GetSubscribers(campaignId uuid.UUID) ([]models.Subscriber, int, error) {
+	var subscribers []models.Subscriber
+	if err := campaignRepo.db.Find(&subscribers, "campaign_id = ?", campaignId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return []models.Subscriber{}, http.StatusNotFound, fmt.Errorf("this campaign has no subscribers")
+		}
+		return []models.Subscriber{}, 500, fmt.Errorf("internal server error")
+	}
+
+	return subscribers, 200, nil
 }

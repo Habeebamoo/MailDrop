@@ -10,10 +10,12 @@ import (
 func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.CampaignHandler) *gin.Engine {
 	router := gin.Default()
 
+	//middlewares
+	router.Use(middlewares.RequireAPIKey())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"https://maildrop.netlify.app"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders: []string{"Origin", "Content-Type"},
+		AllowHeaders: []string{"Origin", "Content-Type", "X-API-KEY"},
 		AllowCredentials: true,
 	}))
 
@@ -41,6 +43,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		campaign.POST("/", campaignHandler.CreateCampaign)
 		campaign.GET("/", campaignHandler.GetAllCampaigns)
 		campaign.GET("/:id", campaignHandler.GetCampaign)
+		campaign.GET("/:id/subscribers", campaignHandler.GetSubscribers)
 		campaign.DELETE("/:id", campaignHandler.DeleteCampaign)
 	}
 
