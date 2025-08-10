@@ -2,11 +2,14 @@ import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import googleIcon from "../assets/google.png"
 import { useNavigate } from "react-router-dom"
+import { ClipLoader } from "react-spinners"
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>()
+  const [status, setStatus] = useState<"success" | "error" | "">("")
+  const [msg, setMsg] = useState<string>("")
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,7 +26,8 @@ const AuthPage = () => {
         const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/login", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
           },
           body: JSON.stringify({
             email: form.email,
@@ -34,15 +38,17 @@ const AuthPage = () => {
         const response = await res.json()
 
         if (!res.ok) {
-          console.log(response.error)
+          setStatus("error")
+          setMsg(response.error)
         } else {
-          console.log(response.message)
+          window.location.href = "/dashboard/home"
         }
        } else {
         const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/register", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
           },
           body: JSON.stringify(form),
           credentials: "include"
@@ -50,9 +56,12 @@ const AuthPage = () => {
         const response = await res.json()
         
         if (!res.ok) {
-          console.log(response.error)
+          setStatus("error")
+          setMsg(response.error)
         } else {
-          console.log(response.message)
+          setStatus("success")
+          setMsg(response.message)
+          setTimeout(() => { setIsLogin(true) }, 2000)
         }
        }
     } catch (err: any) {
@@ -79,12 +88,12 @@ const AuthPage = () => {
   const authText = 
   isLogin ? 
   <div className={`${loading && "flex-center gap-2"}`}>
-    {loading && "@"}
-    {loading ? "Loggin in" : "Login"}
+    {loading && <ClipLoader size={18} color="white" />}
+    {loading ? "Logging in" : "Login"}
   </div> 
   : 
   <div className={`${loading && "flex-center gap-2"}`}>
-    {loading && "@"}
+    {loading && <ClipLoader size={18} color="white" />}
     {loading ? "Signing up" : "Sign Up"}
   </div>
 
@@ -152,9 +161,14 @@ const AuthPage = () => {
           >
             Forgot Password?
           </p>
+          {msg &&
+            <div className={`${status == "success" ? "border-green-400 bg-green-300" : "border-red-400 bg-red-300"} text-sm font-open text-center p-3 rounded-sm border-1 mb-2`}>
+              <p>{msg}</p>
+            </div>
+          }
           <button 
             onClick={handleAuth} 
-            className="py-2 btn-primary w-full"
+            className="py-2 btn-primary w-full disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:text-white disabled:border-gray-300"
             disabled={loading}
           >
             {authText}
