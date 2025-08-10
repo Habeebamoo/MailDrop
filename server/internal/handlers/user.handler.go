@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
@@ -46,7 +47,25 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("auth_token", token, 3600, "/", "https://maildrop.netlify.app", true, true)
+	//cookies
+	cookieName := "auth_token"
+	cookieVal := token
+	path := "/"
+	domain := "https://maildrop.netlify.app"
+	maxAge := 3600
+
+	c.SetCookie(cookieName, cookieVal, maxAge, path, domain, true, true)
+	c.Header("Set-Cookie", 
+		cookieName+"="+cookieVal+
+		"; Path="+path+
+		"; Domain="+domain+
+		"; Max-Age="+fmt.Sprint(maxAge)+
+		"; Secure"+
+		"; HttpOnly"+
+		"; SameSite=None"+
+		"; Partitioned",
+	)
+	
 	c.JSON(statusCode, gin.H{"message": "Login Successful"})
 }
 
