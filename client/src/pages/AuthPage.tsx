@@ -113,7 +113,7 @@ const AuthPage = () => {
           <span className="mx-4 text-accent text-[11px]">OR CONTINUE WITH EMAIL</span>
           <div className="flex-grow border-t border-accent"></div>
         </div>
-        <form className="mt-5">
+        <form onSubmit={handleAuth} className="mt-5">
           {!isLogin &&
             <div className="mb-3">
               <label className="font-inter mb-1 block" htmlFor="name">Name</label>
@@ -166,8 +166,7 @@ const AuthPage = () => {
               <p>{msg}</p>
             </div>
           }
-          <button 
-            onClick={handleAuth} 
+          <button
             className="py-2 btn-primary w-full disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:text-white disabled:border-gray-300"
             disabled={loading}
           >

@@ -10,7 +10,7 @@ const Footer = () => {
         <span className="text-xl font-outfit ml-2 text-white">MailDrop</span>
       </div>
       <p className="text-accent mt-1">The future of email marketing is here</p>
-      <div className="mt-4 sm:mt-6 sm:grid sm:grid-cols-3 sm:gap-2">
+      <div className="mt-6 sm:grid sm:grid-cols-3 sm:gap-2">
         <div className="mb-3">
           <p className="text-white mb-1">Product</p>
           <small>Features</small>
