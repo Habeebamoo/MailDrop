@@ -19,6 +19,8 @@ const AuthPage = () => {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
+    setStatus("")
+    setMsg("")
     setLoading(true)
 
     try {
@@ -65,7 +67,8 @@ const AuthPage = () => {
         }
        }
     } catch (err: any) {
-      console.log(err)
+      setStatus("error")
+      setMsg("Something went wrong")
     } finally {
       setLoading(false)
     }
