@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/Habeebamoo/MailDrop/server/internal/handlers"
 	"github.com/Habeebamoo/MailDrop/server/internal/middlewares"
 	"github.com/gin-contrib/cors"
@@ -14,9 +16,11 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	router.Use(middlewares.RequireAPIKey())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"https://maildrop.netlify.app"},
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Origin", "Content-Type", "X-API-KEY"},
+		ExposeHeaders: []string{"Content-Length"},
 		AllowCredentials: true,
+		MaxAge: 12 * time.Hour,
 	}))
 
 	api := router.Group("/api")
