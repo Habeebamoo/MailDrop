@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import { useNavigate } from "react-router-dom"
 
 type User = any
 
@@ -13,7 +12,6 @@ const UserContext = createContext<initUserContext | undefined>(undefined)
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>()
   const [loading, setLoading] = useState<boolean>(true)
-  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -30,13 +28,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const response = await res.json()
 
         if (!res.ok) {
-          navigate("/login")
+          throw new Error("not authenticated")
           return
         }
 
         setUser(response)
       } catch (err) {
-        navigate("/login")
+        throw new Error("something went wrong")
       } finally {
         setLoading(false)
       }
