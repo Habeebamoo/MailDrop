@@ -13,7 +13,6 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	router := gin.Default()
 
 	//middlewares
-	router.Use(middlewares.RequireAPIKey())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"https://maildrop.netlify.app"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -22,6 +21,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		AllowCredentials: true,
 		MaxAge: 12 * time.Hour,
 	}))
+	router.Use(middlewares.RequireAPIKey())
 
 	api := router.Group("/api")
 	api.GET("/", func(c *gin.Context) {
