@@ -165,7 +165,7 @@ const AuthPage = () => {
             Forgot Password?
           </p>
           {msg &&
-            <div className={`${status == "success" ? "border-green-400 bg-green-300" : "border-red-400 bg-red-300"} text-sm font-open text-center p-3 rounded-sm border-1 mb-2`}>
+            <div className={`${status == "success" ? "border-green-400 bg-green-300" : "border-red-400 bg-red-300 text-red-500"} text-sm font-open text-center p-3 rounded-sm border-1 mb-2`}>
               <p>{msg}</p>
             </div>
           }

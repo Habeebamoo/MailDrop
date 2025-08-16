@@ -8,6 +8,7 @@ export const useRequireUser = () => {
 
   useEffect(() => {
     if (!user) {
+      console.log("user not found")
       navigate("/login")
     }
   }, [loading, user, navigate])
