@@ -11,7 +11,7 @@ import (
 )
 
 type UserRepository interface {
-	InsertUser(models.UserRequest) (int, error)
+	InsertUser(models.User) (int, error)
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
@@ -25,15 +25,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserRepo{db: db}
 }
 
-func (userRepo *UserRepo) InsertUser(userReq models.UserRequest) (int, error) {
-	//assing user request to user struct
-	user := models.User{
-		Name: userReq.Name,
-		Email: userReq.Email,
-		Password: userReq.Password,
-		AuthType: userReq.AuthType,
-	}
-
+func (userRepo *UserRepo) InsertUser(user models.User) (int, error) {
 	//create the user
 	err := userRepo.db.Create(&user).Error
 	if err != nil {

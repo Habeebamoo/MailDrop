@@ -25,11 +25,20 @@ func NewUserService(repo repositories.UserRepository) UserService {
 }
 
 func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
-	hashedPassword, _ := utils.HashPassword(userReq.Password)
-	userReq.AuthType = "email"
-	userReq.Password = hashedPassword
+	//assing user request to user struct
+	user := models.User{
+		Name: userReq.Name,
+		Email: userReq.Email,
+		Password: userReq.Password,
+		AuthType: userReq.AuthType,
+	}
 
-	return userSvc.repo.InsertUser(userReq)
+	//update hashed password
+	hashedPassword, _ := utils.HashPassword(userReq.Password)
+	user.Password = hashedPassword
+	userReq.AuthType = "email"
+
+	return userSvc.repo.InsertUser(user)
 }
 
 func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error) {

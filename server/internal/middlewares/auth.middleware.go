@@ -39,7 +39,7 @@ func AuthenticateUser() gin.HandlerFunc {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("invalid token signing method")
 			}
-			return "secret", nil
+			return os.Getenv("JWT_KEY"), nil
 		})
 
 		if err != nil || !token.Valid {
