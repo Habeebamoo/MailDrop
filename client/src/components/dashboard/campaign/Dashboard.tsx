@@ -56,14 +56,14 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
             <FiEdit size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalCampaigns}</h1>
+          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalCampaigns}</h1>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Total Email Sent</p>
             <IoIosSend size={18} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalEmails}</h1>
+          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalEmails}</h1>
         </div>
       </div>
       <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit">All Campaigns</h1>

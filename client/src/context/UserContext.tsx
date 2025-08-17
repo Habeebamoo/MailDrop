@@ -1,16 +1,31 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-type User = any
+type User = {
+  userId: string,
+  name: string,
+  email: string,
+  password: string,
+  authType: string,
+  profile: {
+    userId: string,
+    profilePic: string,
+    bio: string,
+    totalCampaigns: number,
+    totalSubscribers: number,
+    totalClicks: number,
+    totalEmails: number,
+  }
+}
 
 type initUserContext = {
-  user: User
-  loading: boolean
+  user: User | null;
+  loading: boolean;
 }
 
 const UserContext = createContext<initUserContext | undefined>(undefined)
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>()
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -27,7 +42,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           }
         })
 
-        const response = await res.json()
+        const response: User = await res.json()
 
         if (!res.ok) {
           if (mounted) setUser(null)

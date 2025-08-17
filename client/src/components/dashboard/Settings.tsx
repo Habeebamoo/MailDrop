@@ -12,9 +12,9 @@ const Settings = () => {
   const { user } = useUser()
 
   const defaultUserDetails = {
-    fullname: user.name,
-    email: user.email,
-    bio: user.profile.bio
+    fullname: user!.name,
+    email: user!.email,
+    bio: user!.profile.bio
   }
 
   const handleTheme = () => {
