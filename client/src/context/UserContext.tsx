@@ -28,7 +28,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const response = await res.json()
 
         if (!res.ok) {
-          throw new Error("not authenticated")
           return
         }
 

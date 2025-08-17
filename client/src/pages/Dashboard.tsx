@@ -1,11 +1,20 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import Header from "../components/dashboard/Header"
 import Navbar from "../components/dashboard/Navbar"
 import Loading from "../components/dashboard/Loading"
-import { useRequireUser } from "../hooks/Auth"
+import { useUser } from "../context/UserContext"
+import { useEffect } from "react"
 
 const Dashboard = () => {
-  const { user, loading } = useRequireUser()
+  const { user, loading } = useUser()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login")
+    }
+  }, [navigate, user, loading])
+
   console.log(user)
 
   return (
