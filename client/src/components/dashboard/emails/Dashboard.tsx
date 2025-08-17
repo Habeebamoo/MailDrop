@@ -3,9 +3,11 @@ import { useTheme } from "../../../context/ThemeContext"
 import { CgMail } from "react-icons/cg"
 import { FiEdit } from "react-icons/fi"
 import History from "../History"
+import { useUser } from "../../../context/UserContext"
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"dashboard" | "new">> }) => {
   const { theme } = useTheme()
+  const { user } = useUser()
 
   const newEmail = () => {
     setActiveTab("new")
@@ -35,14 +37,14 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
               <p className="font-outfit text-sm text-accent">Total Campaigns</p>
               <FiEdit size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
             </div>
-            <h1 className="font-inter text-xl mt-1 dark:text-white">2</h1>
+            <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalCampaigns}</h1>
           </div>
           <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
             <div className="flex-between">
               <p className="font-outfit text-sm text-accent">Emails Sent</p>
               <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
             </div>
-            <h1 className="font-inter text-xl mt-1 dark:text-white">3</h1>
+            <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalEmails}</h1>
           </div>
         </div>
         <History 

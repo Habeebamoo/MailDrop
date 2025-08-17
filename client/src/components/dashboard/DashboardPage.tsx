@@ -4,9 +4,11 @@ import { FiUsers } from "react-icons/fi"
 import { useTheme } from "../../context/ThemeContext"
 import History from "./History"
 import { GoHistory } from "react-icons/go"
+import { useUser } from "../../context/UserContext"
 
 const DashboardPage = () => {
   const { theme } = useTheme()
+  const { user } = useUser()
 
   //default
   const activites = [
@@ -31,21 +33,21 @@ const DashboardPage = () => {
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
             <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">2</h1>
+          <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalCampaigns}</h1>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Total Subscribers</p>
             <FiUsers size={18} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">24</h1>
+          <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalSubscribers}</h1>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Clicks</p>
             <FaRegHandPointer size={17} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">67</h1>
+          <h1 className="font-inter text-xl mt-1 dark:text-white">{user.profile.totalClicks}</h1>
         </div>
       </div>
       <h1 className="text-xl text-primary font-inter mt-6 dark:text-white">Recent Campaigns</h1>
