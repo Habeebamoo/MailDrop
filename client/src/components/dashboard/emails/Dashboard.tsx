@@ -15,8 +15,8 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
 
   //default
   const activites = [
-    {type: "email", text: "Emails sent to 'Affiliate Marketing' subscribers", time: "9 minutes ago"},
-    {type: "email", text: "Emails sent to 'Summer Sale 2024' subscribers", time: "2 hours ago"},
+    {type: "email", name: "Emails sent to 'Affiliate Marketing' subscribers", createdAt: "9 minutes ago"},
+    {type: "email", name: "Emails sent to 'Summer Sale 2024' subscribers", createdAt: "2 hours ago"},
   ]
 
   return (

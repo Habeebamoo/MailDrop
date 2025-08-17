@@ -14,6 +14,7 @@ type UserService interface {
 	CreateUser(models.UserRequest) (int, error)
 	LoginUser(models.UserLogin) (string, int, error)
 	GetUser(uuid.UUID) (models.User, int, error)
+	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 }
 
 type UserSvc struct {
@@ -61,4 +62,8 @@ func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error)
 
 func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {
 	return userSvc.repo.GetUserById(userId)
+}
+
+func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {
+	return userSvc.repo.GetActivities(userId)
 }

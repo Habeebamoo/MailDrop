@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
+	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -16,6 +17,7 @@ type UserRepository interface {
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
+	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
 }
 
 type UserRepo struct {
@@ -108,4 +110,28 @@ func (userRepo *UserRepo) GetUserById(userId uuid.UUID) (models.User, int, error
 		return models.User{} ,500, fmt.Errorf("internal server error")
 	}
 	return user, 200, nil
+}
+
+func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {
+	var userActivities []models.Activity
+	err := userRepo.db.Find(&userActivities, "user_id = ?", userId).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return []models.ActivityResponse{}, 404, fmt.Errorf("user don't have any activies")
+		}
+		return []models.ActivityResponse{}, 500, fmt.Errorf("internal server error")
+	}
+
+	response := make([]models.ActivityResponse, len(userActivities))
+	
+	for i, activity := range userActivities {
+		response[i] = models.ActivityResponse{
+			UserId: activity.UserId,
+			Name: activity.Name,
+			Type: activity.Type,
+			CreatedAt: utils.GetTimeAgo(activity.CreatedAt),
+		}
+	}
+
+	return response, 200, nil
 }

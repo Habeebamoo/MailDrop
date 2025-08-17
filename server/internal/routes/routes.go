@@ -39,6 +39,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	user := api.Group("/user", middlewares.AuthenticateUser())
 	{
 		user.GET("/me", userHandler.GetUser)
+		user.GET("/activities", userHandler.GetActivities)
 	}
 	
 	//campaign routes

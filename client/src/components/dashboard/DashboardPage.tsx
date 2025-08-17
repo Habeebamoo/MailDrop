@@ -5,23 +5,51 @@ import { useTheme } from "../../context/ThemeContext"
 import History from "./History"
 import { GoHistory } from "react-icons/go"
 import { useUser } from "../../context/UserContext"
+import { useEffect, useState } from "react"
 
 const DashboardPage = () => {
+  const [activities, setActivities] = useState<any[]>([])
   const { theme } = useTheme()
   const { user } = useUser()
 
-  //default
-  const activites = [
-    {type: "campaign", text: "Created 'Summer Sale 2024' campaign", time: "9 minutes ago"},
-    {type: "email", text: "Sent emails to 'Summer Sale 2024' subscribers", time: "2 hours ago"},
-    {type: "profile", text: "Updated Profile Page", time: "5 days ago"}
-  ];
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/user/activities", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
+          }
+        })
+
+        const response = await res.json()
+        
+        if (!res.ok) {
+          console.log(response.error)
+          return
+        }
+
+        setActivities(response)
+      } catch (err) {
+        console.log("something went wrong")
+      }
+    }
+
+    fetchActivities()
+  }, [])
 
   //default
   const campaigns: any[] = [
     {name: "Summer Sale 2024", subscribers: 76, created: "2024-8-24"},
     {name: "Affilate Marketing", subscribers: 388, created: "2024-9-20"}
   ];
+
+  const getRecentDataOf = (arr: any[]) => {
+    const recent = arr.slice(-4)
+    return recent.reverse();
+  }
 
   return (
     <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
@@ -80,7 +108,7 @@ const DashboardPage = () => {
       <History 
         title="Recent Activities" 
         backupText="Your recent activities would display here"
-        history={activites}
+        history={getRecentDataOf(activities)}
       />
     </section>
   )

@@ -28,8 +28,8 @@ const History = ({ title, backupText, history }: { title: string, backupText: st
               <div className="flex-start gap-3 mb-2">
                 <div>{getBulletColor(obj.type)}</div>
                 <div>
-                  <h1 className="text-sm font-open dark:text-white">{obj.text}</h1>
-                  <p className="text-accent text-[10px]">{obj.time}</p>
+                  <h1 className="text-sm font-open dark:text-white">{obj.name}</h1>
+                  <p className="text-accent text-[10px]">{obj.createdAt}</p>
                 </div>
               </div>
             )

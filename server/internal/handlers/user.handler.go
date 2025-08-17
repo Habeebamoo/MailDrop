@@ -84,3 +84,20 @@ func (usrHdl *UserHandler) GetUser(c *gin.Context) {
 
 	c.JSON(statusCode, user)
 }
+
+func (usrHdl *UserHandler) GetActivities(c *gin.Context) {
+	raw, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized Access"})
+		return
+	}
+
+	userId := raw.(uuid.UUID)
+	userActivities, statusCode, err := usrHdl.svc.GetActivities(userId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, userActivities)
+}
