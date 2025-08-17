@@ -3,8 +3,9 @@ import { FaCircleQuestion } from "react-icons/fa6"
 const Error = ({ 
   title="Unexpected Error", 
   text="An unexpected error occured, please login in again",
-  path="/" }: 
-  { title?: string, text?: string, path?: string }
+  path="/",
+  pathText="Go Back"
+} : { title?: string, text?: string, path?: string, pathText?: string }
 ) => {
   
   const exitTo = (path: string) => {
@@ -17,7 +18,7 @@ const Error = ({
         <FaCircleQuestion size={40} className="mb-2" color="#231e88" />
         <h1 className="font-inter text-xl mb-2">{title}</h1>
         <p className="text-sm text-accent mb-2">{text}</p>
-        <button onClick={() => exitTo(path)} className="btn-primary">Go Back</button>
+        <button onClick={() => exitTo(path)} className="btn-primary">{pathText}</button>
       </div>
     </main>
   )

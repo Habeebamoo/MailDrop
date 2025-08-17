@@ -16,6 +16,8 @@ const Dashboard = () => {
     }
   }, [navigate, user, loading])
 
+  if (!user) return <Error title="No User" text="Please log in to access your account" path="/login" pathText="Login" />
+
   return (
     <main className="bg-accentXLight dark:bg-dark min-h-scren flex flex-col">
       {!user && <Error />}
