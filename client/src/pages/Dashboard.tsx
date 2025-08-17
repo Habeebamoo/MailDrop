@@ -4,6 +4,7 @@ import Navbar from "../components/dashboard/Navbar"
 import Loading from "../components/dashboard/Loading"
 import { useUser } from "../context/UserContext"
 import { useEffect } from "react"
+import Error from "../components/dashboard/Error"
 
 const Dashboard = () => {
   const { user, loading } = useUser()
@@ -15,10 +16,9 @@ const Dashboard = () => {
     }
   }, [navigate, user, loading])
 
-  console.log(user)
-
   return (
     <main className="bg-accentXLight dark:bg-dark min-h-scren flex flex-col">
+      {!user && <Error />}
       {loading && <Loading />}
       <Header />
       <Navbar />
