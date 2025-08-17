@@ -11,5 +11,5 @@ type Activity struct {
 	UserId     uuid.UUID  `json:"userId"     gorm:"primaryKey"`
 	Name       string     `json:"name"`
 	Type       string     `json:"type"`
-	CreatedAt  time.Time  `json:"createdAt"  gorm:"autoCreateTime"`
+	CreatedAt  time.Time  `json:"createdAt"`
 }

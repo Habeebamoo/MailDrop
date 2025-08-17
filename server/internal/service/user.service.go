@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
@@ -37,7 +38,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	//update hashed password
 	hashedPassword, _ := utils.HashPassword(userReq.Password)
 	user.Password = hashedPassword
-	userReq.AuthType = "email"
+	user.AuthType = "email"
 
 	code, err := userSvc.repo.InsertUser(user)
 	if err != nil {
@@ -56,6 +57,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 		UserId: createdUser.UserId,
 		Name: "Created a MailDrop account",
 		Type: "profile",
+		CreatedAt: time.Now(),
 	}
 
 	err = userSvc.act.CreateActivity(activity)
