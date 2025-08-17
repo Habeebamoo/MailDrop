@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
@@ -19,10 +18,9 @@ type UserService interface {
 
 type UserSvc struct {
 	repo repositories.UserRepository
-	act repositories.ActivityRepository
 }
 
-func NewUserService(repo repositories.UserRepository, act repositories.ActivityRepository) UserService {
+func NewUserService(repo repositories.UserRepository) UserService {
 	return &UserSvc{repo: repo}
 }
 
@@ -40,32 +38,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	user.Password = hashedPassword
 	user.AuthType = "email"
 
-	code, err := userSvc.repo.InsertUser(user)
-	if err != nil {
-		return code, err
-	}
-
-	//registeration successful
-
-	createdUser, statusCode, err := userSvc.repo.GetUser(userReq.Email)
-	if err != nil {
-		return statusCode, err
-	}
-
-	//create the activity
-	activity := models.Activity{
-		UserId: createdUser.UserId,
-		Name: "Created a MailDrop account",
-		Type: "profile",
-		CreatedAt: time.Now(),
-	}
-
-	err = userSvc.act.CreateActivity(activity)
-	if err != nil {
-		return 500, fmt.Errorf("internal server error: activity")
-	}
-
-	return code, err
+	return userSvc.repo.InsertUser(user)
 }
 
 func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error) {

@@ -32,10 +32,9 @@ func main() {
 	//repositories
 	userRepo := repositories.NewUserRepository(db)
 	campaignRepo := repositories.NewCampaignRepository(db)
-	activityRepo := repositories.NewActivityRepository(db)
 
 	//services
-	userService := service.NewUserService(userRepo, activityRepo)
+	userService := service.NewUserService(userRepo)
 	campaignService := service.NewCampaignService(campaignRepo)
 
 	//handlers

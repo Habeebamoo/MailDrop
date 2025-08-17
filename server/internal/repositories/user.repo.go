@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/google/uuid"
@@ -57,6 +58,19 @@ func (userRepo *UserRepo) InsertUser(user models.User) (int, error) {
 	err = userRepo.db.Create(&userProfile).Error
 	if err != nil {
 		return 500, fmt.Errorf("failed to create user profile")
+	}
+
+	//create activity
+	activity := models.Activity{
+		UserId: createdUser.UserId,
+		Name: "Signed up on MailDrop",
+		Type: "profile",
+		CreatedAt: time.Now(),
+	}
+
+	err = userRepo.db.Create(&activity).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user activity")
 	}
 
 	return 201, nil
