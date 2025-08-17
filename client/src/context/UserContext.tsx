@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, type ReactNode } from "react"
 
 type User = any
 
@@ -40,10 +40,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    fetchUser()
-  }, [])
 
   return (
     <UserContext value={{ user, loading, fetchUser }}>
