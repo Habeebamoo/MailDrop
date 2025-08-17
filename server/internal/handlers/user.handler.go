@@ -51,7 +51,7 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 	cookieName := "auth_token"
 	cookieVal := token
 	path := "/"
-	domain := "https://maildrop-znoo.onrender.com"
+	domain := ""
 	maxAge := 3600
 
 	c.SetCookie(cookieName, cookieVal, maxAge, path, domain, true, true)
