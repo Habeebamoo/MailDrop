@@ -4,46 +4,49 @@ type User = any
 
 type initUserContext = {
   user: User
-  loading: boolean
+  loading: boolean,
+  fetchUser: () => Promise<void>
 }
 
 const UserContext = createContext<initUserContext | undefined>(undefined)
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User | null>()
   const [loading, setLoading] = useState<boolean>(true)
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch("https://maildrop-znoo.onrender.com/api/user/me", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": import.meta.env.VITE_X_API_KEY,
-          }
-        })
-
-        const response = await res.json()
-
-        if (!res.ok) {
-          return
+  const fetchUser = async () => {
+    try {
+      const res = await fetch("https://maildrop-znoo.onrender.com/api/user/me", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY,
         }
+      })
 
-        setUser(response)
-      } catch (err) {
-        throw new Error("something went wrong")
-      } finally {
-        setLoading(false)
+      const response = await res.json()
+
+      if (!res.ok) {
+        setUser(null)
+        return
       }
-    }
 
+      setUser(response)
+    } catch (err) {
+      setUser(null)
+      throw new Error("something went wrong")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchUser()
   }, [])
 
   return (
-    <UserContext value={{ user, loading }}>
+    <UserContext value={{ user, loading, fetchUser }}>
       {children}
     </UserContext>
   )
