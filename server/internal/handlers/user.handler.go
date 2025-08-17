@@ -49,14 +49,13 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 
 	//cookies
 	cookieName := "auth_token"
-	cookieVal := token
 	path := "/"
 	domain := ""
 	maxAge := 3600
 
-	c.SetCookie(cookieName, cookieVal, maxAge, path, domain, true, true)
+	c.SetCookie(cookieName, token, maxAge, path, domain, true, true)
 	c.Header("Set-Cookie", 
-		cookieName+"="+cookieVal+
+		cookieName+"="+token+
 		"; Path="+path+
 		"; Domain="+domain+
 		"; Max-Age="+fmt.Sprint(maxAge)+

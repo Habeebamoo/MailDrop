@@ -51,7 +51,11 @@ func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error)
 		return "", http.StatusUnauthorized, fmt.Errorf("invalid credentials")
 	}
 
-	token, _ := utils.GenerateJWT(user.UserId)
+	token, err := utils.GenerateJWT(user.UserId)
+	if err != nil {
+		return "", 500, err
+	}
+	
 	return token, 200, nil
 }
 
