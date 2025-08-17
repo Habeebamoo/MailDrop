@@ -6,16 +6,14 @@ import { useUser } from "../context/UserContext"
 import { useEffect } from "react"
 
 const Dashboard = () => {
-  const { user, loading, fetchUser } = useUser()
+  const { user, loading } = useUser()
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetchUser().then(() => {
-      if (!user) {
-        navigate("/login")
-      }
-    })
-  }, [navigate, user, loading, fetchUser])
+    if (!loading && !user) {
+      navigate("/login")
+    }
+  }, [navigate, user, loading])
 
   console.log(user)
 

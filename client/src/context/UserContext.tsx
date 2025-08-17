@@ -1,11 +1,10 @@
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
 type User = any
 
 type initUserContext = {
   user: User
-  loading: boolean,
-  fetchUser: () => Promise<void>
+  loading: boolean
 }
 
 const UserContext = createContext<initUserContext | undefined>(undefined)
@@ -14,35 +13,45 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>()
   const [loading, setLoading] = useState<boolean>(true)
 
-  const fetchUser = async () => {
-    try {
-      const res = await fetch("https://maildrop-znoo.onrender.com/api/user/me", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": import.meta.env.VITE_X_API_KEY,
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/user/me", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY,
+          }
+        })
+
+        const response = await res.json()
+
+        if (!res.ok) {
+          if (mounted) setUser(null)
+          return
+        } else {
+          if (mounted) setUser(response)
         }
-      })
-
-      const response = await res.json()
-
-      if (!res.ok) {
-        setUser(null)
-        return
+      } catch (err) {
+        if (mounted) setUser(null)
+        throw new Error("something went wrong")
+      } finally {
+        if (mounted) setLoading(false)
       }
-
-      setUser(response)
-    } catch (err) {
-      setUser(null)
-      throw new Error("something went wrong")
-    } finally {
-      setLoading(false)
     }
-  }
 
+    fetchUser()
+
+    return () => {
+      mounted = false;
+    }
+  }, [])
+  
   return (
-    <UserContext value={{ user, loading, fetchUser }}>
+    <UserContext value={{ user, loading }}>
       {children}
     </UserContext>
   )
