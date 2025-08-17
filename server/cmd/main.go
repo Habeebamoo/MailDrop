@@ -27,14 +27,15 @@ func main() {
 	}
 
 	//migrate struct to database tables
-	db.AutoMigrate(&models.User{}, &models.Profile{}, &models.Campaign{})
+	db.AutoMigrate(&models.User{}, &models.Profile{}, &models.Campaign{}, &models.Activity{}, &models.Subscriber{})
 
 	//repositories
 	userRepo := repositories.NewUserRepository(db)
 	campaignRepo := repositories.NewCampaignRepository(db)
+	activityRepo := repositories.NewActivityRepository(db)
 
 	//services
-	userService := service.NewUserService(userRepo)
+	userService := service.NewUserService(userRepo, activityRepo)
 	campaignService := service.NewCampaignService(campaignRepo)
 
 	//handlers

@@ -18,9 +18,10 @@ type UserService interface {
 
 type UserSvc struct {
 	repo repositories.UserRepository
+	act repositories.ActivityRepository
 }
 
-func NewUserService(repo repositories.UserRepository) UserService {
+func NewUserService(repo repositories.UserRepository, act repositories.ActivityRepository) UserService {
 	return &UserSvc{repo: repo}
 }
 
@@ -38,7 +39,31 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	user.Password = hashedPassword
 	userReq.AuthType = "email"
 
-	return userSvc.repo.InsertUser(user)
+	code, err := userSvc.repo.InsertUser(user)
+	if err != nil {
+		return code, err
+	}
+
+	//registeration successful
+
+	createdUser, statusCode, err := userSvc.repo.GetUser(userReq.Email)
+	if err != nil {
+		return statusCode, err
+	}
+
+	//create the activity
+	activity := models.Activity{
+		UserId: createdUser.UserId,
+		Name: "Created a MailDrop account",
+		Type: "profile",
+	}
+
+	err = userSvc.act.CreateActivity(activity)
+	if err != nil {
+		return 500, fmt.Errorf("internal server error: activity")
+	}
+
+	return code, err
 }
 
 func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error) {
