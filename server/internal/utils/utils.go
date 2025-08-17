@@ -25,6 +25,6 @@ func GenerateJWT(userId uuid.UUID) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(os.Getenv("JWT_KEY"))
+	return token.SignedString([]byte(os.Getenv("JWT_KEY")))
 }
 
