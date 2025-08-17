@@ -34,6 +34,11 @@ func AuthenticateUser() gin.HandlerFunc {
 			return 
 		}
 
+		if tokenStr == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token is empty or missing"})
+			return 
+		}
+
 		token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, jwt.ErrSignatureInvalid
