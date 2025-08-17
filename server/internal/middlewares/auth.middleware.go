@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
@@ -37,12 +36,17 @@ func AuthenticateUser() gin.HandlerFunc {
 
 		token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("invalid token signing method")
+				return nil, jwt.ErrSignatureInvalid
 			}
 			return os.Getenv("JWT_KEY"), nil
 		})
 
-		if err != nil || !token.Valid {
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			return 
+		}
+
+		if !token.Valid {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token"})
 			return 
 		}
