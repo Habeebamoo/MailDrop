@@ -8,8 +8,8 @@ import (
 
 type Campaign struct {
 	Id             uint       `json:"-"             gorm:"autoIncrement"`
-	UserId         uuid.UUID  `json:"userId"        gorm:"primaryKey"`
-	CampaignId     uuid.UUID  `json:"campaignId"    gorm:"unique;type:uuid;default:uuid_generate_v4()"`
+	UserId         uuid.UUID  `json:"userId"`
+	CampaignId     uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
 	Title          string     `json:"string"        gorm:"unique"`
 	Description    string     `json:"description"`
 	LeadMagnetUrl  string     `json:"leadMagnetUrl"`
@@ -19,7 +19,7 @@ type Campaign struct {
 
 type Subscriber struct {
 	Id          uint       `json:"-"           gorm:"autoIncrement"`
-	CampaignId  uuid.UUID  `json:"campaignId"  gorm:"primaryKey"`
+	CampaignId  uuid.UUID  `json:"campaignId"`
 	UserId      uuid.UUID  `json:"userId"`
 	Name        string     `json:"name"`
 	Email       string     `json:"email"`
