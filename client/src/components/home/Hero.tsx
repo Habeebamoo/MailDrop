@@ -2,9 +2,18 @@ import { FaStar } from "react-icons/fa"
 import { FaArrowRight } from "react-icons/fa6"
 import heroImg from "../../assets/hero.png"
 import { useNavigate } from "react-router-dom"
+import { useUser } from "../../context/UserContext"
 
 const Hero = () => {
+  const { user } = useUser()
   const navigate = useNavigate()
+
+  const toDashboard = () => {
+    if (user) {
+      navigate("/dashboard/home")
+    }
+    navigate("/login")
+  }
 
   return (
     <section className="pt-[100px] pb-5 bg-bg px-2 ">
@@ -20,8 +29,8 @@ const Hero = () => {
           <p className="max-lg:text-center text-sm max-lg:mt-2 lg:mt-1 text-accent max-lg:w-[90%] mx-auto">
             Experience the future of email marketing with MailDrop. Intelligent organization, bulletproof security and lightning-fast perfomance in one beautiful package
           </p>
-          <button onClick={() => navigate("/login")} className="max-lg:mx-auto max-md:py-2 max-lg:mt-4 lg:mt-2 px-4 btn-primary flex-center">
-            <span className="mr-2">Start Free Trail</span>
+          <button onClick={toDashboard} className="max-lg:mx-auto max-md:py-2 max-lg:mt-4 lg:mt-2 px-4 btn-primary flex-center">
+            <span className="mr-2">Get Started</span>
             <FaArrowRight size={14} />
           </button>
         </div>
