@@ -9,8 +9,35 @@ import { useEffect, useState } from "react"
 
 const DashboardPage = () => {
   const [activities, setActivities] = useState<any[]>([])
+  const [campaigns, setCampaigns] = useState<any[]>([])
   const { theme } = useTheme()
   const { user } = useUser()
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign?userId=${user?.userId}`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
+          }
+        })
+        const response = await res.json()
+
+        if (res.ok) {
+          setCampaigns(response)
+        } else {
+          return
+        }
+      } catch (err) {
+        console.log("something went wrong")
+      }
+    }
+
+    fetchCampaigns()
+  }, [])
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -39,12 +66,6 @@ const DashboardPage = () => {
 
     fetchActivities()
   }, [])
-
-  //default
-  const campaigns: any[] = [
-    {name: "Summer Sale 2024", subscribers: 76, created: "2024-8-24"},
-    {name: "Affilate Marketing", subscribers: 388, created: "2024-9-20"}
-  ];
 
   const getRecentDataOf = (arr: any[]) => {
     const recent = arr.slice(-4)
