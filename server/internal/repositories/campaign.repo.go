@@ -101,6 +101,23 @@ func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Ca
 		return []models.Campaign{}, 500, fmt.Errorf("internal server error")
 	}
 
+	response := make([]models.CampaignResponse, len(campaigns))
+	
+	for i, campaign := range campaigns {
+		response[i] = models.CampaignResponse{
+			UserId: campaign.UserId,
+			CampaignId: campaign.CampaignId,
+			Title: campaign.Title,
+			Description: campaign.Description,
+			LeadMagnetUrl: campaign.LeadMagnetUrl,
+			Slug: campaign.Slug,
+			TotalSubscribers: campaign.TotalSubscribers,
+			TotalClicks: campaign.TotalClicks,
+			TotalEmails: campaign.TotalEmails,
+			CreatedAt: campaign.CreatedAt.Format("2006, Jan 2"),
+		}
+	}
+
 	return campaigns, 200, nil
 }
 

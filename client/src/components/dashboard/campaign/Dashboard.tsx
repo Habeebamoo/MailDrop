@@ -97,7 +97,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
       <div className="text-accent relative my-4">
         <input 
           type="search"
-          className="bg-white rounded-md py-1 px-8 border-1 border-accentLight text-sm"
+          className="bg-white rounded-md py-2 px-8 border-1 border-accentLight text-sm"
           value={query}
           onChange={searchCampaigns}
           placeholder="Search campaigns..."

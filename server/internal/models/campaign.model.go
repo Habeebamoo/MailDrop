@@ -28,6 +28,19 @@ type Subscriber struct {
 	Email       string     `json:"email"`
 }
 
+type CampaignResponse struct {
+	UserId            uuid.UUID  `json:"userId"`
+	CampaignId        uuid.UUID  `json:"campaignId"`
+	Title             string     `json:"title"`
+	Description       string     `json:"description"`
+	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
+	Slug              string		 `json:"slug"`
+	TotalSubscribers  int        `json:"totalSubscribers"`
+	TotalEmails       int        `json:"totalEmails"`
+	TotalClicks       int        `json:"totalClicks"`
+	CreatedAt         string     `json:"createdAt"`
+}
+
 type CampaignRequest struct {
 	UserId         string  `json:"userId"         binding:"required"`
 	Title          string  `json:"title"          binding:"required"`
