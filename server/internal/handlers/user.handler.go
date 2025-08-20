@@ -121,7 +121,7 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	image, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Profile pic is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
