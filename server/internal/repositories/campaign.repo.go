@@ -51,10 +51,12 @@ func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign, userI
 	}
 
 	//create the activity
+	activityName := fmt.Sprintf("Created %s campaign", campaign.Title)
+
 	activity := models.Activity{
 		UserId: userId,
-		Name: fmt.Sprintf("Created %s campaign", campaign.Title),
-		Type: "profile",
+		Name: activityName,
+		Type: "campaign",
 		CreatedAt: time.Now(),
 	}
 
