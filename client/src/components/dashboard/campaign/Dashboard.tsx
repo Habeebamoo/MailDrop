@@ -9,16 +9,37 @@ import { useUser } from "../../../context/UserContext";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
-  //default
-  const data: any[] = [
-    {name: "Summer Sale 2024", subscribers: 76, created: "2024-8-24"},
-    {name: "Affilate Marketing", subscribers: 388, created: "2024-9-20"}
-  ]
-
-  const [campaigns, setCampaigns] = useState<any[]>(data)
+  const [initCampaign, setInitCampaign] = useState<any[]>([])
+  const [campaigns, setCampaigns] = useState<any[]>(initCampaign)
   const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
   const { user } = useUser()
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/campaign", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
+          }
+        })
+        const response = await res.json()
+
+        if (!res.ok) {
+          return
+        }
+
+        setInitCampaign(response)
+      } catch (err) {
+        console.log("something went wrong")
+      }
+    }
+
+    fetchCampaigns()
+  }, [])
 
   const newCampaign = () => {
     setActiveTab("new")
@@ -29,7 +50,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
   }
 
   useEffect(() => {
-    if (query == "") setCampaigns(data)
+    if (query == "") setCampaigns(initCampaign)
   }, [query])
 
   const searchCampaigns = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,9 +111,9 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
           campaigns.map(campaign => {
             return (
               <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
-                <p>{campaign.name}</p>
+                <p>{campaign.title}</p>
                 <p>{campaign.subscribers}</p>
-                <p>{campaign.created}</p>
+                <p>{campaign.createdAt}</p>
                 <div onClick={toLeads} className="flex-center cursor-pointer">
                   <SlArrowRight />
                 </div>

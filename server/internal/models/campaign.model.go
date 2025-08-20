@@ -14,6 +14,7 @@ type Campaign struct {
 	Description    string     `json:"description"`
 	LeadMagnetUrl  string     `json:"leadMagnetUrl"`
 	Slug           string     `json:"slug"`
+	Subscribers    int        `json:"subscribers"`
 	CreatedAt      time.Time  `json:"createdAt"`
 }
 
