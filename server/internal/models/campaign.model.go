@@ -31,7 +31,7 @@ type CampaignRequest struct {
 	Title          string  `json:"title"          binding:"required"`
 	Description    string  `json:"description"    binding:"required"`
 	LeadMagnet     bool    `json:"leadMagnet"     binding:"required"`
-	LeadMagnetUrl  string  `json:"leadMagnetUrl"  binding:"required"`
+	LeadMagnetUrl  string  `json:"leadMagnetUrl"`
 }
 
 type SubscriberRequest struct {
