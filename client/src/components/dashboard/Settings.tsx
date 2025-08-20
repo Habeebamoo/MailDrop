@@ -61,7 +61,8 @@ const Settings = () => {
         credentials: "include",
         headers: {
           "X-API-KEY": import.meta.env.VITE_X_API_KEY
-        }
+        },
+        body: data
       })
 
       const response = await res.json()
