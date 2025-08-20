@@ -95,7 +95,7 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	//upload file to supabase bucket
 	_, err = client.Storage.UploadFile("profile-pictures", objectName, f, storage_go.FileOptions{})
 	if err != nil {
-		return 500, fmt.Errorf("upload error")
+		return 500, err
 	}
 
 	//get the url
