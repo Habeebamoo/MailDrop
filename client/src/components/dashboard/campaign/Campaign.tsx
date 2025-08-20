@@ -23,12 +23,6 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   const { theme } = useTheme()
   const { campaignId } = useCampaignId()
 
-  const copySlug = () => {
-    navigator.clipboard.writeText(campaign.slug).then(() => {
-      toast.success("Campaign url copied to clipboard")
-    })
-  }
-
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
@@ -67,12 +61,22 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     if (query == "") setLeads([])
   }, [query])
   
+  const copySlug = () => {
+    navigator.clipboard.writeText(campaign.slug).then(() => {
+      toast.success("Campaign url copied to clipboard")
+    })
+  }
 
   const searchLeads = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
     const lowerQuery = query.toLowerCase()
     const result = leads.filter((item) => item.name.toLowerCase().includes(lowerQuery))
     setLeads(result)
+  }
+
+  const getBriefOf = (str: string) => {
+    const maxLength = 50;
+    return str.length > maxLength ? str.slice(0, maxLength) + "..." : str
   }
 
   if (loading) return <Loading />
@@ -86,7 +90,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <SlArrowLeft />
         </button>
       </div>
-      <p className="text-sm text-accent mb-4 max-md:mt-2">{campaign.description}</p>
+      <p className="text-sm text-accent mb-4 max-md:mt-2">{getBriefOf(campaign.description)}</p>
 
       <div className="md:grid md:grid-cols-3 md:gap-2 mt-6">
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
