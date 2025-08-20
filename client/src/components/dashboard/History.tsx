@@ -36,7 +36,7 @@ const History = ({ title, backupText, history }: { title: string, backupText: st
           })}
         </div>
         {history.length == 0 &&
-          <div className="p-14 mt-2 flex-center flex-col gap-4">
+          <div className="p-14 mt-2 flex-center flex-col gap-4 text-center">
             <GoHistory size={50} color="rgb(121, 120, 120)" />
             <p className="text-accent text-sm">{backupText}</p>
           </div>

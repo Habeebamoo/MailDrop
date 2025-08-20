@@ -14,7 +14,7 @@ import (
 type CampaignRepository interface {
 	CreateCampaign(models.Campaign, uuid.UUID) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
-	GetAllCampaigns(uuid.UUID) ([]models.Campaign, int, error)
+	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(uuid.UUID) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 }
@@ -91,14 +91,14 @@ func (campaignRepo *CampaignRepo) GetCampaign(campaignId uuid.UUID) (models.Camp
 	return campaign, 200, nil
 }
 
-func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Campaign, int, error) {
+func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.CampaignResponse, int, error) {
 	var campaigns []models.Campaign
 	err := campaignRepo.db.Find(&campaigns, "user_id = ?", userId).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return []models.Campaign{}, http.StatusNotFound, fmt.Errorf("you haven't created any campaigns")
+			return []models.CampaignResponse{}, http.StatusNotFound, fmt.Errorf("you haven't created any campaigns")
 		}
-		return []models.Campaign{}, 500, fmt.Errorf("internal server error")
+		return []models.CampaignResponse{}, 500, fmt.Errorf("internal server error")
 	}
 
 	response := make([]models.CampaignResponse, len(campaigns))
@@ -118,7 +118,7 @@ func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Ca
 		}
 	}
 
-	return campaigns, 200, nil
+	return response, 200, nil
 }
 
 func (campaignRepo *CampaignRepo) DeleteCampaign(campaignId uuid.UUID) (int, error) {

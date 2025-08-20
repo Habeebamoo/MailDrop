@@ -11,7 +11,7 @@ import (
 type CampaignService interface {
 	CreateCampaign(models.CampaignRequest) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
-	GetAllCampaigns(uuid.UUID) ([]models.Campaign, int, error)
+	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(uuid.UUID) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 }
@@ -44,7 +44,7 @@ func (campaignSvc *CampaignSvc) GetCampaign(campaignId uuid.UUID) (models.Campai
 	return campaignSvc.repo.GetCampaign(campaignId)
 }
 
-func (campaignSvc *CampaignSvc) GetAllCampaigns(userId uuid.UUID) ([]models.Campaign, int, error) {
+func (campaignSvc *CampaignSvc) GetAllCampaigns(userId uuid.UUID) ([]models.CampaignResponse, int, error) {
 	return campaignSvc.repo.GetAllCampaigns(userId)
 }
 
