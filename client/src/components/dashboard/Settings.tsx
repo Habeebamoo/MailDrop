@@ -65,10 +65,12 @@ const Settings = () => {
         }
       })
 
+      const response = await res.json()
+
       if (res.ok) {
-        toast.success("Profile Updated Successfully")
+        toast.success(response.message)
       } else {
-        toast.error("Something went wrong. Please try again")
+        toast.error(response.error)
       }
     } catch (err) {
         toast.error("Something went wrong")
