@@ -52,7 +52,7 @@ func (campaignHdl *CampaignHandler) GetCampaign(c *gin.Context) {
 }
 
 func (campaignHdl *CampaignHandler) GetAllCampaigns(c *gin.Context) {
-	userIdStr := c.Query("userId")
+	userIdStr := c.Param("userId")
 	if userIdStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User id is missing"})
 		return
