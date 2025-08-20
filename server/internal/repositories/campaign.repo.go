@@ -46,7 +46,7 @@ func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign, userI
 	updatedSlug := fmt.Sprintf("https://maildrop.netlify.app/campaign?id=%s", createdCampaign.CampaignId)
 
 	//update the campaign
-	if err := campaignRepo.db.Model(&models.Campaign{}).Update("slug", updatedSlug).Error; err != nil {
+	if err := campaignRepo.db.Model(&models.Campaign{}).Where("user_id = ?", createdCampaign.UserId).Update("slug", updatedSlug).Error; err != nil {
 		return 500, fmt.Errorf("internal server error")
 	}
 
