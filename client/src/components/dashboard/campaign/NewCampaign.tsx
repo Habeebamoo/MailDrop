@@ -89,7 +89,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             <div className="mt-4 mb-2">
               <label htmlFor="description" className="block font-outfit text-black dark:text-accentLight">Campaign Description</label>
               <textarea 
-                rows={4}
+                rows={6}
                 id="description" 
                 placeholder="Describe your campaign goals, target audience and key messaging"
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent resize-none"
