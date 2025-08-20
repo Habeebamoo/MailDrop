@@ -17,6 +17,8 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
   const { user } = useUser()
   const { setCampaignId } = useCampaignId()
 
+  console.log(campaigns)
+
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
@@ -30,11 +32,11 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         })
         const response = await res.json()
 
-        if (!res.ok) {
+        if (res.ok) {
+          setInitCampaign(response)
+        } else {
           return
         }
-
-        setInitCampaign(response)
       } catch (err) {
         console.log("something went wrong")
       }
