@@ -10,7 +10,7 @@ import { useCampaignId } from "../../../context/CampaignContext";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
-  const [initCampaign, setInitCampaign] = useState<any[]>([])
+  const [initCampaign, setInitCampaign] = useState<any>()
   const [campaigns, setCampaigns] = useState<any[]>(initCampaign)
   const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
