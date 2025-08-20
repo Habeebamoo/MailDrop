@@ -10,8 +10,8 @@ import { useCampaignId } from "../../../context/CampaignContext";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
-  const [initCampaign, setInitCampaign] = useState<any>()
-  const [campaigns, setCampaigns] = useState<any[]>(initCampaign)
+  const [initCampaign, setInitCampaign] = useState<any[]>([])
+  const [campaigns, setCampaigns] = useState<any[]>([])
   const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
   const { user } = useUser()
@@ -34,6 +34,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
 
         if (res.ok) {
           setInitCampaign(response)
+          setCampaigns(response)
         } else {
           return
         }
