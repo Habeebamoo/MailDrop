@@ -20,7 +20,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const res = await fetch("https://maildrop-znoo.onrender.com/api/campaign", {
+        const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign?userId=${user?.userId}`, {
           method: "GET",
           credentials: "include",
           headers: {
