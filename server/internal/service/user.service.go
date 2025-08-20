@@ -3,11 +3,13 @@ package service
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/google/uuid"
+	"github.com/supabase-community/storage-go"
 )
 
 type UserService interface {
@@ -15,6 +17,7 @@ type UserService interface {
 	LoginUser(models.UserLogin) (string, int, error)
 	GetUser(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
+	UpdateProfile(models.ProfileRequest) (int, error)
 }
 
 type UserSvc struct {
@@ -66,4 +69,47 @@ func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {
 
 func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {
 	return userSvc.repo.GetActivities(userId)
+}
+
+func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, error) {
+	//setup supabase storage client
+	url := os.Getenv("SUPABASE_URL")
+	key := os.Getenv("SUPBASE_SERVICE_KEY_ROLE")
+	client := storage_go.NewClient(url, key, nil)
+
+	//open the file
+	f, err := profileReq.Image.Open()
+	if err != nil {
+		return 500, fmt.Errorf("cannot open file")
+	}
+	defer f.Close()
+
+	//upload file to supabse bucket
+	objectName := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
+
+	_, err = client.UploadFile(
+		"profile-pictures", 
+		objectName, 
+		f, 
+	)
+
+	if err != nil {
+		return 500, fmt.Errorf("upload error")
+	}
+
+	//get public url
+	publicUrl := client.GetPublicUrl("profile-pictures", objectName)
+	profileUrl := publicUrl.SignedURL
+
+
+	//update user profile
+	detailsReq := models.ProfileDetailsRequest{
+		UserId: profileReq.UserId,
+		Name: profileReq.Name,
+		Email: profileReq.Email,
+		Bio: profileReq.Bio,
+		Image: profileUrl,
+	}
+
+	return userSvc.repo.UpdateProfile(detailsReq)
 }

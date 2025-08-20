@@ -1,6 +1,8 @@
 package models
 
 import (
+	"mime/multipart"
+
 	"github.com/google/uuid"
 )
 
@@ -35,4 +37,20 @@ type UserRequest struct {
 type UserLogin struct {
 	Email     string  `json:"email"     binding:"required"`
 	Password  string  `json:"password"  binding:"required"`
+}
+
+type ProfileRequest struct {
+	UserId  uuid.UUID
+	Name    string
+	Email   string
+	Bio     string
+	Image  	*multipart.FileHeader
+}
+
+type ProfileDetailsRequest struct {
+	UserId  uuid.UUID
+	Name    string
+	Email   string
+	Bio     string
+	Image 	string
 }

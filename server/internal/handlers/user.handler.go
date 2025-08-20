@@ -101,3 +101,48 @@ func (usrHdl *UserHandler) GetActivities(c *gin.Context) {
 
 	c.JSON(statusCode, userActivities)
 }
+
+func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
+	raw, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized Access"})
+		return
+	}
+
+	userId := raw.(uuid.UUID)
+
+	name := c.PostForm("name")
+	email := c.PostForm("email")
+	bio := c.PostForm("bio")
+	if (name == "" || email == "" || bio == "") {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No field must be empty"})
+		return
+	}
+
+	image, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Profile pic is required"})
+		return
+	}
+
+	if image.Size > 5 << 20 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Image must be 5MB or less"})
+		return
+	}
+
+	profileReq := models.ProfileRequest{
+		UserId: userId,
+		Image: image,
+		Name: name,
+		Email: email,
+		Bio: bio,
+	}
+
+	statusCode, err := usrHdl.svc.UpdateProfile(profileReq)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": "Profile Updated Successfully"})
+}

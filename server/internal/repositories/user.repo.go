@@ -18,6 +18,7 @@ type UserRepository interface {
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
+	UpdateProfile(models.ProfileDetailsRequest) (int, error)
 }
 
 type UserRepo struct {
@@ -134,4 +135,12 @@ func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResp
 	}
 
 	return response, 200, nil
+}
+
+func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest) (int, error) {
+	res := userRepo.db.Model(&models.Profile{}).Where("user_id = ?", profileReq.UserId).Updates(profileReq)
+	if res.Error != nil {
+		return 500, res.Error
+	}
+	return 200, nil
 }
