@@ -16,6 +16,8 @@ import Emails from "./components/dashboard/Emails"
 import ForgotPage from "./pages/ForgotPage"
 import ResetPage from "./pages/ResetPage"
 import Error from "./components/dashboard/Error"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/ReactToastify.css"
 
 const App = () => {
   const router = createBrowserRouter(
@@ -36,7 +38,13 @@ const App = () => {
       </>
     )
   )
-  return <RouterProvider router={router} />
+  
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer position="top-center" />
+    </>
+  )
 }
 
 export default App
