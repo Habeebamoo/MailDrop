@@ -53,7 +53,7 @@ const Settings = () => {
     data.append("name", form.name)
     data.append("email", form.email)
     data.append("bio", form.bio)
-    data.append("image", form.file)
+    data.append("file", form.file)
 
     try {
       const res = await fetch("https://maildrop-znoo.onrender.com/api/user/profile", {
@@ -84,7 +84,11 @@ const Settings = () => {
       <h1 className="text-xl text-primary dark:text-white font-inter mt-4">Settings</h1>
       <p className="text-sm text-accent mb-6">Manage your account settings and preference</p>
       <div className="md:grid md:grid-cols-2 gap-2 items-start">
-        <form onSubmit={submitProfile} className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary dark:text-white">
+        <form 
+          onSubmit={submitProfile} 
+          className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary dark:text-white"
+          encType="multipart/form-data"
+        >
           <div className="flex-start gap-2">
             <FiUser size={20} />
             <h1 className="text-xl font-outfit">Profile Information</h1>

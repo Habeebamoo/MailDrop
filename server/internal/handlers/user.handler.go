@@ -114,8 +114,12 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 	name := c.PostForm("name")
 	email := c.PostForm("email")
 	bio := c.PostForm("bio")
+	if (name == "" || email == "" || bio == "") {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No field must be empty"})
+		return
+	}
 
-	image, err := c.FormFile("image")
+	image, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Profile pic is required"})
 		return
@@ -123,7 +127,6 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	if image.Size > 5 << 20 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Image must be 5MB or less"})
-		return
 	}
 
 	profileReq := models.ProfileRequest{
