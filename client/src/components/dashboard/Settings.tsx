@@ -56,7 +56,7 @@ const Settings = () => {
     data.append("image", form.file)
 
     try {
-      const res = await fetch("https://maildrop-znoo,onrender.com/api/user/profile", {
+      const res = await fetch("https://maildrop-znoo.onrender.com/api/user/profile", {
         method: "POST",
         credentials: "include",
         headers: {
