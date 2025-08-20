@@ -94,7 +94,7 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	)
 
 	if err != nil {
-		return 500, fmt.Errorf("upload error")
+		return 500, err
 	}
 
 	//get public url
