@@ -92,6 +92,12 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 
 	objectName := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
 
+	fileBytes := make([]byte, profileReq.Image.Size)
+	_, err = f.Read(fileBytes)
+	if err != nil {
+		return 500, fmt.Errorf("failed to read image")
+	}
+
 	//upload file to supabase bucket
 	_, err = client.Storage.UploadFile("profile-pictures", objectName, f, storage_go.FileOptions{})
 	if err != nil {

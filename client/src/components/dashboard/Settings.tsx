@@ -88,7 +88,6 @@ const Settings = () => {
         <form 
           onSubmit={submitProfile} 
           className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary dark:text-white"
-          encType="multipart/form-data"
         >
           <div className="flex-start gap-2">
             <FiUser size={20} />
