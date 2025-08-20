@@ -102,7 +102,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
               ></textarea>
             </div>
             <div className="mt-4 mb-2">
-              <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Lead Magnet URL</label>
+              <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Lead Magnet URL (Optional)</label>
               <div className="relative">
                 <input 
                   type="url" 
