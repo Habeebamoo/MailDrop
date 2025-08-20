@@ -108,10 +108,13 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return 500, fmt.Errorf("upload failed")
+		return 500, fmt.Errorf("upload error")
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		return 500, fmt.Errorf("upload failed")
+	}
 
 	//get the url
 	profileUrl := fmt.Sprintf("https://%s.supabase.co/storage/v1/object/public/%s/%s", ref, bucket, filePath)
