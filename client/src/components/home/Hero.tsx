@@ -2,17 +2,12 @@ import { FaStar } from "react-icons/fa"
 import { FaArrowRight } from "react-icons/fa6"
 import heroImg from "../../assets/hero.png"
 import { useNavigate } from "react-router-dom"
-import { useUser } from "../../context/UserContext"
 
 const Hero = () => {
-  const { user } = useUser()
   const navigate = useNavigate()
 
   const toDashboard = () => {
-    if (user) {
-      navigate("/dashboard/home")
-    }
-    navigate("/login")
+    navigate("/dashboard/home")
   }
 
   return (
