@@ -11,6 +11,7 @@ import Loading from "../Loading"
 import { useCampaignId } from "../../../context/CampaignContext"
 import { GoHistory } from "react-icons/go"
 import Error from "../Error"
+import { toast } from "react-toastify"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -21,6 +22,12 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
   const { campaignId } = useCampaignId()
+
+  const copySlug = () => {
+    navigator.clipboard.writeText(campaign.slug).then(() => {
+      toast.success("Campaign url copied to clipboard")
+    })
+  }
 
   useEffect(() => {
     const fetchCampaign = async () => {
@@ -79,7 +86,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <SlArrowLeft />
         </button>
       </div>
-      <p className="text-sm text-accent mb-4 max-md:mt-2">{campaign.descriptiom}</p>
+      <p className="text-sm text-accent mb-4 max-md:mt-2">{campaign.description}</p>
 
       <div className="md:grid md:grid-cols-3 md:gap-2 mt-6">
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
@@ -141,6 +148,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <h1 className="text-xl font-outfit">Quick Action</h1>
         </div>
         <button
+          onClick={copySlug}
           className="flex-start gap-2 p-2 rounded-md mt-4 border-1 border-primary text-white bg-primary hover:bg-transparent hover:text-primary cursor-pointer"
         >
           <FiLink size={20} />
