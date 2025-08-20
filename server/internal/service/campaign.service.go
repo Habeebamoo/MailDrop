@@ -38,7 +38,7 @@ func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignReques
 		CreatedAt: time.Now(),
 	}
 
-	return campaignSvc.repo.CreateCampaign(campaign)
+	return campaignSvc.repo.CreateCampaign(campaign, userId)
 }
 
 func (campaignSvc *CampaignSvc) GetCampaign(campaignId uuid.UUID) (models.Campaign, int, error) {

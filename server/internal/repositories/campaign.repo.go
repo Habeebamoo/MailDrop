@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/google/uuid"
@@ -11,7 +12,7 @@ import (
 )
 
 type CampaignRepository interface {
-	CreateCampaign(models.Campaign) (int, error)
+	CreateCampaign(models.Campaign, uuid.UUID) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
 	GetAllCampaigns(uuid.UUID) ([]models.Campaign, int, error)
 	DeleteCampaign(uuid.UUID) (int, error)
@@ -26,7 +27,7 @@ func NewCampaignRepository(db *gorm.DB) CampaignRepository {
 	return &CampaignRepo{db: db}
 }
 
-func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign) (int, error) {
+func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign, userId uuid.UUID) (int, error) {
 	//create the campaign
 	if err := campaignRepo.db.Create(&campaign).Error; err != nil {
 		if strings.Contains(err.Error(), "duplicate key value") {
@@ -47,6 +48,19 @@ func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign) (int,
 	//update the campaign
 	if err := campaignRepo.db.Model(&models.Campaign{}).Update("slug", updatedSlug).Error; err != nil {
 		return 500, fmt.Errorf("internal server error")
+	}
+
+	//create the activity
+	activity := models.Activity{
+		UserId: userId,
+		Name: fmt.Sprintf("Created %s campaign", campaign.Title),
+		Type: "profile",
+		CreatedAt: time.Now(),
+	}
+
+	err = campaignRepo.db.Create(&activity).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user activity")
 	}
 
 	return 200, nil
