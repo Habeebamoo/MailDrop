@@ -7,15 +7,17 @@ import (
 )
 
 type Campaign struct {
-	Id             uint       `json:"-"             gorm:"autoIncrement"`
-	UserId         uuid.UUID  `json:"userId"`
-	CampaignId     uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
-	Title          string     `json:"string"        gorm:"unique"`
-	Description    string     `json:"description"`
-	LeadMagnetUrl  string     `json:"leadMagnetUrl"`
-	Slug           string     `json:"slug"`
-	Subscribers    int        `json:"subscribers"`
-	CreatedAt      time.Time  `json:"createdAt"`
+	Id                uint       `json:"-"             gorm:"autoIncrement"`
+	UserId            uuid.UUID  `json:"userId"`
+	CampaignId        uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
+	Title             string     `json:"string"        gorm:"unique"`
+	Description       string     `json:"description"`
+	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
+	Slug              string     `json:"slug"`
+	TotalSubscribers  int        `json:"totalSubscribers"`
+	TotalClicks       int        `json:"totalClicks"`
+	TotalEmails       int        `json:"totalEmails"`
+	CreatedAt         time.Time  `json:"createdAt"`
 }
 
 type Subscriber struct {

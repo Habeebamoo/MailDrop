@@ -65,6 +65,16 @@ func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign, userI
 		return 500, fmt.Errorf("failed to create user activity")
 	}
 
+	//update the user profile
+	err = campaignRepo.db.
+			Model(&models.Profile{}).
+			Where("user_id = ?", campaign.UserId).
+			UpdateColumn("total_campaigns", gorm.Expr("total_campaigns + ?", 1)).Error
+
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user profile")
+	}
+
 	return 200, nil
 }
 

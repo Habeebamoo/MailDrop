@@ -6,6 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { GoHistory } from "react-icons/go";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../context/UserContext";
+import { useCampaignId } from "../../../context/CampaignContext";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -14,6 +15,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
   const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
   const { user } = useUser()
+  const { setCampaignId } = useCampaignId()
 
   useEffect(() => {
     const fetchCampaigns = async () => {
@@ -45,8 +47,9 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
     setActiveTab("new")
   }
 
-  const toLeads = () => {
+  const toLeads = (id: string) => {
     setActiveTab("leads")
+    setCampaignId(id)
   }
 
   useEffect(() => {
@@ -112,9 +115,9 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
             return (
               <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
                 <p>{campaign.title}</p>
-                <p>{campaign.subscribers}</p>
+                <p>{campaign.totalSubscribers}</p>
                 <p>{campaign.createdAt}</p>
-                <div onClick={toLeads} className="flex-center cursor-pointer">
+                <div onClick={() => toLeads(campaign.campaignId)} className="flex-center cursor-pointer">
                   <SlArrowRight />
                 </div>
               </div>
