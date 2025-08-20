@@ -111,7 +111,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
                 <FiLink color="rgb(121, 120, 120)" size={19} className="absolute top-[12px] left-[12px]" />
               </div>
             </div>
-            <div className="flex-start gap-2 mt-4">
+            <div className="flex-start gap-2 mt-6">
               <button className="flex-center gap-2 btn-primary">
                 <IoSave />
                 <span>Create Campaign</span>
