@@ -1,7 +1,9 @@
 package service
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 
@@ -9,7 +11,6 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/google/uuid"
-	storage_go "github.com/supabase-community/storage-go"
 )
 
 type UserService interface {
@@ -72,11 +73,7 @@ func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityRespon
 }
 
 func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, error) {
-	//setup supabase storage client
-	url := os.Getenv("SUPABASE_URL")
-	key := os.Getenv("SUPABASE_KEY")
 	ref := os.Getenv("SUPABASE_ID")
-	client := storage_go.NewClient(url, key, nil)
 
 	//open the file
 	f, err := profileReq.Image.Open()
@@ -85,16 +82,39 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	}
 	defer f.Close()
 
-	objectName := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
-
-	//upload file to supabase bucket
-	_, err = client.UploadFile("profile-pictures", objectName, f)
+	fileBytes, err := io.ReadAll(f)
 	if err != nil {
-		return 500, err
+		return 500, fmt.Errorf("cannot read file")
 	}
 
+	bucket := "profile-pictures"
+	filePath := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
+	url := os.Getenv("SUPABASE_URL")
+	key := os.Getenv("SUPABASE_KEY")
+
+	//upload url
+	uploadUrl := fmt.Sprintf("%s/storage/v1/object/%s/%s", url, bucket, filePath)
+
+	//request to Supabase storage API
+	req, err := http.NewRequest("POST", uploadUrl, io.NopCloser(io.Reader(bytes.NewReader(fileBytes))))
+	if err != nil {
+		return 500, fmt.Errorf("request build failed")
+	}
+
+	//add headers
+	req.Header.Set("Authorization", "Bearer "+key)
+	req.Header.Set("Content-Type", "application/octet-stream")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return 500, fmt.Errorf("upload failed")
+	}
+	defer resp.Body.Close()
+
+
 	//get the url
-	profileUrl := fmt.Sprintf("https://%s.supabase.co/storage/v1/object/public/%s/%s", ref, "profile-pictures", objectName)
+	profileUrl := fmt.Sprintf("https://%s.supabase.co/storage/v1/object/public/%s/%s", ref, bucket, filePath)
 
 	//update user profile
 	detailsReq := models.ProfileDetailsRequest{
