@@ -32,7 +32,6 @@ func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignReques
 		UserId: userId,
 		Title: campaignReq.Title,
 		Description: campaignReq.Description,
-		LeadMagnet: campaignReq.LeadMagnet,
 		LeadMagnetUrl: campaignReq.LeadMagnetUrl,
 		Slug: "",
 		CreatedAt: time.Now(),
