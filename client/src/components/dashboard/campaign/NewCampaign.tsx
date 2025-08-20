@@ -28,9 +28,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    if (form.leadMagnetUrl) {
-      form.leadMagnet = true
-    }
+    setForm(prev => ({...prev, leadMagnet: form.leadMagnetUrl ? true : false}))
 
     try {
       const res = await fetch("https://maildrop-znoo.onrender.com/api/campaign", {
