@@ -9,7 +9,8 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/google/uuid"
-	"github.com/supabase-community/storage-go"
+	storage_go "github.com/supabase-community/storage-go"
+	"github.com/supabase-community/supabase-go"
 )
 
 type UserService interface {
@@ -75,7 +76,12 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	//setup supabase storage client
 	url := os.Getenv("SUPABASE_URL")
 	key := os.Getenv("SUPBASE_SERVICE_KEY_ROLE")
-	client := storage_go.NewClient(url, key, nil)
+	ref := os.Getenv("SUPABASE_ID")
+	client, err := supabase.NewClient(url, key, &supabase.ClientOptions{})
+
+	if err != nil {
+		return 500, err
+	}
 
 	//open the file
 	f, err := profileReq.Image.Open()
@@ -84,23 +90,16 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	}
 	defer f.Close()
 
-	//upload file to supabse bucket
 	objectName := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
 
-	_, err = client.UploadFile(
-		"profile-pictures", 
-		objectName, 
-		f, 
-	)
-
+	//upload file to supabase bucket
+	_, err = client.Storage.UploadFile("profile-pictures", objectName, f, storage_go.FileOptions{})
 	if err != nil {
-		return 500, fmt.Errorf("upload error %s", err.Error())
+		return 500, fmt.Errorf("upload error")
 	}
 
-	//get public url
-	publicUrl := client.GetPublicUrl("profile-pictures", objectName)
-	profileUrl := publicUrl.SignedURL
-
+	//get the url
+	profileUrl := fmt.Sprintf("https://%s.supabase.co/storage/v1/object/public/%s/%s", ref, "profile-pictures", objectName)
 
 	//update user profile
 	detailsReq := models.ProfileDetailsRequest{
