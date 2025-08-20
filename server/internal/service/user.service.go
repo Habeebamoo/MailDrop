@@ -10,7 +10,6 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/google/uuid"
 	storage_go "github.com/supabase-community/storage-go"
-	"github.com/supabase-community/supabase-go"
 )
 
 type UserService interface {
@@ -77,11 +76,7 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	url := os.Getenv("SUPABASE_URL")
 	key := os.Getenv("SUPABASE_KEY")
 	ref := os.Getenv("SUPABASE_ID")
-	client, err := supabase.NewClient(url, key, &supabase.ClientOptions{})
-
-	if err != nil {
-		return 500, err
-	}
+	client := storage_go.NewClient(url, key, nil)
 
 	//open the file
 	f, err := profileReq.Image.Open()
@@ -92,14 +87,8 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 
 	objectName := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
 
-	fileBytes := make([]byte, profileReq.Image.Size)
-	_, err = f.Read(fileBytes)
-	if err != nil {
-		return 500, fmt.Errorf("failed to read image")
-	}
-
 	//upload file to supabase bucket
-	_, err = client.Storage.UploadFile("profile-pictures", objectName, f, storage_go.FileOptions{})
+	_, err = client.UploadFile("profile-pictures", objectName, f)
 	if err != nil {
 		return 500, err
 	}
