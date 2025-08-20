@@ -75,7 +75,7 @@ func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityRespon
 func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, error) {
 	//setup supabase storage client
 	url := os.Getenv("SUPABASE_URL")
-	key := os.Getenv("SUPBASE_SERVICE_KEY_ROLE")
+	key := os.Getenv("SUPABASE_KEY")
 	ref := os.Getenv("SUPABASE_ID")
 	client, err := supabase.NewClient(url, key, &supabase.ClientOptions{})
 
