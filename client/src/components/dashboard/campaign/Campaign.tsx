@@ -74,12 +74,12 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       {error && <Error title="Unknown Error" text="Failed to get camapign" path="/dashboard/campaigns" pathText="Go Back" /> }
       <div className="flex-between mt-4">
-        <h1 className="text-xl text-primary font-inter dark:text-white">Summer Sale 2024</h1>
+        <h1 className="text-xl text-primary font-inter dark:text-white">{campaign.title}</h1>
         <button onClick={goBack} className="px-3 flex-center gap-2 text-sm btn-primary">
           <SlArrowLeft />
         </button>
       </div>
-      <p className="text-sm text-accent mb-4 max-md:mt-2">Gadgets and Electronics on 20% discount sales</p>
+      <p className="text-sm text-accent mb-4 max-md:mt-2">{campaign.descriptiom}</p>
 
       <div className="md:grid md:grid-cols-3 md:gap-2 mt-6">
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
