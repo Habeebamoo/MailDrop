@@ -46,8 +46,8 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	//campaign routes
 	campaign := api.Group("/campaign", middlewares.AuthenticateUser())
 	{
-		campaign.POST("/", campaignHandler.CreateCampaign)
-		campaign.GET("/", campaignHandler.GetAllCampaigns)
+		campaign.POST("", campaignHandler.CreateCampaign)
+		campaign.GET("", campaignHandler.GetAllCampaigns)
 		campaign.GET("/:id", campaignHandler.GetCampaign)
 		campaign.GET("/:id/subscribers", campaignHandler.GetSubscribers)
 		campaign.DELETE("/:id", campaignHandler.DeleteCampaign)
