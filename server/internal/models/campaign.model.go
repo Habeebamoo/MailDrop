@@ -10,7 +10,7 @@ type Campaign struct {
 	Id                uint       `json:"-"             gorm:"autoIncrement"`
 	UserId            uuid.UUID  `json:"userId"`
 	CampaignId        uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
-	Title             string     `json:"string"        gorm:"unique"`
+	Title             string     `json:"title"         gorm:"unique"`
 	Description       string     `json:"description"`
 	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
 	Slug              string     `json:"slug"`

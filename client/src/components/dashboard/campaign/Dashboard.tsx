@@ -127,7 +127,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         {campaigns.length == 0 && 
           <div className="p-14 mt-2 flex-center flex-col gap-4">
             <GoHistory size={50} color="rgb(121, 120, 120)" />
-            <p className="text-accent text-sm">Your campaigns would go here</p>
+            <p className="text-accent text-sm">You haven't created any campaigns</p>
           </div>
         }
       </div>
