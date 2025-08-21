@@ -13,6 +13,9 @@ const DashboardPage = () => {
   const { theme } = useTheme()
   const { user } = useUser()
 
+  console.log(activities)
+  console.log(campaigns)
+
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
