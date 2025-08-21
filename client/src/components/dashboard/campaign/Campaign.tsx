@@ -75,7 +75,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   }
 
   const getBriefOf = (str: string) => {
-    const maxLength = 50;
+    const maxLength = 120;
     return str.length > maxLength ? str.slice(0, maxLength) + "..." : str
   }
 

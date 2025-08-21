@@ -96,7 +96,7 @@ const Settings = () => {
           <p className="text-sm text-accent dark:text-accentLight">Update your personal information and profile details</p>
 
           <div className="mt-6 flex-start gap-8 px-4">
-            <div className="h-18 w-18 bg-accentXLight border-1 border-accentLight rounded-full flex-center overflow-hidden">
+            <div className="h-20 w-20 bg-accentXLight border-1 border-accentLight rounded-full flex-center overflow-hidden">
               {
                 preview ? (
                   <img src={preview} alt="profile" className="w-full h-full object-cover" />

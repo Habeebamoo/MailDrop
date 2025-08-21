@@ -19,9 +19,14 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
     leadMagnetUrl: ""
   })
   const [loading, setLoading] = useState<boolean>(false)
+  const [expanded, setExpanded] = useState<boolean>(false)
 
   const allCampaigns = () => {
     setActiveTab("campaigns")
+  }
+
+  const toggleExpansion = () => {
+    setExpanded(!expanded)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,6 +57,8 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
       setLoading(false)
     }
   }
+
+  const expandText = expanded ? "shrink" : "expand"
 
   return (
     <>
@@ -87,9 +94,12 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
               />
             </div>
             <div className="mt-4 mb-2">
-              <label htmlFor="description" className="block font-outfit text-black dark:text-accentLight">Campaign Description</label>
+              <div className="flex-between pr-1 mb-2">
+                <label htmlFor="description" className="block font-outfit text-black dark:text-accentLight">Campaign Description</label>
+                <span onClick={toggleExpansion} className="text-sm text-open text-primary cursor-pointer">{expandText}</span>
+              </div>
               <textarea 
-                rows={6}
+                rows={expanded ? 20 : 6}
                 id="description" 
                 placeholder="Describe your campaign goals, target audience and key messaging"
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent resize-none"
