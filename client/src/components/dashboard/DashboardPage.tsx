@@ -13,9 +13,6 @@ const DashboardPage = () => {
   const { theme } = useTheme()
   const { user } = useUser()
 
-  console.log(activities)
-  console.log(campaigns)
-
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
@@ -115,9 +112,9 @@ const DashboardPage = () => {
           campaigns.map(campaign => {
             return (
               <div className="grid grid-cols-3 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
-                <p>{campaign.name}</p>
-                <p>{campaign.subscribers}</p>
-                <p>{campaign.created}</p>
+                <p>{campaign.title}</p>
+                <p>{campaign.totalSubscribers}</p>
+                <p>{campaign.createdAt}</p>
               </div>
             )
           })
