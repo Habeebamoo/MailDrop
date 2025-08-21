@@ -20,7 +20,7 @@ func SendPasswordResetEmail(name, email, token string) (int, error) {
 	m := gomail.NewMessage()
 	resetUrl := fmt.Sprintf("https://maildrop.netlify.app/reset?token=%s", token)
 
-	m.SetHeader("From", "habeebfrommaildrop@gmail.com")
+	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "Habeeb From MailDrop"))
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Reset your Password")
 
