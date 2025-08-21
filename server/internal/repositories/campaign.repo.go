@@ -114,7 +114,7 @@ func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Ca
 			TotalSubscribers: campaign.TotalSubscribers,
 			TotalClicks: campaign.TotalClicks,
 			TotalEmails: campaign.TotalEmails,
-			CreatedAt: campaign.CreatedAt.Format("2006, Jan 2"),
+			CreatedAt: campaign.CreatedAt.Format("Jan 2, 2006"),
 		}
 	}
 
