@@ -24,6 +24,7 @@ const ResetPage = () => {
     if (form.password !== form.confirmPassword) {
       setStatus("error")
       setMsg("Password does not match")
+      setLoading(false)
       return
     }
 

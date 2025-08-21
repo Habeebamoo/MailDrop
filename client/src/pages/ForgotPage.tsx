@@ -17,6 +17,7 @@ const ForgotPage = () => {
     if (!email) {
       setStatus("error")
       setMsg("Email is required")
+      setLoading(false)
       return
     }
 
