@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
@@ -20,6 +21,7 @@ type UserService interface {
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 	UpdateProfile(models.ProfileRequest) (int, error)
 	ForgotPassword(string) (int, error)
+	ResetPassword(uuid.UUID, string) (int, error)
 }
 
 type UserSvc struct {
@@ -155,4 +157,19 @@ func (userSvc *UserSvc) ForgotPassword(email string) (int, error) {
 
 	//send password reset link to the user's email
 	return utils.SendPasswordResetEmail(user.Name, user.Email, token)
+}
+
+func (userSvc *UserSvc) ResetPassword(token uuid.UUID, newPassword string) (int, error) {
+	//get the user associated with the token
+	userToken, statusCode, err := userSvc.repo.GetUserIdByToken(token)
+	if err != nil {
+		return statusCode, err
+	}
+
+	if time.Now().After(userToken.ExpiresAt) {
+		return http.StatusNotAcceptable, fmt.Errorf("token is expired")
+	}
+
+	//update the users password
+	return userSvc.repo.UpdatePassword(userToken.UserId, newPassword)
 }

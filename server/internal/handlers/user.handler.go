@@ -161,3 +161,22 @@ func (userHdl *UserHandler) ForgotPassword(c *gin.Context) {
 
 	c.JSON(statusCode, gin.H{"message": "If this user exists, a reset link will be sent to this email"})
 }
+
+func (userHdl *UserHandler) ResetPassword(c *gin.Context) {
+	var Request models.ResetPasswordRequest
+	if err := c.ShouldBindJSON(&Request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	token, _ := uuid.Parse(Request.Token)
+	newPassword := Request.Password
+
+	statusCode, err := userHdl.svc.ResetPassword(token, newPassword)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return	
+	}
+
+	c.JSON(statusCode, gin.H{"message": "New Password has been updated"})
+}

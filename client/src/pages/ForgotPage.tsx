@@ -65,7 +65,7 @@ const ForgotPage = () => {
               type="email" 
               id="email" 
               name="email" 
-              className="block py-2 px-3 border-1 w-full text-accent rounded-md border-accentLight placeholder:text-sm font-outfit" 
+              className="block py-2 px-3 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit" 
               placeholder="Enter your Email Address"
               required
               value={email}

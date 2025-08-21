@@ -17,9 +17,11 @@ type UserRepository interface {
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
+	GetUserIdByToken(uuid.UUID) (models.Token, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
 	UpdateProfile(models.ProfileDetailsRequest) (int, error)
 	CreateToken(uuid.UUID) (string, int, error)
+	UpdatePassword(uuid.UUID, string) (int, error)
 }
 
 type UserRepo struct {
@@ -114,6 +116,18 @@ func (userRepo *UserRepo) GetUserById(userId uuid.UUID) (models.User, int, error
 	return user, 200, nil
 }
 
+func (userRepo *UserRepo) GetUserIdByToken(token uuid.UUID) (models.Token, int, error) {
+	var userToken models.Token
+	err := userRepo.db.First(&userToken, "token = ?", token).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return models.Token{}, http.StatusNotFound, fmt.Errorf("invalid token")
+		}
+		return models.Token{}, 500, fmt.Errorf("internal server error")
+	}
+	return models.Token{}, 200, nil
+}
+
 func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {
 	var userActivities []models.Activity
 	err := userRepo.db.Find(&userActivities, "user_id = ?", userId).Error
@@ -166,4 +180,17 @@ func (userRepo *UserRepo) CreateToken(userId uuid.UUID) (string, int, error) {
 
 	
 	return token.Token.String(), 200, nil
+}
+
+func (userRepo *UserRepo) UpdatePassword(userId uuid.UUID, newPassword string) (int, error) {
+	err := userRepo.db.Model(&models.User{}).
+							Where("user_id = ?", userId).
+							Update("password", newPassword).
+							Error
+
+	if err != nil {
+		return 500, fmt.Errorf("failed to update password")
+	}
+
+	return 200, nil
 }
