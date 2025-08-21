@@ -166,7 +166,7 @@ func (userSvc *UserSvc) ResetPassword(token uuid.UUID, newPassword string) (int,
 		return statusCode, err
 	}
 
-	if time.Now().UTC().After(userToken.ExpiresAt) {
+	if time.Now().UTC().After(userToken.ExpiresAt.UTC()) {
 		return http.StatusNotAcceptable, fmt.Errorf("token is expired")
 	}
 
