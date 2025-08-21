@@ -4,9 +4,11 @@ import { LiaTimesSolid } from "react-icons/lia"
 import NavBar from "./NavBar"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useUser } from "../../context/UserContext"
 
 const Header = () => {
   const [navShown, setNavShown] = useState<boolean>(false)
+  const { user } = useUser()
   const navigate = useNavigate()
 
   const toggleNav = () => {
@@ -14,6 +16,15 @@ const Header = () => {
   }
 
   const menuIcon = navShown ? <LiaTimesSolid size={20} /> : <RiMenu3Line size={20} />
+  const autoSignInText = user ? "Dashboard" : "Login"
+
+  const autoSignIn = () => {
+    if (user) {
+      navigate("/dashboard/home")
+    } else {
+      navigate("/login")
+    }
+  }
 
   return (
     <header className="p-3 fixed top-0 left-0 right-0">
@@ -27,7 +38,7 @@ const Header = () => {
             <p className="text-lg text-primary font-inter cursor-pointer">Home</p>
             <p className="text-lg text-primary font-inter cursor-pointer">About</p>
           </div>
-          <button onClick={() => navigate("/login")} className="max-sm:hidden btn-primary">Get Started</button>
+          <button onClick={autoSignIn} className="max-sm:hidden btn-primary">{autoSignInText}</button>
           <div onClick={toggleNav} className="sm:hidden cursor-pointer">
             {menuIcon}
           </div>

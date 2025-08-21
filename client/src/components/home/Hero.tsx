@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom"
 const Hero = () => {
   const navigate = useNavigate()
 
-  const toDashboard = () => {
-    navigate("/dashboard/home")
+  const toLogin = () => {
+    navigate("/login")
   }
 
   return (
@@ -24,7 +24,7 @@ const Hero = () => {
           <p className="max-lg:text-center text-sm max-lg:mt-2 lg:mt-1 text-accent max-lg:w-[90%] mx-auto">
             Experience the future of email marketing with MailDrop. Intelligent organization, bulletproof security and lightning-fast perfomance in one beautiful package
           </p>
-          <button onClick={toDashboard} className="max-lg:mx-auto max-md:py-2 max-lg:mt-4 lg:mt-2 px-4 btn-primary flex-center">
+          <button onClick={toLogin} className="max-lg:mx-auto max-md:py-2 max-lg:mt-4 lg:mt-2 px-4 btn-primary flex-center">
             <span className="mr-2">Get Started</span>
             <FaArrowRight size={14} />
           </button>

@@ -7,7 +7,7 @@ import { ClipLoader } from "react-spinners"
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>()
+  const [loading, setLoading] = useState<boolean>(false)
   const [status, setStatus] = useState<"success" | "error" | "">("")
   const [msg, setMsg] = useState<string>("")
   const [form, setForm] = useState({
@@ -86,17 +86,17 @@ const AuthPage = () => {
     setPasswordShown(!passwordShown)
   }
 
-  const passwordIcon = passwordShown ? <FaEyeSlash color="rgb(121, 120, 120)" size={18} /> : <FaEye color="rgb(121, 120, 120)" size={18} />
+  const passwordIcon = passwordShown ? <FaEyeSlash color="rgb(121, 120, 120)" size={19} /> : <FaEye color="rgb(121, 120, 120)" size={19} />
 
   const authText = 
   isLogin ? 
   <div className={`${loading && "flex-center gap-2"}`}>
-    {loading && <ClipLoader size={18} color="white" />}
+    {loading && <ClipLoader size={16} color="white" />}
     {loading ? "Logging in" : "Login"}
   </div> 
   : 
   <div className={`${loading && "flex-center gap-2"}`}>
-    {loading && <ClipLoader size={18} color="white" />}
+    {loading && <ClipLoader size={16} color="white" />}
     {loading ? "Signing up" : "Sign Up"}
   </div>
 
@@ -156,7 +156,7 @@ const AuthPage = () => {
               onChange={(e) => setForm(prev => ({...prev, password: e.target.value}))}
               required
             />
-            <div onClick={togglePassword} className="absolute top-[42px] right-[10px] cursor-pointer">{passwordIcon}</div>
+            <div onClick={togglePassword} className="absolute top-[41px] right-[10px] cursor-pointer">{passwordIcon}</div>
           </div>
           <p 
             onClick={toForgotPassword}  
