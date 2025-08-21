@@ -19,6 +19,7 @@ type UserService interface {
 	GetUser(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 	UpdateProfile(models.ProfileRequest) (int, error)
+	ForgotPassword(string) (int, error)
 }
 
 type UserSvc struct {
@@ -129,4 +130,29 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	}
 
 	return userSvc.repo.UpdateProfile(detailsReq)
+}
+
+func (userSvc *UserSvc) ForgotPassword(email string) (int, error) {
+	//check if user exists
+	exists := userSvc.repo.Exists(email)
+
+	//not giving user-info about users to unauthorzied people :)
+	if (!exists) {
+		return 200, nil
+	}
+
+	//get the user
+	user, _, err := userSvc.repo.GetUser(email)
+	if err != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	//create a token to associate with the user
+	token, statusCode, err := userSvc.repo.CreateToken(user.UserId)
+	if err != nil {
+		return statusCode, err
+	}
+
+	//send password reset link to the user's email
+	return utils.SendPasswordResetEmail(user.Name, user.Email, token)
 }

@@ -19,6 +19,7 @@ type UserRepository interface {
 	GetUserById(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
 	UpdateProfile(models.ProfileDetailsRequest) (int, error)
+	CreateToken(uuid.UUID) (string, int, error)
 }
 
 type UserRepo struct {
@@ -143,4 +144,26 @@ func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest)
 		return 500, res.Error
 	}
 	return 200, nil
+}
+
+func (userRepo *UserRepo) CreateToken(userId uuid.UUID) (string, int, error) {
+	//delete all existing tokens created by the user
+	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.Token{}).Error
+	if err != nil {
+		return "", 500, fmt.Errorf("internal server error")
+	}
+
+	//create a token for verification
+	token := models.Token{
+		UserId: userId,
+		ExpiresAt: time.Now().Add(1*time.Hour),
+	}
+
+	err = userRepo.db.Create(&token).Error
+	if err != nil {
+		return "", 500, fmt.Errorf("internal server error")
+	}
+
+	
+	return token.Token.String(), 200, nil
 }

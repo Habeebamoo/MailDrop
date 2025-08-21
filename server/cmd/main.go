@@ -27,7 +27,14 @@ func main() {
 	}
 
 	//migrate struct to database tables
-	db.AutoMigrate(&models.User{}, &models.Profile{}, &models.Campaign{}, &models.Activity{}, &models.Subscriber{})
+	db.AutoMigrate(
+		&models.User{}, 
+		&models.Profile{}, 
+		&models.Campaign{}, 
+		&models.Activity{}, 
+		&models.Subscriber{},
+		&models.Token{},
+	)
 
 	//repositories
 	userRepo := repositories.NewUserRepository(db)

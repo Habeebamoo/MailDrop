@@ -145,3 +145,19 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	c.JSON(statusCode, gin.H{"message": "Profile Updated Successfully"})
 }
+
+func (userHdl *UserHandler) ForgotPassword(c *gin.Context) {
+	var Request models.ForgotPasswordRequest
+	if err := c.ShouldBindJSON(&Request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	statusCode, err := userHdl.svc.ForgotPassword(Request.Email)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": "If this user exists, a reset link will be sent to this email"})
+}

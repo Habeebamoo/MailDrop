@@ -2,6 +2,7 @@ package models
 
 import (
 	"mime/multipart"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -25,6 +26,13 @@ type Profile struct {
 	TotalSubscribers  int		     `json:"totalSubscribers"`
 	TotalClicks       int        `json:"totalClicks"`
 	TotalEmails       int		     `json:"totalEmails"`
+}
+
+type Token struct {
+	Id         uint       `json:"-"          gorm:"autoIncrement"`
+	UserId     uuid.UUID  `json:"userId"`
+	Token      uuid.UUID  `json:"token"      gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
+	ExpiresAt  time.Time  `json:"expiresAt"`
 }
 
 type UserRequest struct {
@@ -53,4 +61,8 @@ type ProfileDetailsRequest struct {
 	Email   string
 	Bio     string
 	Image 	string
+}
+
+type ForgotPasswordRequest struct {
+	Email  string  `json:"email"  binding:"required,email"`
 }
