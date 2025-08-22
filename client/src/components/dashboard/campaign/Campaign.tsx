@@ -127,17 +127,17 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       return
     }
 
-    const csv = Papa.unparse(leads)
+    const csv = Papa.unparse(leads);
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob)
+    const url = URL.createObjectURL(blob);
 
-    const link = document.createElement("a")
-    link.href = url
+    const link = document.createElement("a");
+    link.href = url;
     link.setAttribute("download", `${campaign.title}.csv`);
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   if (loading) return <Loading />

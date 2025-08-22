@@ -8,9 +8,15 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  optimizeDeps: {
+    include: ["papaparse"]
+  },
   build: {
     rollupOptions: {
       external: ["papaparse"]
+    },
+    commonjsOptions: {
+      include: [/papaparse/, /node_modules/]
     }
   }
 })
