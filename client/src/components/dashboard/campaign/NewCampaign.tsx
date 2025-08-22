@@ -99,7 +99,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
                 <span onClick={toggleExpansion} className="text-sm text-open text-primary cursor-pointer">{expandText}</span>
               </div>
               <textarea 
-                rows={expanded ? 20 : 6}
+                rows={expanded ? 25 : 6}
                 id="description" 
                 placeholder="Describe your campaign goals, target audience and key messaging"
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent resize-none"

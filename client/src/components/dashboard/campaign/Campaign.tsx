@@ -86,7 +86,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       {error && <Error title="Unknown Error" text="Failed to get camapign" path="/dashboard/campaigns" pathText="Go Back" /> }
       <div className="flex-between mt-4">
         <h1 className="text-xl text-primary font-inter dark:text-white">{campaign.title}</h1>
-        <button onClick={goBack} className="px-3 flex-center gap-2 text-sm btn-primary">
+        <button onClick={goBack} className="px-3 py-1 flex-center gap-2 text-sm btn-primary">
           <SlArrowLeft />
         </button>
       </div>
