@@ -117,7 +117,7 @@ const SubscriberPage = () => {
         }
         <div className="flex-center mt-8">
           <form onSubmit={handleSubmit} className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm w-[90%] sm:w-[500px]">
-            <h1 className="text-center text-xl text-primary font-open">Be a Member</h1>
+            <h1 className="text-center text-xl text-primary font-open">Become a Member</h1>
             {campaign.leadMagnetName && 
               <p className="text-accent text-[12px] text-center mt-1">
                 Enter your details below and we will send your <b>Gift to your email address</b>

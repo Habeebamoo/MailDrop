@@ -174,7 +174,7 @@ func (campaignRepo *CampaignRepo) GetSubscribers(campaignId uuid.UUID) ([]models
 
 func (campaignRepo *CampaignRepo) SubscriberExist(email string) bool {
 	var subscriber models.Subscriber
-	err := campaignRepo.db.Where("email = ?", subscriber.Email).First(&subscriber).Error
+	err := campaignRepo.db.First(&subscriber,"email = ?", email).Error
 
 	if err == gorm.ErrRecordNotFound {
 		return false
