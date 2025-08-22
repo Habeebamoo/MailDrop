@@ -12,7 +12,7 @@ import { GoHistory } from "react-icons/go"
 import Error from "../Error"
 import { toast } from "react-toastify"
 import Warning from "../Warning"
-import { parse } from "json2csv"
+import Papa from "papaparse"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -122,7 +122,12 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   }
 
   const exportSubscribers = () => {
-    const csv = parse(leads)
+    if (leads.length == 0) {
+      toast.error("You have no subscribers")
+      return
+    }
+
+    const csv = Papa.unparse(leads)
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob)
