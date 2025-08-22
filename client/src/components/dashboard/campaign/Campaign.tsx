@@ -22,7 +22,6 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   const [leads, setLeads] = useState<any[]>([])
   const [query, setQuery] = useState<string>("")
   const [warning, setWarning] = useState<boolean>(false)
-  const [warningConfirmed, setWarningConfirmed] = useState<boolean>(false)
   const { theme } = useTheme()
   const { campaignId } = useCampaignId()
 
