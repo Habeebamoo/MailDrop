@@ -87,7 +87,7 @@ const SubscriberPage = () => {
               <div className="flex-center mx-auto h-30 w-30 bg-accentXLight border-1 border-accentLight rounded-full">
                 <img src={gift} className="h-20" />
               </div>
-              <h1 className="text-primary text-center mt-3">{campaign.leadMagnetUrl}</h1>
+              <h1 className="text-primary text-center mt-3">{campaign.leadMagnetName}</h1>
             </div>
             <p className="text-[12px] text-accent mt-1 text-center">Subscribe to this campaign and receive your gift</p>
           </div>

@@ -17,7 +17,7 @@ const Error = ({
       <div className="p-6 bg-white rounded-sm border-1 border-accentLight flex-center flex-col w-[90%] sm:w-[400px]">
         <FaCircleQuestion size={40} className="mb-2" color="#231e88" />
         <h1 className="font-inter text-xl mb-2">{title}</h1>
-        <p className="text-sm text-accent mb-2">{text}</p>
+        <p className="text-sm text-accent mb-2 text-center">{text}</p>
         <button onClick={() => exitTo(path)} className="btn-primary">{pathText}</button>
       </div>
     </main>

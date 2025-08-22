@@ -34,6 +34,10 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (form.leadMagnetName && !form.leadMagnetUrl) {
+      toast.error("Lead magnet must have a url")
+      return
+    } 
     setLoading(true)
 
     try {
@@ -120,7 +124,6 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent" 
                 value={form.leadMagnetName}
                 onChange={(e) => setForm(prev => ({...prev, leadMagnetName: e.target.value}))}
-                required
               />
             </div>
             {form.leadMagnetName &&
