@@ -29,9 +29,9 @@ const SubscriberPage = () => {
 
   useEffect(() => {
     if (!campaign) return
-    
+
     const click = async () => {
-      const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/click`, {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaignId}/click`, {
         method: "POST",
         headers: {
           "X-API-KEY": import.meta.env.VITE_X_API_KEY
@@ -152,7 +152,7 @@ const SubscriberPage = () => {
                   type="text" 
                   id="name"    
                   placeholder="Enter your full name"             
-                  className="block text-accent p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
+                  className="block p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
                   value={form.name}
                   onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
                   required
@@ -167,7 +167,7 @@ const SubscriberPage = () => {
                   type="email" 
                   id="email"    
                   placeholder="Enter your email address"             
-                  className="block text-accent p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
+                  className="block p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
                   value={form.email}
                   onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
                   required
