@@ -87,6 +87,25 @@ func (campaignHdl *CampaignHandler) GetSubscribers(c *gin.Context) {
 	c.JSON(statusCode, subscribers)
 }
 
+func (campaignHdl *CampaignHandler) CreateSubscriber(c *gin.Context) {
+	var subscriber models.SubscriberRequest
+	if err := c.ShouldBindJSON(&subscriber); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userId, _ := uuid.Parse(subscriber.UserId)
+	campaignId, _ := uuid.Parse(subscriber.CampaignId)
+
+	msg, statusCode, err := campaignHdl.svc.CreateSubscriber(subscriber, userId, campaignId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": msg})
+}
+
 func (campaignHdl *CampaignHandler) DeleteCampaign(c *gin.Context) {
 	campaignIdStr := c.Param("id")
 	if campaignIdStr == "" {

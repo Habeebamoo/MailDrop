@@ -7,18 +7,24 @@ import React, { useEffect, useState } from "react"
 import Loading from "../components/dashboard/Loading"
 import { useSearchParams } from "react-router-dom"
 import Error from "../components/dashboard/Error"
+import { toast } from "react-toastify"
 
 const SubscriberPage = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: ""
-  })
   const [loadingScreen, setLoadingScreen] = useState<boolean>(false)
   const [campaign, setCampaign] = useState<any>([])
   const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [ searchParams ] = useSearchParams()
   const campaignId = searchParams.get("id")
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    campaignId: campaign.campaignId,
+    userId: campaign.userId
+  })
+
+  if (!campaignId) return <Error title="Error" text="Failed to get campaign, make sure you clicked the right URL" path="/" pathText="Go back" />
 
   useEffect(() => {
     setLoadingScreen(true)
@@ -54,11 +60,25 @@ const SubscriberPage = () => {
     setLoading(true)
 
     try {
-      console.log(form)
-    } catch (err) {
-      
-    } finally {
+      const res = await fetch("https://maildrop-znoo.onrender.com/api/subscriber", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
+        },
+        body: JSON.stringify(form)
+      })
+      const response = await res.json()
 
+      if (res.ok) {
+        toast.success(response.message)
+      } else {
+        toast.error(response.error)
+      }
+    } catch (err) {
+      toast.error("Something went wrong.")
+    } finally {
+      setLoading(false)
     }
   } 
 
@@ -115,6 +135,7 @@ const SubscriberPage = () => {
                   className="block text-accent p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
                   value={form.name}
                   onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
+                  required
                 />
                 <div className="absolute top-[11px] left-[10px]"><CiUser size={19} /></div>
               </div>
@@ -129,6 +150,7 @@ const SubscriberPage = () => {
                   className="block text-accent p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
                   value={form.email}
                   onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
+                  required
                 />
                 <div className="absolute top-[11px] left-[10px]"><CiMail size={19} /></div>
               </div>

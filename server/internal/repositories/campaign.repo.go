@@ -16,7 +16,9 @@ type CampaignRepository interface {
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(models.Campaign) (int, error)
+	SubscriberExist(string) bool
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
+	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (int, error)
 }
 
 type CampaignRepo struct {
@@ -135,7 +137,7 @@ func (campaignRepo *CampaignRepo) DeleteCampaign(campaign models.Campaign) (int,
 	//update user profile
 	err := campaignRepo.db.Model(&models.Profile{}).
 									Where("user_id = ?", campaign.UserId).
-									Update("total_campaigns", gorm.Expr("total_campaigns - ?", 1)).Error
+									UpdateColumn("total_campaigns", gorm.Expr("total_campaigns - ?", 1)).Error
 	if err != nil {
 		return 500, fmt.Errorf("failed to update user profile")
 	}	
@@ -168,4 +170,57 @@ func (campaignRepo *CampaignRepo) GetSubscribers(campaignId uuid.UUID) ([]models
 	}
 
 	return subscribers, 200, nil
+}
+
+func (campaignRepo *CampaignRepo) SubscriberExist(email string) bool {
+	var subscriber models.Subscriber
+	err := campaignRepo.db.Where("email = ?", subscriber.Email).First(&subscriber).Error
+
+	if err == gorm.ErrRecordNotFound {
+		return false
+	} else {
+		return true
+	}
+}
+
+func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber, userId uuid.UUID, campaignId uuid.UUID, campaignName string) (int, error) {
+	//create the subscriber
+	err := campaignRepo.db.Create(&subscriber).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to subscribe")
+	}
+
+	//update the user & campaign
+	err = campaignRepo.db.Model(&models.Profile{}).
+									Where("user_id = ?", userId).
+									UpdateColumn("total_subscribers", gorm.Expr("total_subscribers + ?", 1)).
+									Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user profile")
+	}
+
+	err = campaignRepo.db.Model(&models.Campaign{}).
+												Where("campaign_id = ?", campaignId).
+												UpdateColumn("total_subscribers", gorm.Expr("total_subscribers + ?", 1)).
+												Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update campaign")
+	}
+
+	//create the actvity
+	activityName := fmt.Sprintf("%s campaign has a new subscriber", strings.TrimSpace(campaignName))
+
+	activity := models.Activity{
+		UserId: userId,
+		Name: activityName,
+		Type: "campaign",
+		CreatedAt: time.Now(),
+	}
+
+	err = campaignRepo.db.Create(&activity).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user activity")
+	}
+
+	return 200, nil
 }

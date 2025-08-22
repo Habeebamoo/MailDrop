@@ -39,6 +39,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 
 	//new subscriber routes
 	api.GET("/subscriber/campaign/:id", campaignHandler.GetCampaign)
+	api.POST("/subscriber", campaignHandler.CreateSubscriber)
 
 	//user routes
 	user := api.Group("/user", middlewares.AuthenticateUser())

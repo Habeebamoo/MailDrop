@@ -14,6 +14,7 @@ type CampaignService interface {
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(uuid.UUID) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
+	CreateSubscriber(models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
 }
 
 type CampaignSvc struct {
@@ -62,4 +63,32 @@ func (campaignSvc *CampaignSvc) DeleteCampaign(campaignId uuid.UUID) (int, error
 
 func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.Subscriber, int, error) {
 	return campaignSvc.repo.GetSubscribers(campaignId)
+}
+
+func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.SubscriberRequest, userId uuid.UUID, campaignId uuid.UUID) (string, int, error) {
+	//checks if subscriber already exist
+	exists := campaignSvc.repo.SubscriberExist(subscriberReq.Email)
+	if exists {
+		return "You are already a member of this campaign", 200, nil
+	}
+
+	//register the subscriber
+	subscriber := models.Subscriber{
+		CampaignId: campaignId,
+		UserId: userId,
+		Name: subscriberReq.Name,
+		Email: subscriberReq.Email,
+	}
+
+	campaign, code, err := campaignSvc.repo.GetCampaign(subscriber.CampaignId)
+	if err != nil {
+		return "", code, err
+	}
+
+	code, err = campaignSvc.repo.CreateSubscriber(subscriber, userId, campaignId, campaign.Title)
+	if err != nil {
+		return "", code, err
+	}
+
+	return "Registeration Successful", code, err
 }

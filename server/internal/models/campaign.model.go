@@ -58,8 +58,8 @@ type CampaignRequest struct {
 }
 
 type SubscriberRequest struct {
-	CampaignId  uuid.UUID  `json:"campaignId"  binding:"required"`
-	UserId      uuid.UUID  `json:"userId"      binding:"required"`
-	Name        string     `json:"name"        binding:"required"`
-	Email       string     `json:"email"       binding:"required,email"`
+	CampaignId  string  `json:"campaignId"  binding:"required"`
+	UserId      string  `json:"userId"      binding:"required"`
+	Name        string  `json:"name"        binding:"required"`
+	Email       string  `json:"email"       binding:"required,email"`
 }
