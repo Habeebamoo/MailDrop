@@ -49,7 +49,12 @@ func (campaignSvc *CampaignSvc) GetAllCampaigns(userId uuid.UUID) ([]models.Camp
 }
 
 func (campaignSvc *CampaignSvc) DeleteCampaign(campaignId uuid.UUID) (int, error) {
-	return campaignSvc.repo.DeleteCampaign(campaignId)
+	campaign, code, err := campaignSvc.repo.GetCampaign(campaignId)
+	if err != nil {
+		return code, err
+	}
+
+	return campaignSvc.repo.DeleteCampaign(campaign)
 }
 
 func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.Subscriber, int, error) {

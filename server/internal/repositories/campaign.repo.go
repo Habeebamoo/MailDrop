@@ -15,7 +15,7 @@ type CampaignRepository interface {
 	CreateCampaign(models.Campaign, uuid.UUID) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
-	DeleteCampaign(uuid.UUID) (int, error)
+	DeleteCampaign(models.Campaign) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 }
 
@@ -51,7 +51,7 @@ func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign, userI
 	}
 
 	//create the activity
-	activityName := fmt.Sprintf("Created '%s' campaign", campaign.Title)
+	activityName := fmt.Sprintf("Created '%s' campaign", strings.TrimSpace(campaign.Title))
 
 	activity := models.Activity{
 		UserId: userId,
@@ -121,14 +121,38 @@ func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Ca
 	return response, 200, nil
 }
 
-func (campaignRepo *CampaignRepo) DeleteCampaign(campaignId uuid.UUID) (int, error) {
-	res := campaignRepo.db.Where("campaign_id = ?", campaignId).Delete(&models.Campaign{})
+func (campaignRepo *CampaignRepo) DeleteCampaign(campaign models.Campaign) (int, error) {
+	//delete campaign
+	res := campaignRepo.db.Where("campaign_id = ?", campaign.CampaignId).Delete(&models.Campaign{})
 	if res.RowsAffected == 0 {
 		return 500, fmt.Errorf("failed to delete campaign")
 	}
 
 	if res.Error != nil {
 		return 500, fmt.Errorf("internal server error")
+	}
+
+	//update user profile
+	err := campaignRepo.db.Model(&models.Profile{}).
+									Where("user_id = ?", campaign.UserId).
+									Update("total_campaigns", gorm.Expr("total_campaigns - ?", 1)).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user profile")
+	}	
+	
+	//create the activity
+	activityName := fmt.Sprintf("Deleted '%s' campaign", strings.TrimSpace(campaign.Title))
+
+	activity := models.Activity{
+		UserId: campaign.UserId,
+		Name: activityName,
+		Type: "campaign",
+		CreatedAt: time.Now(),
+	}
+
+	err = campaignRepo.db.Create(&activity).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user activity")
 	}
 
 	return 200, nil

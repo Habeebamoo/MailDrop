@@ -12,6 +12,7 @@ import { useCampaignId } from "../../../context/CampaignContext"
 import { GoHistory } from "react-icons/go"
 import Error from "../Error"
 import { toast } from "react-toastify"
+import Warning from "../Warning"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -20,6 +21,8 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   const [error, setError] = useState<boolean>(false)
   const [leads, setLeads] = useState<any[]>([])
   const [query, setQuery] = useState<string>("")
+  const [warning, setWarning] = useState<boolean>(false)
+  const [warningConfirmed, setWarningConfirmed] = useState<boolean>(false)
   const { theme } = useTheme()
   const { campaignId } = useCampaignId()
 
@@ -53,6 +56,33 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     fetchCampaign()
   }, [])
 
+  const deleteCampaign = async () => {
+    setWarning(false)
+    setLoading(true)
+
+    try {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign/${campaign.campaignId}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
+        }
+      })
+      const response = await res.json()
+
+      if (res.ok) {
+        toast.success(response.message)
+      } else {
+        toast.error(response.error)
+      }
+    } catch (err) {
+      toast.error("something went wrong")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const goBack = () => {
     setActiveTab("campaigns")
   }
@@ -84,6 +114,14 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   return (
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       {error && <Error title="Unknown Error" text="Failed to get camapign" path="/dashboard/campaigns" pathText="Go Back" /> }
+      {warning && 
+        <Warning 
+          title="Warning" 
+          text={`Are you sure you want to delete ${campaign.title} campaign`} 
+          setWarning={setWarning}
+          confirmAction={deleteCampaign}
+        />
+      }
       <div className="flex-between mt-4">
         <h1 className="text-xl text-primary font-inter dark:text-white">{campaign.title}</h1>
         <button onClick={goBack} className="px-3 py-1 flex-center gap-2 text-sm btn-primary">
@@ -159,6 +197,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <span className="font-outfit">Share Campaign</span>
         </button>
         <button 
+          onClick={() => setWarning(true)}
           className="flex-start gap-2 p-2 rounded-md mt-4 border-1 border-red-500 text-white bg-red-500 hover:bg-transparent hover:text-red-500 cursor-pointer"
         >
           <BiTrash size={20} />
