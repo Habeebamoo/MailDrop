@@ -171,7 +171,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           onChange={searchLeads}
           placeholder="Search leads..."
         />
-        <BiSearch className="absolute top-[11px] left-[10px]" />
+        <BiSearch className="absolute top-[10px] left-[10px]" />
       </div>
       {leads ? (
         <Pagination data={leads} />

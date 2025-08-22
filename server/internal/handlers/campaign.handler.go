@@ -106,6 +106,13 @@ func (campaignHdl *CampaignHandler) CreateSubscriber(c *gin.Context) {
 	c.JSON(statusCode, gin.H{"message": msg})
 }
 
+func (campaignHdl *CampaignHandler) CampaignClick(c *gin.Context) {
+	campaignIdStr := c.Param("id")
+	campaignId, _ := uuid.Parse(campaignIdStr)
+
+	campaignHdl.svc.CampaignClick(campaignId)
+}
+
 func (campaignHdl *CampaignHandler) DeleteCampaign(c *gin.Context) {
 	campaignIdStr := c.Param("id")
 	if campaignIdStr == "" {

@@ -102,7 +102,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
           onChange={searchCampaigns}
           placeholder="Search campaigns..."
         />
-        <BiSearch className="absolute top-[11px] left-[10px]" />
+        <BiSearch className="absolute top-[10px] left-[10px]" />
       </div>
       <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-2">
       {campaigns.length >= 1 &&

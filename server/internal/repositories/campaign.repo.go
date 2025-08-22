@@ -19,6 +19,7 @@ type CampaignRepository interface {
 	SubscriberExist(string) bool
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (int, error)
+	CreateCampaignClick(uuid.UUID, uuid.UUID)
 }
 
 type CampaignRepo struct {
@@ -208,7 +209,7 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 	}
 
 	//create the actvity
-	activityName := fmt.Sprintf("%s campaign has a new subscriber", strings.TrimSpace(campaignName))
+	activityName := fmt.Sprintf("'%s' campaign has a new subscriber", strings.TrimSpace(campaignName))
 
 	activity := models.Activity{
 		UserId: userId,
@@ -223,4 +224,24 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 	}
 
 	return 200, nil
+}
+
+func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) {
+	//update campaign clicks
+	err := campaignRepo.db.Model(&models.Campaign{}).
+									Where("campaign_id = ?", campaignId).
+									Update("total_clicks", gorm.Expr("total_clicks + ?", 1)).
+									Error
+	if err != nil {
+		return
+	}
+
+	//update user profile clicks
+	err = campaignRepo.db.Model(&models.Profile{}).
+									Where("user_id = ?", userId).
+									Update("total_clicks", gorm.Expr("total_clicks + ?", 1)).
+									Error
+	if err != nil {
+		return
+	}
 }

@@ -28,6 +28,19 @@ const SubscriberPage = () => {
   }
 
   useEffect(() => {
+    const click = () => {
+      fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/click`, {
+        method: "POST",
+        headers: {
+          "X-API-KEY": import.meta.env.VITE_API_KEY
+        }
+      })
+    }
+
+    click()
+  }, [])
+
+  useEffect(() => {
     setLoadingScreen(true)
 
     const fetchCampaign = async () => {
