@@ -19,10 +19,13 @@ const SubscriberPage = () => {
 
   const [form, setForm] = useState({
     name: "",
-    email: "",
+    email: ""
+  })
+
+  const defaultData = {
     campaignId: campaign.campaignId,
     userId: campaign.userId
-  })
+  }
 
   useEffect(() => {
     setLoadingScreen(true)
@@ -57,6 +60,8 @@ const SubscriberPage = () => {
     e.preventDefault()
     setLoading(true)
 
+    const body = {...form, ...defaultData}
+
     try {
       const res = await fetch("https://maildrop-znoo.onrender.com/api/subscriber", {
         method: "POST",
@@ -64,7 +69,7 @@ const SubscriberPage = () => {
           "Content-Type": "application/json",
           "X-API-KEY": import.meta.env.VITE_X_API_KEY
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(body)
       })
       const response = await res.json()
 
@@ -82,7 +87,7 @@ const SubscriberPage = () => {
 
   if (loadingScreen) return <Loading />
 
-  if (error) return <Error title="Error" text="Failed to get campaign, make sure you clicked the right URL" path="/" pathText="Go Back" />
+  if (error) return <Error title="Oops" text="This campaign dosen't exists or it has been deleted" path="/" pathText="Go Back" />
 
   return (
     <>
