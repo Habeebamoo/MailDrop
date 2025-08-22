@@ -14,7 +14,7 @@ const Error = ({
 
   return (
     <main className="fixed top-0 bottom-0 left-0 right-0 flex-center backdrop-blur-md bg-white/10 z-50">
-      <div className="p-6 bg-white rounded-sm border-1 border-accentLight flex-center flex-col">
+      <div className="p-6 bg-white rounded-sm border-1 border-accentLight flex-center flex-col w-[90%] sm:w-[400px]">
         <FaCircleQuestion size={40} className="mb-2" color="#231e88" />
         <h1 className="font-inter text-xl mb-2">{title}</h1>
         <p className="text-sm text-accent mb-2">{text}</p>
