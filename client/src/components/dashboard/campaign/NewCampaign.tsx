@@ -54,7 +54,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
 
       if (res.ok) {
         toast.success(response.message)
-        setTimeout(() => window.location.href = "/dashboard/campaigns", 2000)
+        setTimeout(() => window.location.href = "/dashboard/campaigns", 4000)
       } else {
         toast.error(response.error)
       }
@@ -131,9 +131,9 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
                 <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Lead Magnet URL</label>
                 <div className="relative">
                   <input 
-                    type="url" 
+                    type="text" 
                     id="url" 
-                    placeholder="e.g https://example.com/lead-magnet.pdf"
+                    placeholder="e.g example.com/lead-magnet.pdf"
                     className="text-black dark:text-white py-2 pl-9 pr-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent" 
                     value={form.leadMagnetUrl}
                     onChange={(e) => setForm(prev => ({...prev, leadMagnetUrl: e.target.value}))}
