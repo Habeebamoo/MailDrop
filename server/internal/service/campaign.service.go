@@ -67,12 +67,6 @@ func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.S
 }
 
 func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.SubscriberRequest, userId uuid.UUID, campaignId uuid.UUID) (string, int, error) {
-	//checks if subscriber already exist
-	exists := campaignSvc.repo.SubscriberExist(subscriberReq.Email)
-	if exists {
-		return "You are already a member of this campaign", 200, nil
-	}
-
 	//register the subscriber
 	subscriber := models.Subscriber{
 		CampaignId: campaignId,
@@ -86,12 +80,7 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.Subscriber
 		return "", code, err
 	}
 
-	code, err = campaignSvc.repo.CreateSubscriber(subscriber, userId, campaignId, campaign.Title)
-	if err != nil {
-		return "", code, err
-	}
-
-	return "Registeration Successful", code, err
+	return campaignSvc.repo.CreateSubscriber(subscriber, userId, campaignId, campaign.Title)
 }
 
 func (campaignSvc *CampaignSvc) CampaignClick(campaignId uuid.UUID) (int, error) {

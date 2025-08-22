@@ -95,7 +95,7 @@ const DashboardPage = () => {
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md">
           <div className="flex-between">
-            <p className="font-outfit text-sm text-accent">Clicks</p>
+            <p className="font-outfit text-sm text-accent">Total Campaign Clicks</p>
             <FaRegHandPointer size={17} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalClicks}</h1>

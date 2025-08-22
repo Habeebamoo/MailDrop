@@ -16,9 +16,8 @@ type CampaignRepository interface {
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(models.Campaign) (int, error)
-	SubscriberExist(string) bool
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
-	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (int, error)
+	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
 	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
 }
 
@@ -173,22 +172,14 @@ func (campaignRepo *CampaignRepo) GetSubscribers(campaignId uuid.UUID) ([]models
 	return subscribers, 200, nil
 }
 
-func (campaignRepo *CampaignRepo) SubscriberExist(email string) bool {
-	var subscriber models.Subscriber
-	err := campaignRepo.db.First(&subscriber,"email = ?", email).Error
-
-	if err == gorm.ErrRecordNotFound {
-		return false
-	} else {
-		return true
-	}
-}
-
-func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber, userId uuid.UUID, campaignId uuid.UUID, campaignName string) (int, error) {
+func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber, userId uuid.UUID, campaignId uuid.UUID, campaignName string) (string, int, error) {
 	//create the subscriber
 	err := campaignRepo.db.Create(&subscriber).Error
 	if err != nil {
-		return 500, fmt.Errorf("failed to subscribe")
+		if strings.Contains(err.Error(), "duplicate key value") {
+			return "You are already a member of this campaign", 200, nil
+		}
+		return "", 500, fmt.Errorf("failed to subscribe")
 	}
 
 	//update the user & campaign
@@ -197,7 +188,7 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 									UpdateColumn("total_subscribers", gorm.Expr("total_subscribers + ?", 1)).
 									Error
 	if err != nil {
-		return 500, fmt.Errorf("failed to update user profile")
+		return "", 500, fmt.Errorf("failed to update user profile")
 	}
 
 	err = campaignRepo.db.Model(&models.Campaign{}).
@@ -205,7 +196,7 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 												UpdateColumn("total_subscribers", gorm.Expr("total_subscribers + ?", 1)).
 												Error
 	if err != nil {
-		return 500, fmt.Errorf("failed to update campaign")
+		return "", 500, fmt.Errorf("failed to update campaign")
 	}
 
 	//create the actvity
@@ -220,10 +211,10 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 
 	err = campaignRepo.db.Create(&activity).Error
 	if err != nil {
-		return 500, fmt.Errorf("failed to create user activity")
+		return "", 500, fmt.Errorf("failed to create user activity")
 	}
 
-	return 200, nil
+	return "You have successfully subscribed", 200, nil
 }
 
 func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) (int, error) {
