@@ -12,6 +12,7 @@ import { GoHistory } from "react-icons/go"
 import Error from "../Error"
 import { toast } from "react-toastify"
 import Warning from "../Warning"
+import { parse } from "json2csv"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -120,6 +121,20 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     return str.length > maxLength ? str.slice(0, maxLength) + "..." : str
   }
 
+  const exportSubscribers = () => {
+    const csv = parse(leads)
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement("a")
+    link.href = url
+    link.setAttribute("download", `${campaign.title}.csv`);
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   if (loading) return <Loading />
 
   return (
@@ -168,7 +183,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
 
       <div className="flex-between mt-6">
         <h1 className="text-lg text-primary font-inter dark:text-white">Subscribers</h1>
-        <button className="px-3 flex-center gap-2 text-sm btn-primary">
+        <button onClick={exportSubscribers} className="px-3 flex-center gap-2 text-sm btn-primary">
           <span>Export</span>
           <FaArrowRightFromBracket />
         </button>
