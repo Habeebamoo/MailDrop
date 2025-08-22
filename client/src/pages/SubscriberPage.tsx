@@ -32,7 +32,7 @@ const SubscriberPage = () => {
       const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/click`, {
         method: "POST",
         headers: {
-          "X-API-KEY": import.meta.env.VITE_API_KEY
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
         }
       })
       const response = await res.json()
@@ -177,7 +177,7 @@ const SubscriberPage = () => {
             <p className="mt-6 text-[10px] text-accent text-center"><i>By submitting this form, you agree to receive marketing emails from <b>MailDrop</b>. You can unsubscribe any time. We respect your privacy and will never share your information</i></p>
           </form>
         </div>
-        <div className="flex-center gap-4 py-4 text-sm text-accent">
+        <div className="flex-center gap-4 py-4 text-[11px] text-accent">
             <div className="flex-center gap-1">
               <IoShieldOutline />
               <span>100% Secure</span>
