@@ -72,6 +72,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
 
       if (res.ok) {
         toast.success(response.message)
+        setTimeout(() => window.location.href = "/dashboard/campaigns", 2500)
       } else {
         toast.error(response.error)
       }
