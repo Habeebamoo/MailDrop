@@ -19,7 +19,7 @@ type CampaignRepository interface {
 	SubscriberExist(string) bool
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (int, error)
-	CreateCampaignClick(uuid.UUID, uuid.UUID)
+	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
 }
 
 type CampaignRepo struct {
@@ -226,14 +226,14 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 	return 200, nil
 }
 
-func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) {
+func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) (int, error) {
 	//update campaign clicks
 	err := campaignRepo.db.Model(&models.Campaign{}).
 									Where("campaign_id = ?", campaignId).
 									Update("total_clicks", gorm.Expr("total_clicks + ?", 1)).
 									Error
 	if err != nil {
-		return
+		return 500, fmt.Errorf("failed to update campaign")
 	}
 
 	//update user profile clicks
@@ -242,6 +242,8 @@ func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UU
 									Update("total_clicks", gorm.Expr("total_clicks + ?", 1)).
 									Error
 	if err != nil {
-		return
+		return 500, fmt.Errorf("failed to update user's profile")
 	}
+
+	return 200, nil
 }

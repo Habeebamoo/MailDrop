@@ -110,7 +110,13 @@ func (campaignHdl *CampaignHandler) CampaignClick(c *gin.Context) {
 	campaignIdStr := c.Param("id")
 	campaignId, _ := uuid.Parse(campaignIdStr)
 
-	campaignHdl.svc.CampaignClick(campaignId)
+	statusCode, err := campaignHdl.svc.CampaignClick(campaignId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": "New Click"})
 }
 
 func (campaignHdl *CampaignHandler) DeleteCampaign(c *gin.Context) {

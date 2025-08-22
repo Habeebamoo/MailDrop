@@ -15,7 +15,7 @@ type CampaignService interface {
 	DeleteCampaign(uuid.UUID) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	CreateSubscriber(models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
-	CampaignClick(uuid.UUID)
+	CampaignClick(uuid.UUID) (int, error)
 }
 
 type CampaignSvc struct {
@@ -94,12 +94,12 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.Subscriber
 	return "Registeration Successful", code, err
 }
 
-func (campaignSvc *CampaignSvc) CampaignClick(campaignId uuid.UUID) {
+func (campaignSvc *CampaignSvc) CampaignClick(campaignId uuid.UUID) (int, error) {
 	//get the user associated with the campaign
-	campaign, _, err := campaignSvc.repo.GetCampaign(campaignId)
+	campaign, code, err := campaignSvc.repo.GetCampaign(campaignId)
 	if err != nil {
-		return
+		return code, err
 	}
 
-	campaignSvc.repo.CreateCampaignClick(campaign.UserId, campaign.CampaignId)
+	return campaignSvc.repo.CreateCampaignClick(campaign.UserId, campaign.CampaignId)
 }
