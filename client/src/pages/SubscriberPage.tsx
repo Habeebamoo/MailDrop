@@ -28,6 +28,8 @@ const SubscriberPage = () => {
   }
 
   useEffect(() => {
+    if (!campaign) return
+    
     const click = async () => {
       const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/click`, {
         method: "POST",
