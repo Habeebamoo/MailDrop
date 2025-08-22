@@ -14,6 +14,8 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
   const { user } = useUser()
   const [form, setForm] = useState({
     userId: user?.userId,
+    username: user?.name,
+    userbio: user?.profile.bio,
     title: "",
     description: "",
     leadMagnetName: "",
