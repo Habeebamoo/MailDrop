@@ -18,6 +18,7 @@ import ResetPage from "./pages/ResetPage"
 import Error from "./components/dashboard/Error"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/ReactToastify.css"
+import SubscriberPage from "./pages/SubscriberPage"
 
 const App = () => {
   const router = createBrowserRouter(
@@ -33,7 +34,7 @@ const App = () => {
         </Route>
         <Route path="/forgot" element={<ForgotPage />} />
         <Route path="/reset" element={<ResetPage />} />
-        <Route path="/campaign" />
+        <Route path="/campaign" element={<SubscriberPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </>
     )

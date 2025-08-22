@@ -37,6 +37,9 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		auth.POST("/reset-password", userHandler.ResetPassword)
 	}
 
+	//new subscriber routes
+	api.GET("/subscriber/campaign/:id", campaignHandler.GetCampaign)
+
 	//user routes
 	user := api.Group("/user", middlewares.AuthenticateUser())
 	{

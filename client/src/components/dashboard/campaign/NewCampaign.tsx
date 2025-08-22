@@ -16,6 +16,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
     userId: user?.userId,
     title: "",
     description: "",
+    leadMagnetName: "",
     leadMagnetUrl: ""
   })
   const [loading, setLoading] = useState<boolean>(false)
@@ -109,19 +110,33 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
               ></textarea>
             </div>
             <div className="mt-4 mb-2">
-              <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Lead Magnet URL (Optional)</label>
-              <div className="relative">
-                <input 
-                  type="url" 
-                  id="url" 
-                  placeholder="e.g https://example.com/lead-magnet.pdf"
-                  className="text-black dark:text-white py-2 pl-9 pr-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent" 
-                  value={form.leadMagnetUrl}
-                  onChange={(e) => setForm(prev => ({...prev, leadMagnetUrl: e.target.value}))}
-                />
-                <FiLink color="rgb(121, 120, 120)" size={19} className="absolute top-[12px] left-[12px]" />
-              </div>
+              <label htmlFor="lead-magnet" className="block font-outfit text-black dark:text-accentLight">Lead Magnet Name (optional)</label>
+              <input 
+                type="text" 
+                id="lead-magnet" 
+                placeholder="e.g Forex trading course"
+                className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent" 
+                value={form.leadMagnetName}
+                onChange={(e) => setForm(prev => ({...prev, leadMagnetName: e.target.value}))}
+                required
+              />
             </div>
+            {form.leadMagnetName &&
+              <div className="mt-4 mb-2">
+                <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Lead Magnet URL</label>
+                <div className="relative">
+                  <input 
+                    type="url" 
+                    id="url" 
+                    placeholder="e.g https://example.com/lead-magnet.pdf"
+                    className="text-black dark:text-white py-2 pl-9 pr-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent" 
+                    value={form.leadMagnetUrl}
+                    onChange={(e) => setForm(prev => ({...prev, leadMagnetUrl: e.target.value}))}
+                  />
+                  <FiLink color="rgb(121, 120, 120)" size={19} className="absolute top-[12px] left-[12px]" />
+                </div>
+              </div>
+            }
             <div className="flex-start gap-2 mt-6">
               <button className="flex-center gap-2 btn-primary">
                 <IoSave />

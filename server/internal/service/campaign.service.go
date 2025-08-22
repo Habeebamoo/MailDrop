@@ -30,8 +30,11 @@ func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignReques
 
 	campaign := models.Campaign{
 		UserId: userId,
+		UserName: campaignReq.UserName,
+		UserBio: campaignReq.UserBio,
 		Title: campaignReq.Title,
 		Description: campaignReq.Description,
+		LeadMagnetName: campaignReq.LeadMagnetName,
 		LeadMagnetUrl: campaignReq.LeadMagnetUrl,
 		Slug: "",
 		CreatedAt: time.Now(),

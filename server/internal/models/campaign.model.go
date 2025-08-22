@@ -9,9 +9,12 @@ import (
 type Campaign struct {
 	Id                uint       `json:"-"             gorm:"autoIncrement"`
 	UserId            uuid.UUID  `json:"userId"`
+	UserName          string     `json:"username"`
+	UserBio           string     `json:"userbio"`
 	CampaignId        uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
 	Title             string     `json:"title"         gorm:"unique"`
 	Description       string     `json:"description"`
+	LeadMagnetName    string     `json:"leadMagnetName"`
 	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
 	Slug              string     `json:"slug"`
 	TotalSubscribers  int        `json:"totalSubscribers"`
@@ -31,8 +34,11 @@ type Subscriber struct {
 type CampaignResponse struct {
 	UserId            uuid.UUID  `json:"userId"`
 	CampaignId        uuid.UUID  `json:"campaignId"`
+	UserName          string     `json:"username"`
+	UserBio           string     `json:"userbio"`
 	Title             string     `json:"title"`
 	Description       string     `json:"description"`
+	LeadMagnetName    string     `json:"leadMagnetName"`
 	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
 	Slug              string		 `json:"slug"`
 	TotalSubscribers  int        `json:"totalSubscribers"`
@@ -42,10 +48,13 @@ type CampaignResponse struct {
 }
 
 type CampaignRequest struct {
-	UserId         string  `json:"userId"         binding:"required"`
-	Title          string  `json:"title"          binding:"required"`
-	Description    string  `json:"description"    binding:"required"`
-	LeadMagnetUrl  string  `json:"leadMagnetUrl"`
+	UserId          string  `json:"userId"         binding:"required"`
+	UserName        string  `json:"username"       binding:"required"`
+	UserBio         string  `json:"userbio"        binding:"required"`
+	Title           string  `json:"title"          binding:"required"`
+	Description     string  `json:"description"    binding:"required"`
+	LeadMagnetName  string  `json:"leadMagnetName"`
+	LeadMagnetUrl   string  `json:"leadMagnetUrl"`
 }
 
 type SubscriberRequest struct {
