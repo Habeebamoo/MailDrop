@@ -24,8 +24,6 @@ const SubscriberPage = () => {
     userId: campaign.userId
   })
 
-  if (!campaignId) return <Error title="Error" text="Failed to get campaign, make sure you clicked the right URL" path="/" pathText="Go back" />
-
   useEffect(() => {
     setLoadingScreen(true)
 
@@ -84,7 +82,7 @@ const SubscriberPage = () => {
 
   if (loadingScreen) return <Loading />
 
-  if (error) return <Error title="Error" text="Failed to get campaign, make sure you clicked the right URL" path="/" pathText="Go back" />
+  if (error) return <Error title="Error" text="Failed to get campaign, make sure you clicked the right URL" path="/" pathText="Go Back" />
 
   return (
     <>
