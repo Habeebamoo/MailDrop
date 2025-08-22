@@ -96,7 +96,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             <div className="mt-4 mb-2">
               <div className="flex-between pr-1 mb-2">
                 <label htmlFor="description" className="block font-outfit text-black dark:text-accentLight">Campaign Description</label>
-                <span onClick={toggleExpansion} className="text-sm text-open text-primary cursor-pointer">{expandText}</span>
+                <span onClick={toggleExpansion} className="text-sm text-open text-primary cursor-pointer dark:text-blue-200">{expandText}</span>
               </div>
               <textarea 
                 rows={expanded ? 25 : 6}

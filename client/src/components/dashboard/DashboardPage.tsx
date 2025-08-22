@@ -72,6 +72,8 @@ const DashboardPage = () => {
     return recent.reverse();
   }
 
+  const recentCampaigns = campaigns.slice(-3).reverse()
+
   return (
     <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       <h1 className="text-2xl text-primary font-inter mt-4 dark:text-white">Overview</h1>
@@ -109,7 +111,7 @@ const DashboardPage = () => {
           </div>
         }
         {campaigns.length >= 1 &&
-          campaigns.map(campaign => {
+          recentCampaigns.map(campaign => {
             return (
               <div className="grid grid-cols-3 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
                 <p>{campaign.title}</p>
