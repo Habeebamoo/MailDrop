@@ -16,10 +16,9 @@ import Warning from "../Warning"
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
   const [campaign, setCampaign] = useState<any>()
-  const [subscribers, setSubscribers] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<boolean>(false)
-  const [leads, setLeads] = useState<any[]>(subscribers)
+  const [leads, setLeads] = useState<any[]>([])
   const [query, setQuery] = useState<string>("")
   const [warning, setWarning] = useState<boolean>(false)
   const { theme } = useTheme()
@@ -69,7 +68,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         const response = await res.json()
 
         if (res.ok) {
-          setSubscribers(response)
+          setLeads(response)
         }
       } catch (err) {
         console.log(err)
@@ -112,7 +111,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   }
 
   useEffect(() => {
-    if (query == "") setLeads(subscribers)
+    if (query == "") setLeads([])
   }, [query])
   
   const copySlug = () => {
@@ -141,7 +140,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       {warning && 
         <Warning 
           title="Warning" 
-          text={`Are you sure you want to delete ${campaign.title} campaign`} 
+          text={`Are you sure you want to delete "${campaign.title}" campaign`} 
           setWarning={setWarning}
           confirmAction={deleteCampaign}
         />

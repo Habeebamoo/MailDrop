@@ -185,7 +185,7 @@ const SubscriberPage = () => {
               <span>100% Secure</span>
             </div>
             <div className="flex-center gap-1">
-              <BiMailSend size={17} />
+              <BiMailSend />
               <span>No Spam</span>
             </div>
             <div className="flex-center gap-1">
