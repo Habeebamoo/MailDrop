@@ -95,9 +95,16 @@ const SubscriberPage = () => {
         <div className="flex-center mt-8">
           <form onSubmit={handleSubmit} className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm w-[90%] sm:w-[500px]">
             <h1 className="text-center text-xl text-primary font-open">Be a Member</h1>
-            <p className="text-accent text-[12px] text-center mt-1">
-              {`Enter your details below ${campaign.leadMagnetName ? "and we will send your <b>Gift</b> to your email" : "to subscribe"}`}
-            </p>
+            {campaign.leadMagnetName && 
+              <p className="text-accent text-[12px] text-center mt-1">
+                Enter your details below and we will send your <b>Gift to your email address</b>
+              </p>
+            }
+            {!campaign.leadMagnetName &&
+              <p className="text-accent text-[12px] text-center mt-1">
+                Enter your details below to subscribe
+              </p>
+            }
             <div className="mt-8">
               <label className="text-sm text-accent mb-2 block" htmlFor="name">Full Name *</label>
               <div className="relative">
