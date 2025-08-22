@@ -6,6 +6,7 @@ import (
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/service"
+	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -18,6 +19,10 @@ func NewUserHandler(svc service.UserService) UserHandler {
 	return UserHandler{svc: svc}
 } 
 
+var (
+	Capitalize = utils.Capitalize
+)
+
 func (usrHdl *UserHandler) Register(c *gin.Context) {
 	var userReq models.UserRequest
 	if err := c.ShouldBindJSON(&userReq); err != nil {
@@ -27,7 +32,7 @@ func (usrHdl *UserHandler) Register(c *gin.Context) {
 
 	statusCode, err := usrHdl.svc.CreateUser(userReq)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -43,7 +48,7 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 
 	token, statusCode, err := usrHdl.svc.LoginUser(userReq)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -78,7 +83,7 @@ func (usrHdl *UserHandler) GetUser(c *gin.Context) {
 	userId := raw.(uuid.UUID)
 	user, statusCode, err := usrHdl.svc.GetUser(userId)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -121,7 +126,7 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	image, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -139,7 +144,7 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	statusCode, err := usrHdl.svc.UpdateProfile(profileReq)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -155,7 +160,7 @@ func (userHdl *UserHandler) ForgotPassword(c *gin.Context) {
 
 	statusCode, err := userHdl.svc.ForgotPassword(Request.Email)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -174,7 +179,7 @@ func (userHdl *UserHandler) ResetPassword(c *gin.Context) {
 
 	statusCode, err := userHdl.svc.ResetPassword(token, newPassword)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return	
 	}
 

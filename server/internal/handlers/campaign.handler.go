@@ -26,7 +26,7 @@ func (campaignHdl *CampaignHandler) CreateCampaign(c *gin.Context) {
 
 	statusCode, err := campaignHdl.svc.CreateCampaign(campaignReq)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -98,7 +98,7 @@ func (campaignHdl *CampaignHandler) DeleteCampaign(c *gin.Context) {
 
 	statusCode, err := campaignHdl.svc.DeleteCampaign(campaignId)
 	if err != nil {
-		c.JSON(statusCode, gin.H{"error": err.Error()})
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 

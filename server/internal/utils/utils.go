@@ -8,6 +8,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func HashPassword(password string) (string, error) {
@@ -46,4 +48,17 @@ func GetTimeAgo(t time.Time) string {
 	default:
 		return fmt.Sprintf("%d years ago", int(duration.Hours()/(24*365)))
 	}
+}
+
+func Capitalize(str string, every bool) string {
+	caser := cases.Title(language.English)
+
+	if every {
+		return caser.String(str)
+	}
+
+	firstChar := str[:1]
+	restChars := str[1:]
+
+	return caser.String(firstChar) + restChars
 }
