@@ -1,4 +1,4 @@
-import { BiArrowBack, BiSearch, BiTrash } from "react-icons/bi"
+import { BiArrowBack, BiTrash } from "react-icons/bi"
 import { FaArrowRightFromBracket, FaGears } from "react-icons/fa6"
 import { useTheme } from "../../../context/ThemeContext"
 import { CgMail } from "react-icons/cg"
@@ -19,7 +19,6 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<boolean>(false)
   const [leads, setLeads] = useState<any[]>([])
-  const [query, setQuery] = useState<string>("")
   const [warning, setWarning] = useState<boolean>(false)
   const { theme } = useTheme()
   const { campaignId } = useCampaignId()
@@ -110,21 +109,10 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     setActiveTab("campaigns")
   }
 
-  useEffect(() => {
-    if (query == "") setLeads([])
-  }, [query])
-  
   const copySlug = () => {
     navigator.clipboard.writeText(campaign.slug).then(() => {
       toast.success("Campaign url copied to clipboard")
     })
-  }
-
-  const searchLeads = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-    const lowerQuery = query.toLowerCase()
-    const result = leads.filter((item) => item.name.toLowerCase().includes(lowerQuery))
-    setLeads(result)
   }
 
   const getBriefOf = (str: string) => {
@@ -187,16 +175,6 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       </div>
       <p className="text-sm text-accent mb-4">Manage and track your leads</p>
 
-      <div className="text-accent relative">
-        <input 
-          type="search"
-          className="bg-white rounded-md py-2 px-8 border-1 border-accentLight text-sm"
-          value={query}
-          onChange={searchLeads}
-          placeholder="Search leads..."
-        />
-        <BiSearch className="absolute top-[10px] left-[10px]" />
-      </div>
       {leads ? (
         <Pagination data={leads} />
       ) : (

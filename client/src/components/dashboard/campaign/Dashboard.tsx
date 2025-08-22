@@ -1,7 +1,7 @@
 import { SlArrowRight } from "react-icons/sl"
 import { useTheme } from "../../../context/ThemeContext"
 import { IoIosSend } from "react-icons/io";
-import { BiPlus, BiSearch } from "react-icons/bi";
+import { BiPlus } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import { GoHistory } from "react-icons/go";
 import { useEffect, useState } from "react";
@@ -10,9 +10,7 @@ import { useCampaignId } from "../../../context/CampaignContext";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
-  const [initCampaign, setInitCampaign] = useState<any[]>([])
   const [campaigns, setCampaigns] = useState<any[]>([])
-  const [query, setQuery] = useState<string>("")
   const { theme } = useTheme()
   const { user } = useUser()
   const { setCampaignId } = useCampaignId()
@@ -33,7 +31,6 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         const response = await res.json()
 
         if (res.ok) {
-          setInitCampaign(response)
           setCampaigns(response)
         } else {
           return
@@ -53,17 +50,6 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
   const toLeads = (id: string) => {
     setActiveTab("leads")
     setCampaignId(id)
-  }
-
-  useEffect(() => {
-    if (query == "") setCampaigns(initCampaign)
-  }, [query])
-
-  const searchCampaigns = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-    const lowerQuery = query.toLowerCase()
-    const result = campaigns.filter((item) => item.name.toLowerCase().includes(lowerQuery))
-    setCampaigns(result)
   }
   
   return (
@@ -94,16 +80,6 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         </div>
       </div>
       <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit">All Campaigns</h1>
-      <div className="text-accent relative my-4">
-        <input 
-          type="search"
-          className="bg-white rounded-md py-2 px-8 border-1 border-accentLight text-sm"
-          value={query}
-          onChange={searchCampaigns}
-          placeholder="Search campaigns..."
-        />
-        <BiSearch className="absolute top-[10px] left-[10px]" />
-      </div>
       <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-2">
       {campaigns.length >= 1 &&
           <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 dark:text-white py-3 text-center">
