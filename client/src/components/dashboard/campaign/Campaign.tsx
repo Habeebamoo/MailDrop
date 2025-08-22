@@ -1,6 +1,5 @@
-import { BiSearch, BiTrash } from "react-icons/bi"
+import { BiArrowBack, BiSearch, BiTrash } from "react-icons/bi"
 import { FaArrowRightFromBracket, FaGears } from "react-icons/fa6"
-import { SlArrowLeft } from "react-icons/sl"
 import { useTheme } from "../../../context/ThemeContext"
 import { CgMail } from "react-icons/cg"
 import { FiLink, FiUsers } from "react-icons/fi"
@@ -124,9 +123,10 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       }
       <div className="flex-between mt-4">
         <h1 className="text-xl text-primary font-inter dark:text-white">{campaign.title}</h1>
-        <button onClick={goBack} className="px-3 py-1 flex-center gap-2 text-sm btn-primary">
-          <SlArrowLeft />
-        </button>
+          <button onClick={goBack} className="px-3 flex-center gap-1 btn-primary">
+            <BiArrowBack />
+            <span>Back</span>
+          </button>
       </div>
       <p className="text-sm text-accent mb-4 max-md:mt-2">{getBriefOf(campaign.description)}</p>
 
