@@ -54,7 +54,7 @@ const SubscriberPage = () => {
     setLoading(true)
 
     try {
-
+      console.log(form)
     } catch (err) {
       
     } finally {
@@ -93,7 +93,7 @@ const SubscriberPage = () => {
           </div>
         }
         <div className="flex-center mt-8">
-          <form className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm w-[90%] sm:w-[500px]">
+          <form onSubmit={handleSubmit} className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm w-[90%] sm:w-[500px]">
             <h1 className="text-center text-xl text-primary font-open">Be a Member</h1>
             <p className="text-accent text-[12px] text-center mt-1">Enter your details below and we will send your <b>Gift</b> to your email</p>
             <div className="mt-8">
@@ -104,6 +104,8 @@ const SubscriberPage = () => {
                   id="name"    
                   placeholder="Enter your full name"             
                   className="block text-accent p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
+                  value={form.name}
+                  onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
                 />
                 <div className="absolute top-[11px] left-[10px]"><CiUser size={19} /></div>
               </div>
@@ -116,6 +118,8 @@ const SubscriberPage = () => {
                   id="email"    
                   placeholder="Enter your email address"             
                   className="block text-accent p-2 pl-9 border-1 w-full rounded-md border-accentLight placeholder:text-sm font-outfit"  
+                  value={form.email}
+                  onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
                 />
                 <div className="absolute top-[11px] left-[10px]"><CiMail size={19} /></div>
               </div>
