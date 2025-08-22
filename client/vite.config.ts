@@ -10,7 +10,7 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      external: ['papaparse']
+      external: ["papaparse"]
     }
   }
 })
