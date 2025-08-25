@@ -111,6 +111,7 @@ func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.Ca
 			CampaignId: campaign.CampaignId,
 			Title: campaign.Title,
 			Description: campaign.Description,
+			LeadMagnetName: campaign.LeadMagnetName,
 			LeadMagnetUrl: campaign.LeadMagnetUrl,
 			Slug: campaign.Slug,
 			TotalSubscribers: campaign.TotalSubscribers,
@@ -205,7 +206,7 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 	activity := models.Activity{
 		UserId: userId,
 		Name: activityName,
-		Type: "campaign",
+		Type: "lead",
 		CreatedAt: time.Now(),
 	}
 
@@ -214,7 +215,7 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 		return "", 500, fmt.Errorf("failed to create user activity")
 	}
 
-	return "You have successfully subscribed", 200, nil
+	return "You have successfully Subscribed", 200, nil
 }
 
 func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) (int, error) {

@@ -10,6 +10,8 @@ const History = ({ title, backupText, history }: { title: string, backupText: st
       return <BsCircleFill size={8} color="green" />
     } else if (type === "email") {
       return <BsCircleFill size={8} color="blue" />
+    } else if (type === "lead") {
+      return <BsCircleFill size={8} color="orange" />
     } else {
       return <BsCircleFill size={8} color="purple" />
     }

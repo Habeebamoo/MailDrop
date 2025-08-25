@@ -7,7 +7,7 @@ import (
 )
 
 type Activity struct {
-	Id         uint       `json:"-"           gorm:"autoIncrement"`
+	Id         uint       `json:"-"           gorm:"primaryKey;autoIncrement"`
 	UserId     uuid.UUID  `json:"userId"`
 	Name       string     `json:"name"`
 	Type       string     `json:"type"`

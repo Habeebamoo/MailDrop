@@ -5,6 +5,7 @@ import (
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
+	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/google/uuid"
 )
 
@@ -67,7 +68,6 @@ func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.S
 }
 
 func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.SubscriberRequest, userId uuid.UUID, campaignId uuid.UUID) (string, int, error) {
-	//register the subscriber
 	subscriber := models.Subscriber{
 		CampaignId: campaignId,
 		UserId: userId,
@@ -75,12 +75,29 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.Subscriber
 		Email: subscriberReq.Email,
 	}
 
+	//get the campaign
 	campaign, code, err := campaignSvc.repo.GetCampaign(subscriber.CampaignId)
 	if err != nil {
 		return "", code, err
 	}
 
-	return campaignSvc.repo.CreateSubscriber(subscriber, userId, campaignId, campaign.Title)
+	//register the subscriber
+	msg, code, err := campaignSvc.repo.CreateSubscriber(subscriber, userId, campaignId, campaign.Title)
+	if err != nil {
+		return msg, code, err
+	}
+
+	//send reward to subscriber's email
+	if (campaign.LeadMagnetName == "") {
+		return msg, code, err
+	}
+
+	code, err = utils.SendRewardEmail(subscriber.Name, subscriber.Email, campaign.Title, campaign.LeadMagnetUrl)
+	if err != nil {
+		return "", code, err
+	}
+
+	return msg, code, nil
 }
 
 func (campaignSvc *CampaignSvc) CampaignClick(campaignId uuid.UUID) (int, error) {

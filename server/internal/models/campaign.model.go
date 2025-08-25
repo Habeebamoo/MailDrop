@@ -24,7 +24,7 @@ type Campaign struct {
 }
 
 type Subscriber struct {
-	Id          uint       `json:"-"           gorm:"autoIncrement"`
+	Id          uint       `json:"-"           gorm:"primaryKey;autoIncrement"`
 	CampaignId  uuid.UUID  `json:"campaignId"  gorm:"not null;index:uniq_email_campaign,unique"`
 	UserId      uuid.UUID  `json:"userId"`
 	Name        string     `json:"name"`

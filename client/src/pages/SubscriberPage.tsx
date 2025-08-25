@@ -3,7 +3,7 @@ import logo from "../assets/logo.png"
 import gift from "../assets/gift.png"
 import { IoShieldOutline } from "react-icons/io5"
 import { CiMail, CiUser } from "react-icons/ci"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Loading from "../components/dashboard/Loading"
 import { useSearchParams } from "react-router-dom"
 import Error from "../components/dashboard/Error"
@@ -29,6 +29,10 @@ const SubscriberPage = () => {
 
   useEffect(() => {
     if (!campaign) return
+
+    const hasFetched = useRef(false)
+    if (hasFetched.current) return;
+    hasFetched.current = true;
 
     const click = async () => {
       const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaignId}/click`, {
@@ -122,7 +126,7 @@ const SubscriberPage = () => {
         </div>
         {campaign.leadMagnetName &&
           <div className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm mt-6 w-[90%] sm:w-[500px] mx-auto mb-4">
-            <h1 className="text-primary font-outfit text-lg text-center">Free Gift Available</h1>
+            <h1 className="text-primary font-outfit text-lg text-center">Free Reward Available</h1>
             <div className="my-5">
               <div className="flex-center mx-auto h-30 w-30 bg-accentXLight border-1 border-accentLight rounded-full">
                 <img src={gift} className="h-20" />
