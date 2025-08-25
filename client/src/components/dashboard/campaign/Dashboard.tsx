@@ -51,6 +51,11 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
     setActiveTab("leads")
     setCampaignId(id)
   }
+
+  const getBriefOf = (str: string) => {
+    const maxLength = 75;
+    return str.length > maxLength ? str.slice(0, maxLength) + "..." : str
+  }
   
   return (
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
@@ -99,7 +104,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                       <SlArrowRight size={10} />
                     </button>
                   </div>
-                  <p className="text-sm text-accent font-open mt-1">{campaign.description}</p>
+                  <p className="text-sm text-accent font-open mt-1">{getBriefOf(campaign.description)}</p>
                   <div className="flex-start gap-1 mt-1">
                     <div className="flex-start bg-fade p-1 rounded-full pr-3 gap-2 text-[10px] mt-2">
                       <div className="bg-yellow-500 text-white py-1 px-2 rounded-full">Subscribers</div>

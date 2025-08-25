@@ -215,7 +215,7 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 		return "", 500, fmt.Errorf("failed to create user activity")
 	}
 
-	return "You have successfully Subscribed", 200, nil
+	return "Subscription successful", 200, nil
 }
 
 func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) (int, error) {

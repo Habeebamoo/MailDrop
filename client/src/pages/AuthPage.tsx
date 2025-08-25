@@ -63,7 +63,11 @@ const AuthPage = () => {
         } else {
           setStatus("success")
           setMsg(response.message)
-          setTimeout(() => { setIsLogin(true) }, 2000)
+          setTimeout(() => { 
+            setIsLogin(true) 
+            setStatus("")
+            setMsg("")
+          }, 2000)
         }
        }
     } catch (err: any) {

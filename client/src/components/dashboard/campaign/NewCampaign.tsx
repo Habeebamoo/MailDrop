@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
-import { FaRegEye } from "react-icons/fa"
 import { FiLink, FiTarget } from "react-icons/fi"
 import { IoMdCheckmarkCircle } from "react-icons/io"
 import { IoSave } from "react-icons/io5"
@@ -142,16 +141,10 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
                 </div>
               </div>
             }
-            <div className="flex-start gap-2 mt-6">
-              <button className="flex-center gap-2 btn-primary">
-                <IoSave />
-                <span>Create Campaign</span>
-              </button>
-              <div className="flex-center gap-2 bg-transparent text-black border-black hover:text-black hover:bg-accentLight dark:text-accentLight dark:border-accentLight btn-primary">
-                <FaRegEye />
-                <span>Preview</span>
-              </div>
-            </div>
+            <button className="flex-center gap-2 btn-primary mt-6">
+              <IoSave />
+              <span>Create Campaign</span>
+            </button>
           </form>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3 mt-4">

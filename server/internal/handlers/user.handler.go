@@ -73,6 +73,28 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 	c.JSON(statusCode, gin.H{"message": "Login Successful"})
 }
 
+func (userHdl *UserHandler) Logout(c *gin.Context) {
+	//overide the cookie
+	cookieName := "auth_token"
+	path := "/"
+	domain := ""
+	maxAge := -1
+
+	c.SetCookie(cookieName, "", maxAge, path, domain, true, true)
+	c.Header("Set-Cookie", 
+		cookieName+"="+""+
+		"; Path="+path+
+		"; Domain="+domain+
+		"; Max-Age="+fmt.Sprint(maxAge)+
+		"; Secure"+
+		"; HttpOnly"+
+		"; SameSite=None"+
+		"; Partitioned",
+	)
+
+	c.JSON(200, gin.H{"message": "Signed out Successfully"})
+}
+
 func (usrHdl *UserHandler) GetUser(c *gin.Context) {
 	raw, exists := c.Get("userId")
 	if !exists {

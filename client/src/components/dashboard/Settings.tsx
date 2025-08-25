@@ -60,6 +60,7 @@ const Settings = () => {
         method: "POST",
         credentials: "include",
         headers: {
+          "Content-Type": "application/json",
           "X-API-KEY": import.meta.env.VITE_X_API_KEY
         },
         body: data
@@ -74,6 +75,36 @@ const Settings = () => {
       }
     } catch (err) {
         toast.error("Something went wrong")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const logout = async () => {
+    setLoading(true)
+
+    try {
+      const res = await fetch("https://maildrop-znoo.onrender.com/api/user/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
+        },
+      })
+      const response = await res.json()
+      
+      if (!res.ok) {
+        toast.error("Something went wrong.")
+        return
+      }
+
+      toast.success(response.message)
+      setTimeout(() => {
+        window.location.href = "/login"
+      }, 2000)
+    } catch (err) {
+      toast.error("Something went wrong.")
     } finally {
       setLoading(false)
     }
@@ -174,6 +205,7 @@ const Settings = () => {
             <span className="font-outfit">Enable {theme == "light" ? "Dark" : "Light"} Theme</span>
           </button>
           <button 
+            onClick={logout}
             className="flex-start gap-2 p-2 rounded-md mt-4 border-1 bg-red-500 text-white border-red-500 hover:bg-transparent hover:text-red-500 cursor-pointer"
           >
             <HiArrowLeftStartOnRectangle size={20} />

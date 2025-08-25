@@ -51,6 +51,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		user.GET("/me", userHandler.GetUser)
 		user.GET("/activities", userHandler.GetActivities)
 		user.POST("/profile", userHandler.UpdateProfile)
+		user.POST("/logout", userHandler.Logout)
 	}
 	
 	//campaign routes
