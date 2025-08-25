@@ -3,10 +3,10 @@ import { useTheme } from "../../../context/ThemeContext"
 import { IoIosSend } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
-import { GoHistory } from "react-icons/go";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../context/UserContext";
 import { useCampaignId } from "../../../context/CampaignContext";
+import campaignImg from "../../../assets/campaign.png";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -79,37 +79,43 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
           <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalEmails}</h1>
         </div>
       </div>
-      <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit">All Campaigns</h1>
-      <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-2">
+      <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit text-center">All Campaigns</h1>
+      {campaigns.length == 0 && 
+        <div className="p-14 mt-2 flex-center flex-col gap-2">
+          <img src={campaignImg} className="h-35" />
+          <p className="text-accent text-sm">You haven't created any campaigns</p>
+        </div>
+      }
       {campaigns.length >= 1 &&
-          <div className="grid grid-cols-4 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 dark:text-white py-3 text-center">
-            <p>Campaign</p>
-            <p>Subscribers</p>
-            <p>Created</p>
-            <p>Action</p>
-          </div>
-        } 
-        {campaigns.length >= 1  &&
-          campaigns.map(campaign => {
-            return (
-              <div className="grid grid-cols-4 gap-1 font-inter text-sm py-3 px-2 text-center text-accent">
-                <p>{campaign.title}</p>
-                <p>{campaign.totalSubscribers}</p>
-                <p>{campaign.createdAt}</p>
-                <div onClick={() => toLeads(campaign.campaignId)} className="flex-center cursor-pointer">
-                  <SlArrowRight />
+        <div className="mt-5">
+          {
+            campaigns.map((campaign) => {
+              return (
+                <div className="mb-4 border-b-1 border-b-accentLight dark:border-b-transparent pb-4">
+                  <div className="flex-between">
+                    <h1 className="text-lg text-primary font-inter dark:text-accentLight">{campaign.title}</h1>
+                    <button onClick={() => toLeads(campaign.campaignId)} className="flex-center gap-2 btn-primary text-[12px]">
+                      <span>View</span>
+                      <SlArrowRight size={10} />
+                    </button>
+                  </div>
+                  <p className="text-sm text-accent font-open mt-1">{campaign.description}</p>
+                  <div className="flex-start gap-1 mt-1">
+                    <div className="flex-start bg-fade p-1 rounded-full pr-3 gap-2 text-[10px] mt-2">
+                      <div className="bg-yellow-500 text-white py-1 px-2 rounded-full">Subscribers</div>
+                      <p className="text-accent dark:text-white">{campaign.totalSubscribers}</p>
+                    </div>
+                    <div className="flex-start bg-fade p-1 rounded-full pr-3 gap-2 text-[10px] mt-2">
+                      <div className="bg-green-500 text-white py-1 px-2 rounded-full">Created At</div>
+                      <p className="text-accent dark:text-white">{campaign.createdAt}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )
-          })
-        }
-        {campaigns.length == 0 && 
-          <div className="p-14 mt-2 flex-center flex-col gap-4">
-            <GoHistory size={50} color="rgb(121, 120, 120)" />
-            <p className="text-accent text-sm">You haven't created any campaigns</p>
-          </div>
-        }
-      </div>
+              )
+            })
+          }
+        </div>
+      }
     </section>
   )
 }

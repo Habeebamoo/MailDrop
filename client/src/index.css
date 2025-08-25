@@ -56,10 +56,6 @@
 	@apply flex-start gap-1 text-white cursor-pointer ml-1 font-outfit;
 }
 
-.test {
-	color: #121720;
-}
-
 @theme {
 	--color-primary: #231e88;
 	--color-secondary: #111827;

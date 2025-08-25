@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"gopkg.in/gomail.v2"
@@ -37,7 +38,7 @@ func SendPasswordResetEmail(name, email, token string) (int, error) {
 					</tr>
 					<tr>
 						<td style="padding: 30px; color: #333333; font-size: 16px; line-height: 1.6;">
-							<p>Hello %s</p>
+							<p>Hello %s,</p>
 							<p>We received a request to reset your password. Click the button below to proceed</p>
 							<p style="text-align: center; margin: 30px 0;">
 								<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Reset Password</a>
@@ -91,8 +92,8 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 								</tr>
 								<tr>
 									<td style="padding: 30px; color: #333;">
-										<p style="font-size: 16px;">Hi %s</p>
-										<p style="font-size: 16px; line-height: 1.5;">We're excited to share your exclusive reward with you for subscribing at <b>%s</b>. Click the link below to get your copy</p>
+										<p style="font-size: 16px;">Hi %s,</p>
+										<p style="font-size: 16px; line-height: 1.5;">We're excited to share your exclusive reward with you for subscribing at <b>%s</b> campaign. Click the link below to get your copy</p>
 										<p style="text-align: center; padding: 30px 0;">
 											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Get Mine</a>
 										</p>
@@ -110,7 +111,7 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 				</table>
 			</body>
 		</html>
-	`, Capitalize(name, false), campaignTitle, rewardurl, time.Now().Year())
+	`, Capitalize(name, false), strings.TrimSpace(campaignTitle), rewardurl, time.Now().Year())
 
 	m.SetBody("text/html", body)
 
