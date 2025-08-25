@@ -104,6 +104,9 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 										&copy; %d MailDrop. All right reserved.
 									</td>
 								</tr>
+							</table>
+						</td>
+					</tr>
 				</table>
 			</body>
 		</html>
