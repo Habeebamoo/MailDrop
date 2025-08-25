@@ -3,7 +3,7 @@ import logo from "../assets/logo.png"
 import gift from "../assets/gift.png"
 import { IoShieldOutline } from "react-icons/io5"
 import { CiMail, CiUser } from "react-icons/ci"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Loading from "../components/dashboard/Loading"
 import { useSearchParams } from "react-router-dom"
 import Error from "../components/dashboard/Error"
@@ -29,10 +29,6 @@ const SubscriberPage = () => {
 
   useEffect(() => {
     if (!campaign) return
-
-    const hasFetched = useRef(false)
-    if (hasFetched.current) return;
-    hasFetched.current = true;
 
     const click = async () => {
       const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaignId}/click`, {
