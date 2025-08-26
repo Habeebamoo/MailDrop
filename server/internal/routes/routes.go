@@ -21,7 +21,9 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		AllowCredentials: true,
 		MaxAge: 12 * time.Hour,
 	}))
+
 	router.Use(middlewares.RequireAPIKey())
+	router.Use(middlewares.RateLimiter())
 
 	api := router.Group("/api")
 	api.GET("/", func(c *gin.Context) {
@@ -61,6 +63,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		campaign.GET("", campaignHandler.GetAllCampaigns)
 		campaign.GET("/:id", campaignHandler.GetCampaign)
 		campaign.GET("/:id/subscribers", campaignHandler.GetSubscribers)
+		campaign.GET("/:id/subscribers/download", campaignHandler.DownloadSubscribers)
 		campaign.DELETE("/:id", campaignHandler.DeleteCampaign)
 	}
 

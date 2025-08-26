@@ -17,6 +17,7 @@ type Campaign struct {
 	LeadMagnetName    string     `json:"leadMagnetName"`
 	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
 	Slug              string     `json:"slug"`
+	Active            bool       `json:"active"`
 	TotalSubscribers  int        `json:"totalSubscribers"`
 	TotalClicks       int        `json:"totalClicks"`
 	TotalEmails       int        `json:"totalEmails"`
@@ -24,11 +25,12 @@ type Campaign struct {
 }
 
 type Subscriber struct {
-	Id          uint       `json:"-"           gorm:"primaryKey;autoIncrement"`
-	CampaignId  uuid.UUID  `json:"campaignId"  gorm:"not null;index:uniq_email_campaign,unique"`
-	UserId      uuid.UUID  `json:"userId"`
-	Name        string     `json:"name"`
-	Email       string     `json:"email"       gorm:"not null;index:uniq_email_campaign,unique"`
+	Id              uint       `json:"-"               gorm:"primaryKey;autoIncrement"`
+	CampaignId      uuid.UUID  `json:"campaignId"      gorm:"not null;index:uniq_email_campaign,unique"`
+	CampaignStatus  string     `json:"campaignStatus"`
+	UserId          uuid.UUID  `json:"userId"`
+	Name            string     `json:"name"`
+	Email           string     `json:"email"           gorm:"not null;index:uniq_email_campaign,unique"`
 }
 
 type CampaignResponse struct {
@@ -41,6 +43,7 @@ type CampaignResponse struct {
 	LeadMagnetName    string     `json:"leadMagnetName"`
 	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
 	Slug              string		 `json:"slug"`
+	Active            bool       `json:"active"`
 	TotalSubscribers  int        `json:"totalSubscribers"`
 	TotalEmails       int        `json:"totalEmails"`
 	TotalClicks       int        `json:"totalClicks"`

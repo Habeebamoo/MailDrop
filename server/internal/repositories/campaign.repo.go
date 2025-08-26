@@ -18,6 +18,7 @@ type CampaignRepository interface {
 	DeleteCampaign(models.Campaign) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
+	ArchiveSubscribers([]models.Subscriber, uuid.UUID) error
 	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
 }
 
@@ -216,6 +217,20 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 	}
 
 	return "Subscription successful", 200, nil
+}
+
+func (campaignRepo *CampaignRepo) ArchiveSubscribers(subscribers []models.Subscriber, campaignId uuid.UUID) error {
+	res := campaignRepo.db.Model(&models.Subscriber{}).
+									Where("campaign_id = ?", campaignId).
+									Update("campaign_status", "deleted")
+	if res.Error != nil {
+		if res.RowsAffected == 0 {
+			return fmt.Errorf("failed to archive subscribers") 
+		}
+		return fmt.Errorf("internal server error")
+	}
+
+	return nil
 }
 
 func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) (int, error) {
