@@ -120,8 +120,42 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     return str.length > maxLength ? str.slice(0, maxLength) + "..." : str
   }
 
-  const exportSubscribers = () => {
+  const exportSubscribers = async () => {
+    try {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign/${campaignId}/subscribers/download`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
+        }
+      })
 
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a")
+        a.href = url
+
+        let fileName = "subscribers.csv"
+
+        const dispostion = res.headers.get("Content-Disposition")
+        if (dispostion && dispostion.includes("filename=")) {
+          fileName = dispostion.split("filename=")[1].replace(/['"']/g, "");
+        }
+
+        a.download = fileName
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+
+        window.URL.revokeObjectURL(url)
+      } else {
+        toast.error("Something went wrong.")
+      }
+    } catch (err) {
+      toast.error("Something went wrong.")
+    }
   }
 
   if (loading) return <Loading />

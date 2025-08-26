@@ -15,6 +15,7 @@ type CampaignService interface {
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(uuid.UUID) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
+	DownloadSubscribers(uuid.UUID) (models.Campaign, []models.Subscriber, int, error)
 	CreateSubscriber(models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
 	CampaignClick(uuid.UUID) (int, error)
 }
@@ -55,12 +56,30 @@ func (campaignSvc *CampaignSvc) GetAllCampaigns(userId uuid.UUID) ([]models.Camp
 }
 
 func (campaignSvc *CampaignSvc) DeleteCampaign(campaignId uuid.UUID) (int, error) {
+	//get campaign
 	campaign, code, err := campaignSvc.repo.GetCampaign(campaignId)
 	if err != nil {
 		return code, err
 	}
 
-	return campaignSvc.repo.DeleteCampaign(campaign)
+	//delete campaign
+	code, err = campaignSvc.repo.DeleteCampaign(campaign)
+	if err != nil {
+		return code, err
+	}
+
+	//update subscribers
+	subscribers, code, _ := campaignSvc.repo.GetSubscribers(campaignId)
+	if code == 404 {
+		return 200, nil
+	}
+
+	err = campaignSvc.repo.ArchiveSubscribers(subscribers, campaignId)
+	if err != nil {
+		return 500, err
+	}
+
+	return 200, nil
 }
 
 func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.Subscriber, int, error) {
@@ -108,4 +127,16 @@ func (campaignSvc *CampaignSvc) CampaignClick(campaignId uuid.UUID) (int, error)
 	}
 
 	return campaignSvc.repo.CreateCampaignClick(campaign.UserId, campaign.CampaignId)
+}
+
+func (campaignSvc *CampaignSvc) DownloadSubscribers(campaignId uuid.UUID) (models.Campaign, []models.Subscriber, int, error) {
+	//get the campaign
+	campaign, statusCode, err := campaignSvc.repo.GetCampaign(campaignId)
+	if err != nil {
+		return models.Campaign{}, []models.Subscriber{}, statusCode, err
+	}
+
+	//get the subscribers
+	subscribers, statusCode, err := campaignSvc.repo.GetSubscribers(campaignId)
+	return campaign, subscribers, statusCode, err
 }

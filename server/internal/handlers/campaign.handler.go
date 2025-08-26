@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/service"
 	"github.com/gin-gonic/gin"
+	"github.com/gocarina/gocsv"
 	"github.com/google/uuid"
 )
 
@@ -104,6 +106,35 @@ func (campaignHdl *CampaignHandler) CreateSubscriber(c *gin.Context) {
 	}
 
 	c.JSON(statusCode, gin.H{"message": msg})
+}
+
+func (campaignHdl *CampaignHandler) DownloadSubscribers(c *gin.Context) {
+	campaignIdStr := c.Param("id")
+	if campaignIdStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Campaign id is missing."})
+		return
+	}
+
+	campaignId, _ := uuid.Parse(campaignIdStr)
+	campaign, subscribers, statusCode, err := campaignHdl.svc.DownloadSubscribers(campaignId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	fileName := fmt.Sprintf("%s_subscribers.csv", campaign.Title)
+	headerValue := fmt.Sprintf("attachment; filename=%s", fileName)
+
+	c.Header("Content-Disposition", headerValue)
+	c.Header("Content-Type", "text/csv")
+
+	err = gocsv.Marshal(subscribers, c.Writer)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create csv"})
+		return
+	}
+
+	c.JSON(200, gin.H{"message": "Download Successful"})
 }
 
 func (campaignHdl *CampaignHandler) CampaignClick(c *gin.Context) {
