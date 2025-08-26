@@ -122,13 +122,21 @@ func (campaignHdl *CampaignHandler) DownloadSubscribers(c *gin.Context) {
 		return
 	}
 
+	var subscribersCsv []*models.SubscribersCsv
+	for _, u := range subscribers {
+		subscribersCsv = append(subscribersCsv, &models.SubscribersCsv{
+			Name: u.Name,
+			Email: u.Email,
+		})
+	}
+
 	fileName := fmt.Sprintf("%s_subscribers.csv", campaign.Title)
 	headerValue := fmt.Sprintf("attachment; filename=%s", fileName)
 
 	c.Header("Content-Disposition", headerValue)
 	c.Header("Content-Type", "text/csv")
 
-	err = gocsv.Marshal(subscribers, c.Writer)
+	err = gocsv.Marshal(subscribersCsv, c.Writer)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create csv"})
 		return
