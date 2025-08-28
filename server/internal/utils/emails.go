@@ -35,8 +35,8 @@ func ResendVerificationEmail(name, email string, otp int) error {
 									<td style="padding: 30px; color: #333;">
 										<p style="font-size: 16px;">Hi %s,</p>
 										<p style="font-size: 16px; line-height: 1.5;">We receive a request to verify your email address, click on the link below to proceed</p>
-										<p style="text-align: center; padding: 30px 0; font-size: 28px;">
-											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Reset Password</a>
+										<p style="text-align: center; padding: 30px 0;">
+											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Verify my account</a>
 										</p>
 										<p style="font-size: 14px; line-height: 1.5; color: #555;">This OTP is valid for <strong>10 minutes</strong>. If you didn't create an account, you can ignore this email</p>
 									</td>

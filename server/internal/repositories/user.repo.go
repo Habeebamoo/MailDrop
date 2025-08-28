@@ -123,7 +123,7 @@ func (userRepo *UserRepo) GetUserById(userId uuid.UUID) (models.User, int, error
 
 func (userRepo *UserRepo) GetUserIdByOTP(otpCode int) (uuid.UUID, int, error) {
 	var userOtp models.OTP
-	err := userRepo.db.First(&userOtp, "otp_code = ?", otpCode).Error
+	err := userRepo.db.First(&userOtp, "code = ?", otpCode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return uuid.UUID{}, http.StatusNotFound, fmt.Errorf("invalid OTP code")
