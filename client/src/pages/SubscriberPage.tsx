@@ -176,7 +176,7 @@ const SubscriberPage = () => {
             <p className="mt-6 text-[10px] text-accent text-center"><i>By submitting this form, you agree to receive marketing emails from <b>MailDrop</b>. You can unsubscribe any time. We respect your privacy and will never share your information</i></p>
           </form>
         </div>
-                {campaign.leadMagnetName &&
+        {campaign.leadMagnetName &&
           <div className="bg-white py-4 px-6 rounded-sm mt-6 w-[100%] sm:w-[500px] mx-auto mb-4">
             <h1 className="text-primary font-outfit text-lg text-center">Reward Available</h1>
             <div className="my-5">

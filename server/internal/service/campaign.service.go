@@ -17,6 +17,7 @@ type CampaignService interface {
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	DownloadSubscribers(uuid.UUID) (models.Campaign, []models.Subscriber, int, error)
 	CreateSubscriber(models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
+	GetSubscriberCampaign(uuid.UUID) (models.SubscriberCampaignResponse, int, error)
 	CampaignClick(uuid.UUID) (int, error)
 }
 
@@ -41,6 +42,7 @@ func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignReques
 		LeadMagnetName: campaignReq.LeadMagnetName,
 		LeadMagnetUrl: campaignReq.LeadMagnetUrl,
 		Slug: "",
+		Active: true,
 		CreatedAt: time.Now(),
 	}
 
@@ -146,4 +148,24 @@ func (campaignSvc *CampaignSvc) DownloadSubscribers(campaignId uuid.UUID) (model
 	//get the subscribers
 	subscribers, statusCode, err := campaignSvc.repo.GetSubscribers(campaignId)
 	return campaign, subscribers, statusCode, err
+}
+
+func (campaignSvc *CampaignSvc) GetSubscriberCampaign(campaignId uuid.UUID) (models.SubscriberCampaignResponse, int, error) {
+	campaign, statusCode, err := campaignSvc.repo.GetCampaign(campaignId)
+	if err != nil {
+		return models.SubscriberCampaignResponse{}, statusCode, err
+	}
+
+	campaignResponse := models.SubscriberCampaignResponse{
+		UserId: campaign.UserId,
+		CampaignId: campaign.CampaignId,
+		UserName: campaign.UserName,
+		UserBio: campaign.UserBio,
+		Title: campaign.Title,
+		Description: campaign.Description,
+		LeadMagnetName: campaign.LeadMagnetName,
+		LeadMagnetUrl: campaign.LeadMagnetUrl,
+	}
+
+	return campaignResponse, 200, nil
 }

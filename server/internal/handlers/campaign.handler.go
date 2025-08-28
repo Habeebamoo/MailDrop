@@ -108,6 +108,24 @@ func (campaignHdl *CampaignHandler) CreateSubscriber(c *gin.Context) {
 	c.JSON(statusCode, gin.H{"message": msg})
 }
 
+func (campaignHdl *CampaignHandler) GetSubscriberCampaign(c *gin.Context) {
+	campaignIdStr := c.Param("id")
+	if campaignIdStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Campaign id is missing"})
+		return
+	}
+
+	campaignId, _ := uuid.Parse(campaignIdStr)
+
+	campaign, statusCode, err := campaignHdl.svc.GetSubscriberCampaign(campaignId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, campaign)
+}
+
 func (campaignHdl *CampaignHandler) DownloadSubscribers(c *gin.Context) {
 	campaignIdStr := c.Param("id")
 	if campaignIdStr == "" {

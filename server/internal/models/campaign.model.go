@@ -51,6 +51,17 @@ type CampaignResponse struct {
 	CreatedAt         string     `json:"createdAt"`
 }
 
+type SubscriberCampaignResponse struct {
+	UserId            uuid.UUID  `json:"userId"`
+	CampaignId        uuid.UUID  `json:"campaignId"`
+	UserName          string     `json:"username"`
+	UserBio           string     `json:"userbio"`
+	Title             string     `json:"title"`
+	Description       string     `json:"description"`
+	LeadMagnetName    string     `json:"leadMagnetName"`
+	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
+}
+
 type CampaignRequest struct {
 	UserId          string  `json:"userId"         binding:"required"`
 	UserName        string  `json:"username"       binding:"required"`
