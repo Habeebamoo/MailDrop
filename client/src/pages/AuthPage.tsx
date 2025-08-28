@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"
 import googleIcon from "../assets/google.png"
 import { useNavigate } from "react-router-dom"
 import { ClipLoader } from "react-spinners"
+import { toast } from "react-toastify"
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
@@ -16,6 +17,26 @@ const AuthPage = () => {
     password: ""
   })
   const navigate = useNavigate()
+
+  const handleGoogleAuth = async () => {
+    try {
+      const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/google", {
+        method: "GET",
+        headers: {
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
+        }
+      })
+      const response = await res.json()
+
+      if (res.ok) {
+        window.location.href = response.data.url
+      } else {
+        toast.error("Google login failed")
+      }
+    } catch (err) {
+      toast.error("Something went wrong.")
+    }
+  }
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -109,7 +130,9 @@ const AuthPage = () => {
         <h1 className="text-xl font-outfit text-primary text-center">{isLogin ? "Welcome Back" : "Create Your Account"}</h1>
         <p className="text-sm text-accent text-center">{isLogin ? "Sign in to your MailDrop account to continue" : "Sign up to create an account with MailDrop"}</p>
         <div>
-          <button className="font-inter text-sm p-2 border-1 w-full mt-6 rounded-md border-accentLight flex-center hover:bg-accentLight cursor-pointer">
+          <button 
+            onClick={handleGoogleAuth}
+            className="font-inter text-sm p-2 border-1 w-full mt-6 rounded-md border-accentLight flex-center hover:bg-accentLight cursor-pointer">
             <img src={googleIcon} className="h-4" />
             <span className="ml-2">Continue with Google</span>
           </button>

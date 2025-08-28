@@ -16,6 +16,8 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/routes"
 	"github.com/Habeebamoo/MailDrop/server/internal/service"
 	"github.com/joho/godotenv"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 )
 
 func main() {
@@ -42,6 +44,15 @@ func main() {
 		&models.OTP{},
 	)
 
+	//Oauth config for google login
+	googleOauth2Config := &oauth2.Config{
+		ClientID: os.Getenv("GOOGLE_CLIENT_ID"),
+		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
+		RedirectURL: "https://maildrop-znoo.onrender.com/api/auth/google/callback",
+		Scopes: []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"},
+		Endpoint: google.Endpoint,
+	}
+
 	//repositories
 	userRepo := repositories.NewUserRepository(db)
 	campaignRepo := repositories.NewCampaignRepository(db)
@@ -51,7 +62,7 @@ func main() {
 	campaignService := service.NewCampaignService(campaignRepo)
 
 	//handlers
-	userHandler := handlers.NewUserHandler(userService)
+	userHandler := handlers.NewUserHandler(userService,googleOauth2Config)
 	campaignHandler := handlers.NewCampaignHandler(campaignService)
 
 	router := routes.ConfigureRoutes(

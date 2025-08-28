@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"os"
 	"time"
@@ -61,4 +63,14 @@ func Capitalize(str string, every bool) string {
 	restChars := str[1:]
 
 	return caser.String(firstChar) + restChars
+}
+
+func GetRandomString() (string, error) {
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
+		return "", fmt.Errorf("failed to read bytes")
+	}
+	
+	return base64.URLEncoding.EncodeToString(b), nil
 }

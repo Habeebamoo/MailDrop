@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -10,14 +12,16 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"golang.org/x/oauth2"
 )
 
 type UserHandler struct {
 	svc service.UserService
+	googleOauth2Config *oauth2.Config
 }
 
-func NewUserHandler(svc service.UserService) UserHandler {
-	return UserHandler{svc: svc}
+func NewUserHandler(svc service.UserService, googleOauth2Config *oauth2.Config) UserHandler {
+	return UserHandler{svc: svc, googleOauth2Config: googleOauth2Config}
 } 
 
 var (
@@ -72,6 +76,62 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 	)
 	
 	c.JSON(statusCode, gin.H{"message": "Login Successful"})
+}
+
+func (usrHdl *UserHandler) GoogleLogin(c *gin.Context) {
+	state, _ := utils.GetRandomString()
+	c.SetCookie("oauthstate", state, 3600, "/", "", true, true)
+
+	url := usrHdl.googleOauth2Config.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	c.JSON(200, gin.H{"data": url})
+}
+
+func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
+	callbackState := c.Query("state")
+	cookieState, err := c.Cookie("oauthstate")
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	if cookieState != callbackState {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid state"})
+		return
+	}
+		
+	code := c.Query("code")
+	if code == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "code not found in URL"})
+		return
+	}
+
+	//exchange the code for an access token
+	token, err := usrHdl.googleOauth2Config.Exchange(context.Background(), code)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to exchange token"})
+		return
+	}
+
+	client := usrHdl.googleOauth2Config.Client(context.Background(), token)
+
+	//make a request to google people api
+	resp, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get user info"})
+		return
+	}
+	defer resp.Body.Close()
+
+	var userInfo map[string]interface{}
+	if err := json.NewDecoder(resp.Body).Decode(&userInfo); err != nil {
+		c.JSON(500, gin.H{"error": "failed to parse user info"})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "Login Successful",
+		"data": userInfo,
+	})
 }
 
 func (usrHdl *UserHandler) VerifyOTP(c *gin.Context) {
