@@ -32,6 +32,7 @@ const SubscriberPage = () => {
   console.log(campaignId)
 
   useEffect(() => {
+    if (!campaignId) return
     if (!campaign) return
 
     const click = async () => {
@@ -49,6 +50,7 @@ const SubscriberPage = () => {
   }, [])
 
   useEffect(() => {
+    if (!campaignId) return
     setLoadingScreen(true)
 
     const fetchCampaign = async () => {
