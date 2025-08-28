@@ -82,7 +82,7 @@ func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error)
 			return "", 500, err
 		}
 
-		err = utils.SendVerificationEmail(user.Name, user.Email, otp)
+		err = utils.ResendVerificationEmail(user.Name, user.Email, otp)
 		if err != nil {
 			return "", 500, fmt.Errorf("internal server error")
 		}
@@ -110,7 +110,7 @@ func (userSvc *UserSvc) VerifyUser(otpCode int) (int, error) {
 	}
 
 	//get the user
-	user, statusCode, err := userSvc.repo.GetUserById(userId)
+	user, _, err := userSvc.repo.GetUserById(userId)
 	if err != nil {
 		return 500, fmt.Errorf("internal server error")
 	}

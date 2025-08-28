@@ -1,9 +1,12 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { ClipLoader } from "react-spinners"
 
 const VerificationPage = () => {
-  const [code, setCode] = useState<string>("")
+  const [ searchParams ] = useSearchParams()
+  const queryCode = searchParams.get("code")
+
+  const [code, setCode] = useState<string>(queryCode ? queryCode : "")
   const [status, setStatus] = useState<"success" | "error" | "">("")
   const [msg, setMsg] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)

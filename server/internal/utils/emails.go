@@ -9,8 +9,61 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-func SendWelcomeEmail() {
+func ResendVerificationEmail(name, email string, otp int) error {
+	m := gomail.NewMessage()
 
+	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "MailDrop"))
+	m.SetHeader("To", email)
+	m.SetHeader("Subject", "OTP Verification")
+
+	verificationUrl := fmt.Sprintf("https://maildrop.netlify.app/verify?code=%d", otp)
+
+	body := fmt.Sprintf(`
+		<!DOCTYPE html>
+		<html>
+			<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+					<tr>
+						<td>
+							<table align="center" cellpadding="0" cellspacing="0" width="0" style="background: #ffffff; border-radius: 8px; overflow: hidden;">
+								<tr>
+									<td style="background: #231e88; padding: 20px; text-align: center;">
+										<h1 style="color: #ffffff; margin: 0;">Verify Your Email</h1>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding: 30px; color: #333;">
+										<p style="font-size: 16px;">Hi %s,</p>
+										<p style="font-size: 16px; line-height: 1.5;">We receive a request to verify your email address, click on the link below to proceed</p>
+										<p style="text-align: center; padding: 30px 0; font-size: 28px;">
+											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Reset Password</a>
+										</p>
+										<p style="font-size: 14px; line-height: 1.5; color: #555;">This OTP is valid for <strong>10 minutes</strong>. If you didn't create an account, you can ignore this email</p>
+									</td>
+								</tr>
+								<tr>
+									<td style="background: #f9f9f9; padding: 20px; text-align: center; font-size: 12px; color: #777;">
+										&copy; %d MailDrop. All right reserved.
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</body>
+		</html>
+	`, name, verificationUrl, time.Now().Year())
+	
+	m.SetBody("text/html", body)
+
+	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
+	d.SSL = true
+
+	if err := d.DialAndSend(m); err != nil {
+		return fmt.Errorf("failed to send mail")
+	} 
+
+	return nil
 }
 
 func SendVerificationEmail(name, email string, otp int) error {
