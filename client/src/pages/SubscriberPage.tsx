@@ -14,7 +14,7 @@ const SubscriberPage = () => {
   const campaignId = searchParams.get("id")
 
   const [loadingScreen, setLoadingScreen] = useState<boolean>(true)
-  const [campaign, setCampaign] = useState<any>()
+  const [campaign, setCampaign] = useState<any>([])
   const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -71,6 +71,8 @@ const SubscriberPage = () => {
         }
       } catch (err) {
         setError(true)
+      } finally {
+        setLoadingScreen(false)
       }
     }
 
