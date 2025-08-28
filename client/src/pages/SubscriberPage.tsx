@@ -66,8 +66,6 @@ const SubscriberPage = () => {
         }
       } catch (err) {
         setError(true)
-      } finally {
-        setLoadingScreen(false)
       }
     }
 
