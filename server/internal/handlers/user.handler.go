@@ -83,7 +83,7 @@ func (usrHdl *UserHandler) GoogleLogin(c *gin.Context) {
 	c.SetCookie("oauthstate", state, 3600, "/", "", true, true)
 
 	url := usrHdl.googleOauth2Config.AuthCodeURL(state, oauth2.AccessTypeOffline)
-	c.JSON(200, gin.H{"data": url})
+	c.Redirect(http.StatusTemporaryRedirect, url)
 }
 
 func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {

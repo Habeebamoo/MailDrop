@@ -26,12 +26,9 @@ const AuthPage = () => {
           "X-API-KEY": import.meta.env.VITE_X_API_KEY
         }
       })
-      const response = await res.json()
 
-      if (res.ok) {
-        window.location.href = response.data.url
-      } else {
-        toast.error("Google login failed")
+      if (!res.ok) {
+        toast.error("Google Login Failed")
       }
     } catch (err) {
       toast.error("Something went wrong.")
