@@ -64,9 +64,7 @@ const AuthPage = () => {
           setStatus("success")
           setMsg(response.message)
           setTimeout(() => { 
-            setIsLogin(true) 
-            setStatus("")
-            setMsg("")
+            navigate("/verify")
           }, 2000)
         }
        }

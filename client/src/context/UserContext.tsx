@@ -6,6 +6,7 @@ type User = {
   email: string,
   password: string,
   authType: string,
+  verified: boolean,
   profile: {
     userId: string,
     profilePic: string,

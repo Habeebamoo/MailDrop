@@ -22,6 +22,7 @@ import Aos from "aos"
 import "aos/dist/aos.css"
 import SubscriberPage from "./pages/SubscriberPage"
 import { useEffect } from "react"
+import VerificationPage from "./pages/VerificationPage"
 
 const App = () => { 
   useEffect(() => {
@@ -35,6 +36,7 @@ const App = () => {
       <>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="/verify" element={<VerificationPage />} />
         <Route path="/dashboard" element={<Dashboard />} errorElement={<Error />} >
           <Route path="home" element={<DashboardPage />} />
           <Route path="campaigns" element={<Campaigns />} />

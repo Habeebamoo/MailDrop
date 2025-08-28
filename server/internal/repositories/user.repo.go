@@ -1,7 +1,9 @@
 package repositories
 
 import (
+	"crypto/rand"
 	"fmt"
+	"math/big"
 	"net/http"
 	"strings"
 	"time"
@@ -17,11 +19,14 @@ type UserRepository interface {
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
+	GetUserIdByOTP(int) (uuid.UUID, int, error)
 	GetUserIdByToken(uuid.UUID) (models.Token, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
 	UpdateProfile(models.ProfileDetailsRequest) (int, error)
 	CreateToken(uuid.UUID) (string, int, error)
+	CreateOTP(uuid.UUID) (int, error)
 	UpdatePassword(uuid.UUID, string) (int, error)
+	VerifyEmail(uuid.UUID) (int, error)
 }
 
 type UserRepo struct {
@@ -116,6 +121,19 @@ func (userRepo *UserRepo) GetUserById(userId uuid.UUID) (models.User, int, error
 	return user, 200, nil
 }
 
+func (userRepo *UserRepo) GetUserIdByOTP(otpCode int) (uuid.UUID, int, error) {
+	var userOtp models.OTP
+	err := userRepo.db.First(&userOtp, "otp_code = ?", otpCode).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return uuid.UUID{}, http.StatusNotFound, fmt.Errorf("invalid OTP code")
+		}
+		return uuid.UUID{} ,500, fmt.Errorf("internal server error")
+	}
+
+	return userOtp.UserId, 200, nil
+}
+
 func (userRepo *UserRepo) GetUserIdByToken(token uuid.UUID) (models.Token, int, error) {
 	var userToken models.Token
 	err := userRepo.db.First(&userToken, "token = ?", token).Error
@@ -160,6 +178,34 @@ func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest)
 	return 200, nil
 }
 
+func (userRepo *UserRepo) CreateOTP(userId uuid.UUID) (int, error) {
+	//delete all existing OTP's created by the user
+	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.OTP{}).Error
+	if err != nil {
+		return 0, fmt.Errorf("internal server error")
+	}
+
+	//create OTP for verification
+	n, err := rand.Int(rand.Reader, big.NewInt(900000))
+	if err != nil {
+		return 0, fmt.Errorf("internal server error")
+	}
+
+	otpCode := int(100000 + n.Int64())
+
+	otp := models.OTP{
+		UserId: userId,
+		Code: otpCode,
+	}
+
+	err = userRepo.db.Create(&otp).Error
+	if err != nil {
+		return 0, fmt.Errorf("internal server error")
+	}
+
+	return otp.Code, nil
+}
+
 func (userRepo *UserRepo) CreateToken(userId uuid.UUID) (string, int, error) {
 	//delete all existing tokens created by the user
 	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.Token{}).Error
@@ -190,6 +236,19 @@ func (userRepo *UserRepo) UpdatePassword(userId uuid.UUID, newPassword string) (
 
 	if err != nil {
 		return 500, fmt.Errorf("failed to update password")
+	}
+
+	return 200, nil
+}
+
+func (userRepo *UserRepo) VerifyEmail(userId uuid.UUID) (int, error) {
+	err := userRepo.db.Model(&models.User{}).
+							Where("user_id = ?", userId).
+							Update("verified", true).
+							Error
+
+	if err != nil {
+		return 500, fmt.Errorf("failed to verify user")
 	}
 
 	return 200, nil

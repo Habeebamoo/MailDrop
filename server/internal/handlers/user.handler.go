@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/service"
@@ -71,6 +72,28 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 	)
 	
 	c.JSON(statusCode, gin.H{"message": "Login Successful"})
+}
+
+func (usrHdl *UserHandler) VerifyOTP(c *gin.Context) {
+	otpCodeStr := c.Query("code")
+	if otpCodeStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "OTP Code is missing"})
+		return
+	}
+
+	otpCode, err := strconv.Atoi(otpCodeStr)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	statusCode, err := usrHdl.svc.VerifyUser(otpCode)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": "Verification Successfull"})
 }
 
 func (userHdl *UserHandler) Logout(c *gin.Context) {

@@ -17,6 +17,7 @@ import (
 type UserService interface {
 	CreateUser(models.UserRequest) (int, error)
 	LoginUser(models.UserLogin) (string, int, error)
+	VerifyUser(int) (int, error)
 	GetUser(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 	UpdateProfile(models.ProfileRequest) (int, error)
@@ -39,6 +40,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 		Email: userReq.Email,
 		Password: userReq.Password,
 		AuthType: userReq.AuthType,
+		Verified: false,
 		CreatedAt: time.Now(),
 	}
 
@@ -47,13 +49,45 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	user.Password = hashedPassword
 	user.AuthType = "email"
 
-	return userSvc.repo.InsertUser(user)
+	//create user
+	statusCode, err := userSvc.repo.InsertUser(user)
+	if err != nil {
+		return statusCode, err
+	}
+
+	//create OTP mail
+	otp, err := userSvc.repo.CreateOTP(user.UserId)
+	if err != nil {
+		return 500, err
+	}
+
+	err = utils.SendVerificationEmail(userReq.Name, userReq.Email, otp)
+	if err != nil {
+		return 500, err
+	}
+
+	return statusCode, nil
 }
 
 func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error) {
 	user, statusCode, err := userSvc.repo.GetUser(userReq.Email)
 	if err != nil {
 		return "", statusCode, err
+	}
+
+	//checks if the user is verified & send OTP mail
+	if !user.Verified {
+		otp, err := userSvc.repo.CreateOTP(user.UserId)
+		if err != nil {
+			return "", 500, err
+		}
+
+		err = utils.SendVerificationEmail(user.Name, user.Email, otp)
+		if err != nil {
+			return "", 500, fmt.Errorf("internal server error")
+		}
+
+		return "", http.StatusUnauthorized, fmt.Errorf("email not verified. Please check your inbox to verify")
 	}
 
 	if err := utils.VerifyPassword(user.Password, userReq.Password); err != nil {
@@ -66,6 +100,27 @@ func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error)
 	}
 	
 	return token, 200, nil
+}
+
+func (userSvc *UserSvc) VerifyUser(otpCode int) (int, error) {
+	//get the user associated with the token
+	userId, statusCode, err := userSvc.repo.GetUserIdByOTP(otpCode)
+	if err != nil {
+		return statusCode, err
+	}
+
+	//get the user
+	user, statusCode, err := userSvc.repo.GetUserById(userId)
+	if err != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	if user.Verified {
+		return 200, nil
+	}
+
+	//verify the user
+	return userSvc.repo.VerifyEmail(userId)
 }
 
 func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {

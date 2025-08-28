@@ -35,6 +35,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	{
 		auth.POST("/register", userHandler.Register)
 		auth.POST("/login", userHandler.Login)
+		auth.POST("/verify", userHandler.VerifyOTP)
 		auth.POST("/forgot-password", userHandler.ForgotPassword)
 		auth.POST("/reset-password", userHandler.ResetPassword)
 	}
