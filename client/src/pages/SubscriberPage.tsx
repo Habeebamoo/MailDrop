@@ -10,7 +10,7 @@ import Error from "../components/dashboard/Error"
 import { toast } from "react-toastify"
 
 const SubscriberPage = () => {
-  const [loadingScreen, setLoadingScreen] = useState<boolean>(false)
+  const [loadingScreen, setLoadingScreen] = useState<boolean>(true)
   const [campaign, setCampaign] = useState<any>()
   const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -189,20 +189,20 @@ const SubscriberPage = () => {
           </div>
         }
         <div className="flex-center gap-4 py-4 text-[11px] text-accent">
-            <div className="flex-center gap-1">
-              <IoShieldOutline />
-              <span>100% Secure</span>
-            </div>
-            <div className="flex-center gap-1">
-              <BiMailSend />
-              <span>No Spam</span>
-            </div>
-            <div className="flex-center gap-1">
-              <BiCheckCircle />
-              <span>Instant Access</span>
-            </div>
+          <div className="flex-center gap-1">
+            <IoShieldOutline />
+            <span>100% Secure</span>
+          </div>
+          <div className="flex-center gap-1">
+            <BiMailSend />
+            <span>No Spam</span>
+          </div>
+          <div className="flex-center gap-1">
+            <BiCheckCircle />
+            <span>Instant Access</span>
+          </div>
         </div>
-        
+    
       </main>
     </>
   )
