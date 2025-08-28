@@ -39,6 +39,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 		Email: userReq.Email,
 		Password: userReq.Password,
 		AuthType: userReq.AuthType,
+		CreatedAt: time.Now(),
 	}
 
 	//update hashed password

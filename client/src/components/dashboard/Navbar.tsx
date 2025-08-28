@@ -60,8 +60,8 @@ const Navbar = () => {
         </div>
       </div>
       <div className="md:hidden">
-        <div className="fixed bottom-0 left-0 right-0 p-3 rounded-t-lg">
-          <div className="backdrop-blur-md bg-white/30 shadow-lg p-4 rounded-full flex justify-around items-center">
+        <div className="fixed bottom-0 left-0 right-0 rounded-t-lg">
+          <div className="backdrop-blur-md bg-white/30 shadow-lg px-4 py-6 rounded-t-3xl flex justify-around items-center">
             <NavLink
               to={"/dashboard/home"}
             >

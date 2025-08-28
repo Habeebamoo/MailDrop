@@ -84,7 +84,7 @@ const ResetPage = () => {
               onChange={(e) => setForm(prev => ({...prev, password: e.target.value}))}
               required
             />
-            <div onClick={togglePassword} className="absolute top-[42px] right-[10px] cursor-pointer">
+            <div onClick={togglePassword} className="absolute top-[40px] right-[10px] cursor-pointer">
               {passwordIcon}
             </div>
           </div>

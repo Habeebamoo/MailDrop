@@ -160,7 +160,7 @@ const AuthPage = () => {
               onChange={(e) => setForm(prev => ({...prev, password: e.target.value}))}
               required
             />
-            <div onClick={togglePassword} className="absolute top-[41px] right-[10px] cursor-pointer">{passwordIcon}</div>
+            <div onClick={togglePassword} className="absolute top-[40px] right-[10px] cursor-pointer">{passwordIcon}</div>
           </div>
           <p 
             onClick={toForgotPassword}  

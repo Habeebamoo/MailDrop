@@ -92,12 +92,19 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.Subscriber
 		UserId: userId,
 		Name: subscriberReq.Name,
 		Email: subscriberReq.Email,
+		CreatedAt: time.Now(),
 	}
 
 	//get the campaign
 	campaign, code, err := campaignSvc.repo.GetCampaign(subscriber.CampaignId)
 	if err != nil {
 		return "", code, err
+	}
+
+	//check if the email already exist
+	exists := campaignSvc.repo.SubscriberExist(subscriber.Email, campaign.CampaignId)
+	if exists {
+		return "You were already a member of this campaign", 200, nil
 	}
 
 	//register the subscriber

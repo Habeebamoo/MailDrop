@@ -15,7 +15,7 @@ const Header = () => {
         <h1 className="text-xl font-outfit ml-1">MailDrop</h1>
       </div>
       <div>
-        <div className="h-7 w-7 rounded-full bg-accentLight border-1 border-accent flex-center text-white dark:text-black">{getFirstLetterOf(user?.name)}</div>
+        <div className="h-7 w-7 rounded-full bg-accentLight border-1 border-accent flex-center text-accent">{getFirstLetterOf(user?.name)}</div>
       </div>
     </header>
   )

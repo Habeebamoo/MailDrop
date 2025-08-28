@@ -141,8 +141,6 @@ func (campaignHdl *CampaignHandler) DownloadSubscribers(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create csv"})
 		return
 	}
-
-	c.JSON(200, gin.H{"message": "Download Successful"})
 }
 
 func (campaignHdl *CampaignHandler) CampaignClick(c *gin.Context) {

@@ -17,6 +17,7 @@ type CampaignRepository interface {
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(models.Campaign) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
+	SubscriberExist(string, uuid.UUID) bool
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
 	ArchiveSubscribers([]models.Subscriber, uuid.UUID) error
 	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
@@ -174,13 +175,21 @@ func (campaignRepo *CampaignRepo) GetSubscribers(campaignId uuid.UUID) ([]models
 	return subscribers, 200, nil
 }
 
+func (campaignRepo *CampaignRepo) SubscriberExist(email string, campaignId uuid.UUID) bool {
+	var subscriber models.Subscriber
+
+	err := campaignRepo.db.Where(&models.Subscriber{Email: email, CampaignId: campaignId}).First(&subscriber).Error
+	if err == gorm.ErrRecordNotFound {
+		return false
+	} else {
+		return true
+	}
+}
+
 func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber, userId uuid.UUID, campaignId uuid.UUID, campaignName string) (string, int, error) {
 	//create the subscriber
 	err := campaignRepo.db.Create(&subscriber).Error
 	if err != nil {
-		if strings.Contains(err.Error(), "duplicate key value") {
-			return "You are already a member of this campaign", 200, nil
-		}
 		return "", 500, fmt.Errorf("failed to subscribe")
 	}
 

@@ -18,9 +18,18 @@ import ResetPage from "./pages/ResetPage"
 import Error from "./components/dashboard/Error"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/ReactToastify.css"
+import Aos from "aos"
+import "aos/dist/aos.css"
 import SubscriberPage from "./pages/SubscriberPage"
+import { useEffect } from "react"
 
-const App = () => {
+const App = () => { 
+  useEffect(() => {
+    Aos.init({
+      duration: 1000,
+    })
+  }, []) 
+  
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>

@@ -26,6 +26,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	//Restrict connections for PgBouncer session pooling
+	sqlDB, _ := db.DB()
+	sqlDB.SetMaxOpenConns(1)
+	sqlDB.SetMaxIdleConns(1)
+
 	//migrate struct to database tables
 	db.AutoMigrate(
 		&models.User{}, 

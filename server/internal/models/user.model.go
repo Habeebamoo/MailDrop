@@ -8,13 +8,14 @@ import (
 )
 
 type User struct {
-	Id        uint        `json:"-"         gorm:"autoIncrement"`
-	UserId    uuid.UUID   `json:"userId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
-	Name      string      `json:"name"`
-	Email     string      `json:"email"     gorm:"unique"`
-	Password  string      `json:"password"`
-	AuthType  string      `json:"authType"`
-	Profile   Profile     `json:"profile"   gorm:"primaryKey:UserId;references:UserId"`
+	Id         uint       `json:"-"          gorm:"autoIncrement"`
+	UserId     uuid.UUID  `json:"userId"     gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
+	Name       string     `json:"name"`
+	Email      string     `json:"email"      gorm:"unique"`
+	Password   string     `json:"password"`
+	AuthType   string     `json:"authType"`
+	Profile    Profile    `json:"profile"    gorm:"primaryKey:UserId;references:UserId"`
+	CreatedAt  time.Time  `json:"createdAt"`
 }
 
 type Profile struct {

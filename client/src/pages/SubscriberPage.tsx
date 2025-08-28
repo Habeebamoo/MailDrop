@@ -11,7 +11,7 @@ import { toast } from "react-toastify"
 
 const SubscriberPage = () => {
   const [loadingScreen, setLoadingScreen] = useState<boolean>(false)
-  const [campaign, setCampaign] = useState<any>([])
+  const [campaign, setCampaign] = useState<any>()
   const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [ searchParams ] = useSearchParams()
@@ -109,31 +109,28 @@ const SubscriberPage = () => {
   return (
     <>
       {loading && <Loading />}
-      <header className="p-3 fixed top-0 left-0 right-0 bg-white border-b-1 border-b-accentLight">
+      <header className="p-3 fixed top-0 left-0 right-0 bg-white border-b-1 border-b-accentLight z-30">
         <div className="flex-start">
           <img src={logo} alt="Logo" className="h-[30px]" />
           <h1 className="text-xl font-outfit ml-1">MailDrop</h1>
         </div>
       </header>
       <main className="bg-accentXLight mt-13 p-3 min-h-[calc(100vh-4rem)]">
-        <div className="mt-6 text-center">
+        <div className="mt-6 sm:text-center">
           <h1 className="text-2xl text-primary font-inter">{campaign.title}</h1>
-          <p className="text-sm text-accent mt-1 w-[90%] sm:w-[700px] mx-auto">{campaign.description}</p>
+          <p className="text-sm text-accent mt-1">{campaign.description}</p>
         </div>
-        {campaign.leadMagnetName &&
-          <div className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm mt-6 w-[90%] sm:w-[500px] mx-auto mb-4">
-            <h1 className="text-primary font-outfit text-lg text-center">Free Reward Available</h1>
-            <div className="my-5">
-              <div className="flex-center mx-auto h-30 w-30 bg-accentXLight border-1 border-accentLight rounded-full">
-                <img src={gift} className="h-20" />
-              </div>
-              <h1 className="text-primary text-center mt-3">{campaign.leadMagnetName}</h1>
+        <div className="bg-white py-4 px-6 rounded-sm mt-8 w-[100%] sm:w-[500px] mx-auto mb-4">
+          <div className="flex-start gap-3">
+            <div className="h-7 w-7 bg-accentXLight border-1 border-accentLight rounded-full"></div>
+            <div>
+              <h1>{campaign.username}</h1>
+              <p className="text-accent text-[12px]"><i>{campaign.userbio}</i></p>
             </div>
-            <p className="text-[12px] text-accent mt-1 text-center">Subscribe to this campaign and receive your gift</p>
           </div>
-        }
-        <div className="flex-center mt-8">
-          <form onSubmit={handleSubmit} className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm w-[90%] sm:w-[500px]">
+        </div>
+        <div className="flex-center mt-6">
+          <form onSubmit={handleSubmit} className="bg-white py-4 px-6 rounded-sm w-[100%] sm:w-[500px]">
             <h1 className="text-center text-xl text-primary font-open">Become a Member</h1>
             {campaign.leadMagnetName && 
               <p className="text-accent text-[12px] text-center mt-1">
@@ -179,6 +176,18 @@ const SubscriberPage = () => {
             <p className="mt-6 text-[10px] text-accent text-center"><i>By submitting this form, you agree to receive marketing emails from <b>MailDrop</b>. You can unsubscribe any time. We respect your privacy and will never share your information</i></p>
           </form>
         </div>
+                {campaign.leadMagnetName &&
+          <div className="bg-white py-4 px-6 rounded-sm mt-6 w-[100%] sm:w-[500px] mx-auto mb-4">
+            <h1 className="text-primary font-outfit text-lg text-center">Reward Available</h1>
+            <div className="my-5">
+              <div className="flex-center mx-auto h-30 w-30 bg-accentXLight border-1 border-accentLight rounded-full">
+                <img src={gift} className="h-20" />
+              </div>
+              <h1 className="text-primary text-center mt-3">{campaign.leadMagnetName}</h1>
+            </div>
+            <p className="text-[12px] text-accent mt-1 text-center">Subscribe to this campaign and receive your gift</p>
+          </div>
+        }
         <div className="flex-center gap-4 py-4 text-[11px] text-accent">
             <div className="flex-center gap-1">
               <IoShieldOutline />
@@ -193,15 +202,7 @@ const SubscriberPage = () => {
               <span>Instant Access</span>
             </div>
         </div>
-        <div className="bg-white border-1 border-accentLight py-4 px-6 rounded-sm mt-6 w-[90%] sm:w-[600px] mx-auto mb-4">
-          <div className="flex-start gap-3">
-            <div className="h-7 w-7 bg-accentXLight border-1 border-accentLight rounded-full"></div>
-            <div>
-              <h1>{campaign.username}</h1>
-              <p className="text-accent text-[12px]"><i>{campaign.userbio}</i></p>
-            </div>
-          </div>
-        </div>
+        
       </main>
     </>
   )
