@@ -28,6 +28,9 @@ const SubscriberPage = () => {
     userId: campaign.userId
   }
 
+  console.log(campaign)
+  console.log(campaignId)
+
   useEffect(() => {
     if (!campaign) return
 

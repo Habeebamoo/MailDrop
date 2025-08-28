@@ -45,7 +45,7 @@ const App = () => {
         </Route>
         <Route path="/forgot" element={<ForgotPage />} />
         <Route path="/reset" element={<ResetPage />} />
-        <Route path="/campaign" element={<SubscriberPage />} errorElement={<Error />} />
+        <Route path="/campaign" element={<SubscriberPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </>
     )
