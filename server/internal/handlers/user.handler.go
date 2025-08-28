@@ -83,7 +83,7 @@ func (usrHdl *UserHandler) VerifyOTP(c *gin.Context) {
 
 	otpCode, err := strconv.Atoi(otpCodeStr)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Internal server error"})
+		c.JSON(500, gin.H{"error": "Internal server error: convert to int"})
 		return
 	}
 
