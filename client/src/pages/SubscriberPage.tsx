@@ -10,12 +10,13 @@ import Error from "../components/dashboard/Error"
 import { toast } from "react-toastify"
 
 const SubscriberPage = () => {
+  const [ searchParams ] = useSearchParams()
+  const campaignId = searchParams.get("id")
+
   const [loadingScreen, setLoadingScreen] = useState<boolean>(true)
   const [campaign, setCampaign] = useState<any>()
   const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [ searchParams ] = useSearchParams()
-  const campaignId = searchParams.get("id")
 
   const [form, setForm] = useState({
     name: "",

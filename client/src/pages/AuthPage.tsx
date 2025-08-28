@@ -77,6 +77,7 @@ const AuthPage = () => {
   }
 
   const toggleLogin = () => {
+    if (loading) return
     setIsLogin(!isLogin)
   }
 

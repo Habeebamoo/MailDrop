@@ -30,7 +30,7 @@ const Hero = () => {
           </button>
         </div>
         <div className="max-sm:my-20 lg:ml-5">
-          <div className="flex-center" data-aos="slide-left">
+          <div className="flex-center" data-aos="zoom-in">
             <img src={heroImg} className="max-lg:h-[300px] lg:h-[250px]" />
           </div>
         </div>
