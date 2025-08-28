@@ -39,6 +39,7 @@ func main() {
 		&models.Activity{}, 
 		&models.Subscriber{},
 		&models.Token{},
+		&models.OTP{},
 	)
 
 	//repositories

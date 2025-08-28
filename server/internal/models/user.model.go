@@ -41,7 +41,7 @@ type OTP struct {
 	Id         uint       `json:"-"          gorm:"primaryKey;autoIncrement"`
 	UserId     uuid.UUID  `json:"userId"`
 	Code       int        `json:"code"`
-	ExpiresAt  time.Time  `json:"expiresAt"  gorm:"autoCreateTime"`
+	ExpiresAt  time.Time  `json:"expiresAt"`
 }
 
 type UserRequest struct {
