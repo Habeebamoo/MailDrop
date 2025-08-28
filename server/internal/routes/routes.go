@@ -38,8 +38,8 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		auth.POST("/verify", userHandler.VerifyOTP)
 		auth.POST("/forgot-password", userHandler.ForgotPassword)
 		auth.POST("/reset-password", userHandler.ResetPassword)
-		auth.GET("/auth/google", userHandler.GoogleLogin)
-		auth.GET("/auth/google/callback", userHandler.GoogleCallBack)
+		auth.GET("/google", userHandler.GoogleLogin)
+		auth.GET("/google/callback", userHandler.GoogleCallBack)
 	}
 
 	//new subscriber routes
