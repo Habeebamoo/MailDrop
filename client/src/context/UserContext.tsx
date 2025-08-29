@@ -5,7 +5,6 @@ type User = {
   name: string,
   email: string,
   password: string,
-  authType: string,
   verified: boolean,
   profile: {
     userId: string,
