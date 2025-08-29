@@ -217,7 +217,7 @@ func (userRepo *UserRepo) CreateToken(userId uuid.UUID) (string, int, error) {
 	//create a token for verification
 	token := models.Token{
 		UserId: userId,
-		ExpiresAt: time.Now().Add(12 * time.Hour).UTC(),
+		ExpiresAt: time.Now().Add(12 * time.Hour),
 	}
 
 	err = userRepo.db.Create(&token).Error
