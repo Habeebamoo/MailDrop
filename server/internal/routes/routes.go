@@ -22,7 +22,6 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		MaxAge: 12 * time.Hour,
 	}))
 
-	router.Use(middlewares.RequireAPIKey())
 	router.Use(middlewares.RateLimiter())
 
 	api := router.Group("/api")
@@ -30,20 +29,22 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		c.JSON(200, gin.H{"message": "All systems are working fine"})
 	})
 
+	//Google login
+	api.GET("/auth/google", userHandler.GoogleLogin)
+	api.GET("/auth/google/callback", userHandler.GoogleCallBack)
+	
 	//auth routes
-	auth := api.Group("/auth")
+	auth := api.Group("/auth", middlewares.RequireAPIKey())
 	{
 		auth.POST("/register", userHandler.Register)
 		auth.POST("/login", userHandler.Login)
 		auth.POST("/verify", userHandler.VerifyOTP)
 		auth.POST("/forgot-password", userHandler.ForgotPassword)
 		auth.POST("/reset-password", userHandler.ResetPassword)
-		auth.GET("/google", userHandler.GoogleLogin)
-		auth.GET("/google/callback", userHandler.GoogleCallBack)
 	}
 
 	//new subscriber routes
-	subscriber := api.Group("/subscriber")
+	subscriber := api.Group("/subscriber", middlewares.RequireAPIKey())
 	{
 		subscriber.GET("/campaign/:id", campaignHandler.GetSubscriberCampaign)
 		subscriber.POST("", campaignHandler.CreateSubscriber)
@@ -51,7 +52,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	}
 
 	//user routes
-	user := api.Group("/user", middlewares.AuthenticateUser())
+	user := api.Group("/user", middlewares.RequireAPIKey(), middlewares.AuthenticateUser())
 	{
 		user.GET("/me", userHandler.GetUser)
 		user.GET("/activities", userHandler.GetActivities)
@@ -60,7 +61,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	}
 	
 	//campaign routes
-	campaign := api.Group("/campaign", middlewares.AuthenticateUser())
+	campaign := api.Group("/campaign", middlewares.RequireAPIKey(), middlewares.AuthenticateUser())
 	{
 		campaign.POST("", campaignHandler.CreateCampaign)
 		campaign.GET("", campaignHandler.GetAllCampaigns)

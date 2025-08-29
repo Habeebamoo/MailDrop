@@ -3,7 +3,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"
 import googleIcon from "../assets/google.png"
 import { useNavigate } from "react-router-dom"
 import { ClipLoader } from "react-spinners"
-import { toast } from "react-toastify"
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
@@ -19,20 +18,7 @@ const AuthPage = () => {
   const navigate = useNavigate()
 
   const handleGoogleAuth = async () => {
-    try {
-      const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/google", {
-        method: "GET",
-        headers: {
-          "X-API-KEY": import.meta.env.VITE_X_API_KEY
-        }
-      })
-
-      if (!res.ok) {
-        toast.error("Google Login Failed")
-      }
-    } catch (err) {
-      toast.error("Something went wrong.")
-    }
+    window.location.href = "https://maildrop-znoo.onrender.com/api/auth/google";
   }
 
   const handleAuth = async (e: React.FormEvent) => {

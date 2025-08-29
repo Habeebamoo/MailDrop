@@ -112,7 +112,7 @@ func (userSvc *UserSvc) VerifyUser(otpCode int) (int, error) {
 	//get the user
 	user, _, err := userSvc.repo.GetUserById(userId)
 	if err != nil {
-		return 500, fmt.Errorf("internal server error")
+		return 500, fmt.Errorf("internal server error: get user")
 	}
 
 	if user.Verified {

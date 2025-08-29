@@ -126,9 +126,9 @@ func (userRepo *UserRepo) GetUserIdByOTP(otpCode int) (uuid.UUID, int, error) {
 	err := userRepo.db.First(&userOtp, "code = ?", otpCode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return uuid.UUID{}, http.StatusNotFound, fmt.Errorf("invalid OTP code")
+			return uuid.UUID{}, http.StatusUnauthorized, fmt.Errorf("invalid OTP code")
 		}
-		return uuid.UUID{} ,500, fmt.Errorf("internal server error")
+		return uuid.UUID{} , 500, fmt.Errorf("internal server error: db")
 	}
 
 	return userOtp.UserId, 200, nil
