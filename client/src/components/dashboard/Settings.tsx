@@ -129,7 +129,7 @@ const Settings = () => {
           <div className="mt-6 flex-start gap-8 px-4">
             <div className="h-20 w-20 bg-accentXLight border-1 border-accentLight rounded-full flex-center overflow-hidden">
               {preview && <img src={preview} alt="profile" className="w-full h-full object-cover" />}
-              {user?.profile.profilePic && <img src={user.profile.profilePic} alt="profile" className="w-full h-full object-cover" />}
+              {!preview && user?.profile.profilePic && <img src={user.profile.profilePic} alt="profile" className="w-full h-full object-cover" />}
               {!preview && !user?.profile.profilePic && <span className="text-gray-400 text-3xl">+</span>}
             </div>
             <div>
