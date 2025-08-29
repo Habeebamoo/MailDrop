@@ -82,7 +82,7 @@ func (usrHdl *UserHandler) GoogleLogin(c *gin.Context) {
 	state, _ := utils.GetRandomString()
 	c.SetCookie("oauthstate", state, 3600, "/", "", true, true)
 
-	url := usrHdl.googleOauth2Config.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	url := usrHdl.googleOauth2Config.AuthCodeURL(state, oauth2.AccessTypeOffline, oauth2.ApprovalForce)
 	c.Redirect(http.StatusTemporaryRedirect, url)
 }
 
@@ -154,7 +154,6 @@ func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 		"; Partitioned",
 	)
 	
-	c.JSON(statusCode, gin.H{"message": "Login Successful"})
 	c.Redirect(http.StatusTemporaryRedirect, "https://maildrop.netlify.app/dashboard/home")
 }
 
