@@ -15,6 +15,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
     userId: user?.userId,
     username: user?.name,
     userbio: user?.profile.bio,
+    userPicture: user?.profile.profilePic,
     title: "",
     description: "",
     leadMagnetName: "",

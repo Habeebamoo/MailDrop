@@ -128,7 +128,9 @@ const SubscriberPage = () => {
         </div>
         <div className="bg-white py-4 px-6 rounded-sm mt-8 w-[100%] sm:w-[500px] mx-auto mb-4">
           <div className="flex-start gap-3">
-            <div className="h-7 w-7 bg-accentXLight border-1 border-accentLight rounded-full"></div>
+            <div className="h-7 w-7 bg-accentXLight border-1 border-accentLight rounded-full flex-center overflow-hidden">
+              <img src={campaign.userPicture} className="w-full h-full object-cover" />
+            </div>
             <div>
               <h1>{campaign.username}</h1>
               <p className="text-accent text-[12px]"><i>{campaign.userbio}</i></p>

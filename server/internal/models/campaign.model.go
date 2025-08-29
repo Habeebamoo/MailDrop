@@ -11,6 +11,7 @@ type Campaign struct {
 	UserId            uuid.UUID  `json:"userId"`
 	UserName          string     `json:"username"`
 	UserBio           string     `json:"userbio"`
+	UserPicture       string     `json:"userPicture"`
 	CampaignId        uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
 	Title             string     `json:"title"         gorm:"unique"`
 	Description       string     `json:"description"`
@@ -39,6 +40,7 @@ type CampaignResponse struct {
 	CampaignId        uuid.UUID  `json:"campaignId"`
 	UserName          string     `json:"username"`
 	UserBio           string     `json:"userbio"`
+	UserPicture       string     `json:"userPicture"`
 	Title             string     `json:"title"`
 	Description       string     `json:"description"`
 	LeadMagnetName    string     `json:"leadMagnetName"`
@@ -56,6 +58,7 @@ type SubscriberCampaignResponse struct {
 	CampaignId        uuid.UUID  `json:"campaignId"`
 	UserName          string     `json:"username"`
 	UserBio           string     `json:"userbio"`
+	UserPicture       string     `json:"userPicture"`
 	Title             string     `json:"title"`
 	Description       string     `json:"description"`
 	LeadMagnetName    string     `json:"leadMagnetName"`
@@ -66,6 +69,7 @@ type CampaignRequest struct {
 	UserId          string  `json:"userId"         binding:"required"`
 	UserName        string  `json:"username"       binding:"required"`
 	UserBio         string  `json:"userbio"        binding:"required"`
+	UserPicture     string  `json:"userPicture"`
 	Title           string  `json:"title"          binding:"required"`
 	Description     string  `json:"description"    binding:"required"`
 	LeadMagnetName  string  `json:"leadMagnetName"`
