@@ -1,5 +1,8 @@
+import { FaEdit } from "react-icons/fa"
 import { FaGear } from "react-icons/fa6"
 import { FiEdit, FiHome, FiMail } from "react-icons/fi"
+import { GoHomeFill } from "react-icons/go"
+import { IoMdMail } from "react-icons/io"
 import { NavLink } from "react-router-dom"
 
 const Navbar = () => {
@@ -66,21 +69,21 @@ const Navbar = () => {
               to={"/dashboard/home"}
             >
               {({ isActive }) => (
-                <FiHome color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
+                <GoHomeFill color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink
               to={"/dashboard/campaigns"}
             >
               {({ isActive }) => (
-                <FiEdit color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
+                <FaEdit color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink
               to={"/dashboard/email"}
             >
               {({ isActive }) => (
-                <FiMail color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
+                <IoMdMail color={isActive ? "#000" : "rgba(175, 172, 172, 1)"} size={20} />
               )}
             </NavLink>
             <NavLink
