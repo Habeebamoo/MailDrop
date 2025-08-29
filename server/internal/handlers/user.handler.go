@@ -139,20 +139,19 @@ func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 	//cookies
 	cookieName := "auth_token"
 	path := "/"
-	domain := "https://maildrop-znoo.onrender.com"
+	domain := ""
 	maxAge := 3600
 
-	c.SetCookie(cookieName, jwtToken, maxAge, path, domain, true, true)
-	c.Header("Set-Cookie", 
-		cookieName+"="+jwtToken+
-		"; Path="+path+
-		"; Domain="+domain+
-		"; Max-Age="+fmt.Sprint(maxAge)+
-		"; Secure"+
-		"; HttpOnly"+
-		"; SameSite=None"+
-		"; Partitioned",
-	)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name: cookieName,
+		Value: jwtToken,
+		MaxAge: maxAge,
+		Path: path,
+		Domain: domain,
+		Secure: true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	})
 	
 	c.Redirect(http.StatusTemporaryRedirect, "https://maildrop.netlify.app/dashboard/home")
 }
