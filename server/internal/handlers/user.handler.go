@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/service"
@@ -88,6 +89,7 @@ func (usrHdl *UserHandler) GoogleLogin(c *gin.Context) {
 func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 	callbackState := c.Query("state")
 	cookieState, err := c.Cookie("oauthstate")
+	
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Internal server error"})
 		return
@@ -97,6 +99,9 @@ func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid state"})
 		return
 	}
+
+	//delete the state cookie
+	c.SetCookie("oauthstate", "", -1, "/", "", true, true)
 		
 	code := c.Query("code")
 	if code == "" {
@@ -189,6 +194,7 @@ func (userHdl *UserHandler) Logout(c *gin.Context) {
 		Name: cookieName,
 		Value: "",
 		MaxAge: maxAge,
+		Expires: time.Unix(0, 0),
 		Path: path,
 		Domain: domain,
 		Secure: true,
