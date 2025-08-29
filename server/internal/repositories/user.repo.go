@@ -196,7 +196,7 @@ func (userRepo *UserRepo) CreateOTP(userId uuid.UUID) (int, error) {
 	otp := models.OTP{
 		UserId: userId,
 		Code: otpCode,
-		ExpiresAt: time.Now().Add(10*time.Minute).UTC(),
+		ExpiresAt: time.Now().Add(10*time.Minute),
 	}
 
 	err = userRepo.db.Create(&otp).Error

@@ -13,7 +13,6 @@ type User struct {
 	Name       string     `json:"name"`
 	Email      string     `json:"email"      gorm:"unique"`
 	Password   string     `json:"password"`
-	AuthType   string     `json:"authType"`
 	Verified   bool       `json:"verified"`
 	Profile    Profile    `json:"profile"    gorm:"primaryKey:UserId;references:UserId"`
 	CreatedAt  time.Time  `json:"createdAt"`
@@ -38,8 +37,7 @@ type Token struct {
 }
 
 type OTP struct {
-	Id         uint       `json:"-"          gorm:"primaryKey;autoIncrement"`
-	UserId     uuid.UUID  `json:"userId"`
+	UserId     uuid.UUID  `json:"userId"     gorm:"primaryKey"`
 	Code       int        `json:"code"`
 	ExpiresAt  time.Time  `json:"expiresAt"`
 }
@@ -48,7 +46,6 @@ type UserRequest struct {
 	Name      string  `json:"name"      binding:"required"`
 	Email     string  `json:"email"     binding:"required,email"`
 	Password  string  `json:"password"  binding:"required,min=6"`
-	AuthType  string  `json:"authType"`
 }
 
 type GoogleLoginRequest struct {

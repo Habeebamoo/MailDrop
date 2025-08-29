@@ -40,7 +40,6 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 		Name: userReq.Name,
 		Email: userReq.Email,
 		Password: userReq.Password,
-		AuthType: userReq.AuthType,
 		Verified: false,
 		CreatedAt: time.Now(),
 	}
@@ -48,7 +47,6 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	//update hashed password
 	hashedPassword, _ := utils.HashPassword(userReq.Password)
 	user.Password = hashedPassword
-	user.AuthType = "email"
 
 	//create user
 	statusCode, err := userSvc.repo.InsertUser(user, "")
@@ -125,7 +123,6 @@ func (userSvc *UserSvc) HandleGoogleLogin(userInfo models.GoogleLoginRequest) (s
 	user := models.User{
 		Name: userInfo.Name,
 		Email: userInfo.Email,
-		AuthType: "google",
 		Verified: userInfo.VerifiedEmail,
 		CreatedAt: time.Now(),
 	}
