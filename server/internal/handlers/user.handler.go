@@ -139,7 +139,7 @@ func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 	//cookies
 	cookieName := "auth_token"
 	path := "/"
-	domain := ""
+	domain := "https://maildrop-znoo.onrender.com"
 	maxAge := 3600
 
 	c.SetCookie(cookieName, jwtToken, maxAge, path, domain, true, true)
