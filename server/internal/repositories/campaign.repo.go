@@ -14,6 +14,7 @@ import (
 type CampaignRepository interface {
 	CreateCampaign(models.Campaign, uuid.UUID) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
+	CampaignExists(uuid.UUID, string) bool
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(models.Campaign) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
@@ -34,9 +35,6 @@ func NewCampaignRepository(db *gorm.DB) CampaignRepository {
 func (campaignRepo *CampaignRepo) CreateCampaign(campaign models.Campaign, userId uuid.UUID) (int, error) {
 	//create the campaign
 	if err := campaignRepo.db.Create(&campaign).Error; err != nil {
-		if strings.Contains(err.Error(), "duplicate key value") {
-			return http.StatusNotAcceptable, fmt.Errorf("campaign title already exists")
-		}
 		return 500, fmt.Errorf("internal server error")
 	}
 
@@ -93,6 +91,16 @@ func (campaignRepo *CampaignRepo) GetCampaign(campaignId uuid.UUID) (models.Camp
 	}
 	
 	return campaign, 200, nil
+}
+
+func (campaignRepo *CampaignRepo) CampaignExists(userId uuid.UUID, title string) bool {
+	var campaign models.Campaign
+	err := campaignRepo.db.Where(models.Campaign{UserId: userId, Title: title}).First(&campaign).Error
+	if err == gorm.ErrRecordNotFound {
+		return false
+	} else {
+		return true
+	}
 }
 
 func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.CampaignResponse, int, error) {

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
@@ -30,6 +32,13 @@ func NewCampaignService(repo repositories.CampaignRepository) CampaignService {
 }
 
 func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignRequest) (int, error) {
+	campaignId, _ := uuid.Parse(campaignReq.UserId)
+	//checks is campaign exists
+	exists := campaignSvc.repo.CampaignExists(campaignId, campaignReq.Title)
+	if exists {
+		return http.StatusConflict, fmt.Errorf("a campaign with this title already exists")
+	}
+
 	//prepopulate the request
 	userId, _ := uuid.Parse(campaignReq.UserId)
 

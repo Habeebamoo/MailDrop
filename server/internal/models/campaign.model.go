@@ -13,7 +13,7 @@ type Campaign struct {
 	UserBio           string     `json:"userbio"`
 	UserPicture       string     `json:"userPicture"`
 	CampaignId        uuid.UUID  `json:"campaignId"    gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
-	Title             string     `json:"title"         gorm:"unique"`
+	Title             string     `json:"title"`
 	Description       string     `json:"description"`
 	LeadMagnetName    string     `json:"leadMagnetName"`
 	LeadMagnetUrl     string     `json:"leadMagnetUrl"`
