@@ -36,7 +36,7 @@ func NewUserService(repo repositories.UserRepository) UserService {
 
 func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	//assing user request to user struct
-	user := models.User{
+	user := &models.User{
 		Name: userReq.Name,
 		Email: userReq.Email,
 		Password: userReq.Password,
@@ -120,7 +120,7 @@ func (userSvc *UserSvc) HandleGoogleLogin(userInfo models.GoogleLoginRequest) (s
 	}
 
 	//create user
-	user := models.User{
+	user := &models.User{
 		Name: userInfo.Name,
 		Email: userInfo.Email,
 		Verified: userInfo.VerifiedEmail,

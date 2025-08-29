@@ -15,7 +15,7 @@ import (
 )
 
 type UserRepository interface {
-	InsertUser(models.User, string) (int, error)
+	InsertUser(*models.User, string) (int, error)
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
@@ -37,9 +37,9 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserRepo{db: db}
 }
 
-func (userRepo *UserRepo) InsertUser(user models.User, pic string) (int, error) {
+func (userRepo *UserRepo) InsertUser(user *models.User, pic string) (int, error) {
 	//create the user
-	err := userRepo.db.Create(&user).Error
+	err := userRepo.db.Create(user).Error
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value") {
 			return http.StatusNotAcceptable, fmt.Errorf("user already exist")
