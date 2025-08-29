@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -63,17 +62,17 @@ func (usrHdl *UserHandler) Login(c *gin.Context) {
 	domain := ""
 	maxAge := 3600
 
-	c.SetCookie(cookieName, token, maxAge, path, domain, true, true)
-	c.Header("Set-Cookie", 
-		cookieName+"="+token+
-		"; Path="+path+
-		"; Domain="+domain+
-		"; Max-Age="+fmt.Sprint(maxAge)+
-		"; Secure"+
-		"; HttpOnly"+
-		"; SameSite=None"+
-		"; Partitioned",
-	)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name: cookieName,
+		Value: token,
+		MaxAge: maxAge,
+		Path: path,
+		Domain: domain,
+		Secure: true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+		Partitioned: true,
+	})
 	
 	c.JSON(statusCode, gin.H{"message": "Login Successful"})
 }
@@ -151,6 +150,7 @@ func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 		Secure: true,
 		HttpOnly: true,
 		SameSite: http.SameSiteNoneMode,
+		Partitioned: true,
 	})
 	
 	c.Redirect(http.StatusTemporaryRedirect, "https://maildrop.netlify.app/dashboard/home")
@@ -185,17 +185,17 @@ func (userHdl *UserHandler) Logout(c *gin.Context) {
 	domain := ""
 	maxAge := -1
 
-	c.SetCookie(cookieName, "", maxAge, path, domain, true, true)
-	c.Header("Set-Cookie", 
-		cookieName+"="+""+
-		"; Path="+path+
-		"; Domain="+domain+
-		"; Max-Age="+fmt.Sprint(maxAge)+
-		"; Secure"+
-		"; HttpOnly"+
-		"; SameSite=None"+
-		"; Partitioned",
-	)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name: cookieName,
+		Value: "",
+		MaxAge: maxAge,
+		Path: path,
+		Domain: domain,
+		Secure: true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+		Partitioned: true,
+	})
 
 	c.JSON(200, gin.H{"message": "Signed out Successfully"})
 }
