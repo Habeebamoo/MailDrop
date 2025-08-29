@@ -17,6 +17,7 @@ import (
 type UserService interface {
 	CreateUser(models.UserRequest) (int, error)
 	LoginUser(models.UserLogin) (string, int, error)
+	HandleGoogleLogin(models.GoogleLoginRequest) (string, int, error)
 	VerifyUser(int) (int, error)
 	GetUser(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
@@ -50,7 +51,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	user.AuthType = "email"
 
 	//create user
-	statusCode, err := userSvc.repo.InsertUser(user)
+	statusCode, err := userSvc.repo.InsertUser(user, "")
 	if err != nil {
 		return statusCode, err
 	}
@@ -94,6 +95,47 @@ func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error)
 		return "", http.StatusUnauthorized, fmt.Errorf("invalid credentials")
 	}
 
+	token, err := utils.GenerateJWT(user.UserId)
+	if err != nil {
+		return "", 500, err
+	}
+	
+	return token, 200, nil
+}
+
+func (userSvc *UserSvc) HandleGoogleLogin(userInfo models.GoogleLoginRequest) (string, int, error) {
+	//checks if user exists
+	existingUser, code, err := userSvc.repo.GetUser(userInfo.Email)
+
+	if code == 500 {
+		return "", code, err
+	}
+
+	if code == 200 {
+		//login user
+		token, err := utils.GenerateJWT(existingUser.UserId)
+		if err != nil {
+			return "", 500, err
+		}
+		
+		return token, 200, nil
+	}
+
+	//create user
+	user := models.User{
+		Name: userInfo.Name,
+		Email: userInfo.Email,
+		AuthType: "google",
+		Verified: userInfo.VerifiedEmail,
+		CreatedAt: time.Now(),
+	}
+
+	code, err = userSvc.repo.InsertUser(user, userInfo.Picture)
+	if err != nil {
+		return "", code, err
+	}
+
+	//login user
 	token, err := utils.GenerateJWT(user.UserId)
 	if err != nil {
 		return "", 500, err

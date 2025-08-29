@@ -15,7 +15,7 @@ import (
 )
 
 type UserRepository interface {
-	InsertUser(models.User) (int, error)
+	InsertUser(models.User, string) (int, error)
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
@@ -37,7 +37,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserRepo{db: db}
 }
 
-func (userRepo *UserRepo) InsertUser(user models.User) (int, error) {
+func (userRepo *UserRepo) InsertUser(user models.User, pic string) (int, error) {
 	//create the user
 	err := userRepo.db.Create(&user).Error
 	if err != nil {
@@ -57,7 +57,7 @@ func (userRepo *UserRepo) InsertUser(user models.User) (int, error) {
 	//assign user profile
 	userProfile := models.Profile{
 		UserId: createdUser.UserId,
-		ProfilePic: "",
+		ProfilePic: pic,
 		Bio: "Campaign Admin",
 		TotalCampaigns: 0,
 		TotalSubscribers: 0,

@@ -51,6 +51,16 @@ type UserRequest struct {
 	AuthType  string  `json:"authType"`
 }
 
+type GoogleLoginRequest struct {
+	Email          string  `json:"email"`
+	GivenName      string  `json:"given_name"`
+	FamilyName     string  `json:"family_name"`
+	Id             string  `json:"id"`
+	Name           string  `json:"name"`
+	Picture        string  `json:"picture"`
+	VerifiedEmail  bool    `json:"verified_email"`
+}
+
 type UserLogin struct {
 	Email     string  `json:"email"     binding:"required"`
 	Password  string  `json:"password"  binding:"required"`

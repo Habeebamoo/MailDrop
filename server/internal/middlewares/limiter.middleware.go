@@ -12,7 +12,7 @@ func RateLimiter() gin.HandlerFunc {
 	//im-memory store for tracking request
 	store := ratelimit.InMemoryStore(&ratelimit.InMemoryOptions{
 		Rate: time.Minute,
-		Limit: 20,
+		Limit: 30,
 	})
 
 	//middleware

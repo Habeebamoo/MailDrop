@@ -122,16 +122,40 @@ func (usrHdl *UserHandler) GoogleCallBack(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
-	var userInfo map[string]interface{}
+	//get users credentials
+	var userInfo models.GoogleLoginRequest
 	if err := json.NewDecoder(resp.Body).Decode(&userInfo); err != nil {
 		c.JSON(500, gin.H{"error": "failed to parse user info"})
 		return
 	}
 
-	c.JSON(200, gin.H{
-		"message": "Login Successful",
-		"data": userInfo,
-	})
+	// handle user request
+	jwtToken, statusCode, err := usrHdl.svc.HandleGoogleLogin(userInfo)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+
+	//cookies
+	cookieName := "auth_token"
+	path := "/"
+	domain := ""
+	maxAge := 3600
+
+	c.SetCookie(cookieName, jwtToken, maxAge, path, domain, true, true)
+	c.Header("Set-Cookie", 
+		cookieName+"="+jwtToken+
+		"; Path="+path+
+		"; Domain="+domain+
+		"; Max-Age="+fmt.Sprint(maxAge)+
+		"; Secure"+
+		"; HttpOnly"+
+		"; SameSite=None"+
+		"; Partitioned",
+	)
+	
+	c.JSON(statusCode, gin.H{"message": "Login Successful"})
+	c.Redirect(http.StatusTemporaryRedirect, "https://maildrop.netlify.app/dashboard/home")
 }
 
 func (usrHdl *UserHandler) VerifyOTP(c *gin.Context) {
