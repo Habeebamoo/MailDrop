@@ -8,7 +8,6 @@ import (
 )
 
 type User struct {
-	Id         uint       `json:"-"          gorm:"autoIncrement"`
 	UserId     uuid.UUID  `json:"userId"     gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
 	Name       string     `json:"name"`
 	Email      string     `json:"email"      gorm:"unique"`
@@ -19,7 +18,6 @@ type User struct {
 }
 
 type Profile struct {
-	Id                uint       `json:"-"                gorm:"autoIncrement"`
 	UserId            uuid.UUID  `json:"userId"           gorm:"type:uuid;primaryKey"`
 	ProfilePic        string     `json:"profilePic"`
 	Bio 			        string     `json:"bio"`
@@ -30,7 +28,6 @@ type Profile struct {
 }
 
 type Token struct {
-	Id         uint       `json:"-"          gorm:"autoIncrement"`
 	UserId     uuid.UUID  `json:"userId"`
 	Token      uuid.UUID  `json:"token"      gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
 	ExpiresAt  time.Time  `json:"expiresAt"`
