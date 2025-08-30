@@ -60,9 +60,6 @@ type SubscriberCampaignResponse struct {
 
 type CampaignRequest struct {
 	UserId          string  `json:"userId"         binding:"required"`
-	UserName        string  `json:"username"       binding:"required"`
-	UserBio         string  `json:"userbio"        binding:"required"`
-	UserPicture     string  `json:"userPicture"`
 	Title           string  `json:"title"          binding:"required"`
 	Description     string  `json:"description"    binding:"required"`
 	LeadMagnetName  string  `json:"leadMagnetName"`
