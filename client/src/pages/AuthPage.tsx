@@ -41,7 +41,8 @@ const AuthPage = () => {
             name: userInfo.name,
             email: userInfo.email,
             picture: userInfo.picture
-          })
+          }),
+          credentials: "include"
         })
         const response = await res.json()
 
