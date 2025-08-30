@@ -10,16 +10,14 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"golang.org/x/oauth2"
 )
 
 type UserHandler struct {
 	svc service.UserService
-	googleOauth2Config *oauth2.Config
 }
 
-func NewUserHandler(svc service.UserService, googleOauth2Config *oauth2.Config) UserHandler {
-	return UserHandler{svc: svc, googleOauth2Config: googleOauth2Config}
+func NewUserHandler(svc service.UserService) UserHandler {
+	return UserHandler{svc: svc}
 } 
 
 var (
