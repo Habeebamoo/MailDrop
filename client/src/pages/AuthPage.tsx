@@ -1,8 +1,17 @@
 import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
-import googleIcon from "../assets/google.png"
 import { useNavigate } from "react-router-dom"
 import { ClipLoader } from "react-spinners"
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google"
+import { jwtDecode } from "jwt-decode"
+import { toast } from "react-toastify"
+
+interface GooglePayLoad {
+  email: string,
+  name: string,
+  picture: string,
+  sub: string
+}
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
@@ -17,8 +26,15 @@ const AuthPage = () => {
   })
   const navigate = useNavigate()
 
-  const handleGoogleAuth = async () => {
-    window.location.href = "https://maildrop-znoo.onrender.com/api/auth/google";
+  const handleGoogleSuccess = (response: CredentialResponse) => {
+    if (response.credential) {
+      const userInfo = jwtDecode<GooglePayLoad>(response.credential);
+      console.log("User info:", userInfo)
+    }
+  }
+
+  const handleGoogleError = () => {
+    toast.error("Login error")
   }
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -112,13 +128,11 @@ const AuthPage = () => {
       <section className="bg-white p-8 rounded-sm w-[90%] sm:w-[400px]">
         <h1 className="text-xl font-outfit text-primary text-center">{isLogin ? "Welcome Back" : "Create Your Account"}</h1>
         <p className="text-sm text-accent text-center">{isLogin ? "Sign in to your MailDrop account to continue" : "Sign up to create an account with MailDrop"}</p>
-        <div>
-          <button 
-            onClick={handleGoogleAuth}
-            className="font-inter text-sm p-2 border-1 w-full mt-6 rounded-md border-accentLight flex-center hover:bg-accentLight cursor-pointer">
-            <img src={googleIcon} className="h-4" />
-            <span className="ml-2">Continue with Google</span>
-          </button>
+        <div className="flex-center mt-4">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+          ></GoogleLogin>
         </div>
         <div className="flex items-center my-6">
           <div className="flex-grow border-t border-accent"></div>
