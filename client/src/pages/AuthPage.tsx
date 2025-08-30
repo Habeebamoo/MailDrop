@@ -26,10 +26,35 @@ const AuthPage = () => {
   })
   const navigate = useNavigate()
 
-  const handleGoogleSuccess = (response: CredentialResponse) => {
-    if (response.credential) {
-      const userInfo = jwtDecode<GooglePayLoad>(response.credential);
-      console.log("User info:", userInfo)
+  const handleGoogleSuccess = async (tokenResponse: CredentialResponse) => {
+    try {
+      if (tokenResponse.credential) {
+        const userInfo = jwtDecode<GooglePayLoad>(tokenResponse.credential);
+
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/auth/google", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
+          },
+          body: JSON.stringify({
+            name: userInfo.name,
+            email: userInfo.email,
+            picture: userInfo.picture
+          })
+        })
+        const response = await res.json()
+
+        if (res.ok) {
+          window.location.href = "/dashboard/home"
+        } else {
+          toast.error(response.error)
+        }
+      } else {
+        toast.error("Google Login Failed")
+      }
+    } catch (err) {
+      toast.error("Something went wrong")
     }
   }
 
@@ -57,11 +82,11 @@ const AuthPage = () => {
           }),
           credentials: "include"
         })
-        const response = await res.json()
+        const tokenResponse = await res.json()
 
         if (!res.ok) {
           setStatus("error")
-          setMsg(response.error)
+          setMsg(tokenResponse.error)
         } else {
           window.location.href = "/dashboard/home"
         }
@@ -75,14 +100,14 @@ const AuthPage = () => {
           body: JSON.stringify(form),
           credentials: "include"
         })
-        const response = await res.json()
+        const tokenResponse = await res.json()
         
         if (!res.ok) {
           setStatus("error")
-          setMsg(response.error)
+          setMsg(tokenResponse.error)
         } else {
           setStatus("success")
-          setMsg(response.message)
+          setMsg(tokenResponse.message)
           setTimeout(() => { 
             navigate("/verify")
           }, 2000)
@@ -128,11 +153,14 @@ const AuthPage = () => {
       <section className="bg-white p-8 rounded-sm w-[90%] sm:w-[400px]">
         <h1 className="text-xl font-outfit text-primary text-center">{isLogin ? "Welcome Back" : "Create Your Account"}</h1>
         <p className="text-sm text-accent text-center">{isLogin ? "Sign in to your MailDrop account to continue" : "Sign up to create an account with MailDrop"}</p>
-        <div className="flex-center mt-4">
+        <div className="flex-center mt-4 w-full">
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={handleGoogleError}
-          ></GoogleLogin>
+            theme="outline"
+            size="large"
+            width="100%"
+          />
         </div>
         <div className="flex items-center my-6">
           <div className="flex-grow border-t border-accent"></div>

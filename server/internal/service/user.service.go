@@ -123,7 +123,7 @@ func (userSvc *UserSvc) HandleGoogleLogin(userInfo models.GoogleLoginRequest) (s
 	user := &models.User{
 		Name: userInfo.Name,
 		Email: userInfo.Email,
-		Verified: userInfo.VerifiedEmail,
+		Verified: true,
 		CreatedAt: time.Now(),
 	}
 
