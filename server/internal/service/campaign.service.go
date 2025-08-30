@@ -44,9 +44,6 @@ func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignReques
 
 	campaign := models.Campaign{
 		UserId: userId,
-		UserName: campaignReq.UserName,
-		UserBio: campaignReq.UserBio,
-		UserPicture: campaignReq.UserPicture,
 		Title: campaignReq.Title,
 		Description: campaignReq.Description,
 		LeadMagnetName: campaignReq.LeadMagnetName,
@@ -161,7 +158,14 @@ func (campaignSvc *CampaignSvc) DownloadSubscribers(campaignId uuid.UUID) (model
 }
 
 func (campaignSvc *CampaignSvc) GetSubscriberCampaign(campaignId uuid.UUID) (models.SubscriberCampaignResponse, int, error) {
+	//get campaign
 	campaign, statusCode, err := campaignSvc.repo.GetCampaign(campaignId)
+	if err != nil {
+		return models.SubscriberCampaignResponse{}, statusCode, err
+	}
+
+	//get user
+	user, statusCode, err := campaignSvc.repo.GetCampaignUser(campaign.UserId)
 	if err != nil {
 		return models.SubscriberCampaignResponse{}, statusCode, err
 	}
@@ -169,9 +173,9 @@ func (campaignSvc *CampaignSvc) GetSubscriberCampaign(campaignId uuid.UUID) (mod
 	campaignResponse := models.SubscriberCampaignResponse{
 		UserId: campaign.UserId,
 		CampaignId: campaign.CampaignId,
-		UserName: campaign.UserName,
-		UserBio: campaign.UserBio,
-		UserPicture: campaign.UserPicture,
+		UserName: user.Name,
+		UserBio: user.Profile.Bio,
+		UserPicture: user.Profile.ProfilePic,
 		Title: campaign.Title,
 		Description: campaign.Description,
 		LeadMagnetName: campaign.LeadMagnetName,

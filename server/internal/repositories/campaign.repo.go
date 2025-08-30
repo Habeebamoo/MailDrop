@@ -15,6 +15,7 @@ type CampaignRepository interface {
 	CreateCampaign(models.Campaign, uuid.UUID) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
 	CampaignExists(uuid.UUID, string) bool
+	GetCampaignUser(uuid.UUID) (models.User, int, error)
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(models.Campaign) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
@@ -101,6 +102,18 @@ func (campaignRepo *CampaignRepo) CampaignExists(userId uuid.UUID, title string)
 	} else {
 		return true
 	}
+}
+
+func (campaignRepo *CampaignRepo) GetCampaignUser(userId uuid.UUID) (models.User, int, error) {
+	var user models.User
+	err := campaignRepo.db.Preload("Profile").First(&user, "user_id = ?", userId).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return models.User{}, http.StatusNotFound, fmt.Errorf("user does not exists")
+		}
+		return models.User{} ,500, fmt.Errorf("internal server error")
+	}
+	return user, 200, nil
 }
 
 func (campaignRepo *CampaignRepo) GetAllCampaigns(userId uuid.UUID) ([]models.CampaignResponse, int, error) {

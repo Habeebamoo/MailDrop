@@ -153,7 +153,7 @@ func (userHdl *UserHandler) Logout(c *gin.Context) {
 		Partitioned: true,
 	})
 
-	c.JSON(200, gin.H{"message": "Signed out Successfully"})
+	c.JSON(200, gin.H{"message": "Signed out successfully"})
 }
 
 func (usrHdl *UserHandler) GetUser(c *gin.Context) {
