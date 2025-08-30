@@ -8,6 +8,8 @@ const Header = () => {
     return text?.charAt(0).toUpperCase()
   }
 
+  const imageHeight = user?.profile.profilePic ? "h-8 w-8" : "h-7 w-7";
+
   return (
     <header className="p-4 bg-white dark:bg-gray-900 dark:border-gray-800 dark:shadow-lg z-40 fixed top-0 left-0 right-0 border-b-1 border-b-accentLight flex-between">
       <div className="flex-start dark:text-primary dark:text-white">
@@ -15,7 +17,7 @@ const Header = () => {
         <h1 className="text-xl font-outfit ml-1">MailDrop</h1>
       </div>
       <div>
-        <div className="h-8 w-8 rounded-full bg-accentLight border-1 border-accent flex-center overflow-hidden text-accent">
+        <div className={`${imageHeight} rounded-full bg-accentLight border-1 border-accent flex-center overflow-hidden text-accent`}>
           {user?.profile.profilePic ? 
             <img src={user.profile.profilePic} className="object-cover w-full h-full" /> : 
             getFirstLetterOf(user?.name)}
