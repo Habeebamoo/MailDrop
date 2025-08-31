@@ -288,7 +288,7 @@ func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UU
 
 func (campaignRepo *CampaignRepo) UpdateUserEmails(userId, campaignId uuid.UUID, campaignTitle string) (int, error) {
 	//update user & campaign details
-	err := campaignRepo.db.Model(&models.User{}).
+	err := campaignRepo.db.Model(&models.Profile{}).
 												Where("user_id = ?", userId).
 												Update("total_emails", gorm.Expr("total_emails + ?", 1)).
 												Error
