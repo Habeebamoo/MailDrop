@@ -93,7 +93,9 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       const response = await res.json()
 
       if (res.ok) {
-        toast.success(response.message)
+        toast.success(response.message, {
+          progressClassName: "bg-[#231e88]"
+        })
         setTimeout(() => window.location.href = "/dashboard/campaigns", 2500)
       } else {
         toast.error(response.error)
@@ -111,7 +113,9 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
 
   const copySlug = () => {
     navigator.clipboard.writeText(campaign.slug).then(() => {
-      toast.success("Campaign url copied to clipboard")
+      toast.success("Campaign url copied to clipboard", {
+        progressClassName: "bg-[#231e88]"
+      })
     })
   }
 
