@@ -55,7 +55,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   }, [])
 
   const sendMail = async () => {
-    if (!form.subject || !form.senderName || !campaignSelected || !content) {
+    if (!form.subject || !campaignSelected || !content) {
       toast.error("All fields are required")
       return
     }
@@ -64,7 +64,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     const body = { ...form, userId: user?.userId, campaignId: campaignSelected, content: content }
 
     try {
-      const res = await fetch("https://maildrop-znoo.onrender.com/api/campaign/mail", {
+      const res = await fetch("https://maildrop-znoo.onrender.com/api/campaign/sendmail", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -169,7 +169,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="from-name" className="block font-open text-sm dark:text-white">From Name (Sender's name)</label>
+          <label htmlFor="from-name" className="block font-open text-sm dark:text-white">From Name (Optional)</label>
           <input 
             type="text"
             className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 

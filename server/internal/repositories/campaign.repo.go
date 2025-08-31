@@ -23,6 +23,7 @@ type CampaignRepository interface {
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
 	ArchiveSubscribers([]models.Subscriber, uuid.UUID) error
 	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
+	UpdateUserEmails(userId, campaignId uuid.UUID, campaignTitle string) (int, error)
 }
 
 type CampaignRepo struct {
@@ -281,6 +282,42 @@ func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UU
 	if err != nil {
 		return 500, fmt.Errorf("failed to update user's profile")
 	}
+
+	return 200, nil
+}
+
+func (campaignRepo *CampaignRepo) UpdateUserEmails(userId, campaignId uuid.UUID, campaignTitle string) (int, error) {
+	//update user & campaign details
+	err := campaignRepo.db.Model(&models.User{}).
+												Where("user_id = ?", userId).
+												Update("total_emails", gorm.Expr("total_emails + ?", 1)).
+												Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user's profile")
+	}
+
+	err = campaignRepo.db.Model(&models.Campaign{}).
+												Where("campaign_id = ?", campaignId).
+												Update("total_emails", gorm.Expr("total_emails + ?", 1)).
+												Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update users campaign's details")
+	}
+
+	//create the activity
+	activityName := fmt.Sprintf("Emails sent to '%s' subscribers", strings.TrimSpace(campaignTitle))
+
+	activity := models.Activity{
+		UserId: userId,
+		Name: activityName,
+		Type: "email",
+		CreatedAt: time.Now(),
+	}
+
+	err = campaignRepo.db.Create(&activity).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user activity")
+	}	
 
 	return 200, nil
 }

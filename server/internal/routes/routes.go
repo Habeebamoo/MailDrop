@@ -67,6 +67,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		campaign.GET("/:id/subscribers", campaignHandler.GetSubscribers)
 		campaign.GET("/:id/subscribers/download", campaignHandler.DownloadSubscribers)
 		campaign.DELETE("/:id", campaignHandler.DeleteCampaign)
+		campaign.POST("/sendmail", campaignHandler.SendMail)
 	}
 
 	return router

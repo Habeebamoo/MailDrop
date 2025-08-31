@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
@@ -21,6 +22,7 @@ type CampaignService interface {
 	CreateSubscriber(models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
 	GetSubscriberCampaign(uuid.UUID) (models.SubscriberCampaignResponse, int, error)
 	CampaignClick(uuid.UUID) (int, error)
+	SendMail(emailReq models.EmailRequest) (int, error)
 }
 
 type CampaignSvc struct {
@@ -184,4 +186,73 @@ func (campaignSvc *CampaignSvc) GetSubscriberCampaign(campaignId uuid.UUID) (mod
 	}
 
 	return campaignResponse, 200, nil
+}
+
+func (campaignSvc *CampaignSvc) SendMail(emailReq models.EmailRequest) (int, error) {
+	//get user
+	userId, _ := uuid.Parse(emailReq.UserId)
+	user, _, err := campaignSvc.repo.GetCampaignUser(userId)
+	if err != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	campaignId, _ := uuid.Parse(emailReq.CampaignId)
+	//get campaign
+	campaign, code, err := campaignSvc.GetCampaign(campaignId)
+	if err != nil {
+		return code, err
+	}
+
+	//get campaign subscribers
+	subscribers, code, err := campaignSvc.repo.GetSubscribers(campaignId)
+	if err != nil {
+		return code, err
+	}
+
+	var senderName string
+	if emailReq.SenderName == "" {
+		senderName = user.Name
+	} else {
+		senderName = emailReq.SenderName
+	}
+
+	//send email to subscribers via WorkerPools Goroutines
+	var wg sync.WaitGroup
+	emailChan := make(chan utils.EmailJobs, len(subscribers))
+	resChan := make(chan error, len(subscribers))
+
+	workerPool := utils.NewWorkerPool(3, emailChan, resChan, &wg) //spawn 3 workers
+	workerPool.Run()
+
+	//give emailsjobs to workers via channels
+	for _, subscriber := range subscribers {
+		emailChan <- utils.EmailJobs{
+			SenderName: senderName,
+			SenderEmail: user.Email,
+			Subject: emailReq.Subject,
+			Content: emailReq.Content,
+			ReceiverEmail: subscriber.Email,
+		}
+	}
+	close(emailChan)
+
+	// a new goroutines to wait for all workers & close result chan
+	go func() {
+		wg.Wait()
+		close(resChan)
+	}()
+
+	// send error (if exists) to the client
+	for results := range resChan {
+		if results != nil {
+			return 500, results
+		}
+	}
+
+	_, err = campaignSvc.repo.UpdateUserEmails(userId, campaignId, campaign.Title)
+	if err != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	return 200, nil
 }

@@ -73,6 +73,14 @@ type SubscriberRequest struct {
 	Email       string  `json:"email"       binding:"required,email"`
 }
 
+type EmailRequest struct {
+	UserId      string  `json:"userId"      binding:"required"`
+	CampaignId  string  `json:"campaignId"  binding:"required"`
+	Subject     string  `json:"subject"     binding:"required"`
+	SenderName  string  `json:"senderName"`
+	Content     string  `json:"content"     binding:"required"`
+}
+
 type SubscribersCsv struct {
 	Name   string  `csv:"Name"`
 	Email  string  `csv:"Email"`

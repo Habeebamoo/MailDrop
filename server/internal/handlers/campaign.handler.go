@@ -191,3 +191,19 @@ func (campaignHdl *CampaignHandler) DeleteCampaign(c *gin.Context) {
 
 	c.JSON(statusCode, gin.H{"message": "Campaign has been deleted"})
 }
+
+func (campaignHdl *CampaignHandler) SendMail(c *gin.Context) {
+	var emailReq models.EmailRequest
+	if err := c.ShouldBindJSON(&emailReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	statusCode, err := campaignHdl.svc.SendMail(emailReq)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+	
+	c.JSON(statusCode, gin.H{"message": "Emails sent successfully"})
+}

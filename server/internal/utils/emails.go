@@ -228,3 +228,30 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 
 	return 200, nil
 }
+
+func SendPromotionalEmail(emailJob EmailJobs) error {
+	m := gomail.NewMessage()
+
+	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", emailJob.SenderName))
+	m.SetHeader("To", emailJob.ReceiverEmail)
+	m.SetHeader("Subject", emailJob.Subject)
+
+	//Email body (HTML)
+	body := fmt.Sprintf(`
+		<!DOCTYPE html>
+		<html>
+			%s
+		</html>
+	`, emailJob.Content)
+
+	m.SetBody("text/html", body)
+
+	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
+	d.SSL = true
+
+	if err := d.DialAndSend(m); err != nil {
+		return fmt.Errorf("failed to send mail")
+	} 
+
+	return nil
+}
