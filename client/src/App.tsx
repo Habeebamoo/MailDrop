@@ -58,6 +58,7 @@ const App = () => {
         position="top-center" 
         toastClassName="toastify-toast-success"
         progressClassName="!bg-[#231e88]" 
+        
       />
     </>
   )
