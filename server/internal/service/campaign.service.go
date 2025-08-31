@@ -98,6 +98,7 @@ func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.S
 func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.SubscriberRequest, userId uuid.UUID, campaignId uuid.UUID) (string, int, error) {
 	subscriber := models.Subscriber{
 		CampaignId: campaignId,
+		CampaignStatus: "active",
 		UserId: userId,
 		Name: subscriberReq.Name,
 		Email: subscriberReq.Email,
