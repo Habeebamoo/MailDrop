@@ -209,6 +209,11 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq models.EmailRequest) (int, err
 		return code, err
 	}
 
+	//also include the user to view the email
+	subscribers = append(subscribers, models.Subscriber{
+		Email: user.Email,
+	})
+
 	var senderName string
 	if emailReq.SenderName == "" {
 		senderName = user.Name

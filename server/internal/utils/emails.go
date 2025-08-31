@@ -240,7 +240,9 @@ func SendPromotionalEmail(emailJob EmailJobs) error {
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html>
-			%s
+			<body style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+				%s
+			</body>
 		</html>
 	`, emailJob.Content)
 

@@ -4,8 +4,10 @@ import { CgMail } from "react-icons/cg"
 import { FiEdit } from "react-icons/fi"
 import History from "../History"
 import { useUser } from "../../../context/UserContext"
+import { useEffect, useState } from "react"
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"dashboard" | "new">> }) => {
+  const [activities, setActivities] = useState<any[]>([])
   const { theme } = useTheme()
   const { user } = useUser()
 
@@ -13,11 +15,39 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
     setActiveTab("new")
   }
 
-  //default
-  const activites = [
-    {type: "email", name: "Emails sent to 'Affiliate Marketing' subscribers", createdAt: "9 minutes ago"},
-    {type: "email", name: "Emails sent to 'Summer Sale 2024' subscribers", createdAt: "2 hours ago"},
-  ]
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const res = await fetch("https://maildrop-znoo.onrender.com/api/user/activities", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_X_API_KEY
+          }
+        })
+
+        const response = await res.json()
+        
+        if (!res.ok) {
+          console.log(response.error)
+          return
+        }
+
+        setActivities(response)
+      } catch (err) {
+        console.log("something went wrong")
+      }
+    }
+
+    fetchActivities()
+  }, [])
+
+  const getRecentDataOf = (arr: any[]) => {
+    const emailActivities = arr.filter(obj => obj.type == "email")
+    const recent = emailActivities.slice(-4)
+    return recent.reverse();
+  }
 
   return (
     <>
@@ -50,7 +80,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         <History 
           title="Recent Emails Sent"
           backupText="Latest emails sent would appear here"
-          history={activites}  
+          history={getRecentDataOf(activities)}  
         />
       </section>
     </>
