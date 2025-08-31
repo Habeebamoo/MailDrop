@@ -182,12 +182,12 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         <div className="flex flex-end gap-2 border-b-accent pb-2 mb-2">
           <button 
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`px-3 py-1 rounded text-sm cursor-pointer ${editor.isActive("bold") ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+            className={`px-3 py-1 rounded text-sm cursor-pointer ${editor.isActive("bold") ? "bg-primary text-white" : "bg-gray-100"}`}
           >B</button>
 
           <button 
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`px-3 py-1 rounded text-sm cursor-pointer font-inter ${editor.isActive("italic") ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+            className={`px-3 py-1 rounded text-sm cursor-pointer font-inter ${editor.isActive("italic") ? "bg-primary text-white" : "bg-gray-100"}`}
           >I</button>
 
           <button 

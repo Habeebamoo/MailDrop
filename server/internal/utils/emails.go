@@ -236,15 +236,22 @@ func SendPromotionalEmail(emailJob EmailJobs) error {
 	m.SetHeader("To", emailJob.ReceiverEmail)
 	m.SetHeader("Subject", emailJob.Subject)
 
+	unsubscribeUrl := "https://maildrop.netlify.app"
+
 	//Email body (HTML)
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html>
-			<body style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+			<body style="font-family: Arial, sans-serif; font-size: 28px; line-height: 1.5; background-color: #f4f4f4; margin: 0; padding: 0;">
 				%s
+
+				<section style="margin-top: 100px; text-align: center; font-size: 14px;">
+					Built with MailDrop
+					<a href="%s">Unsubscribe</a>
+				</section>
 			</body>
 		</html>
-	`, emailJob.Content)
+	`, emailJob.Content, unsubscribeUrl)
 
 	m.SetBody("text/html", body)
 
