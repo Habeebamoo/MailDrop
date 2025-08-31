@@ -193,7 +193,7 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq models.EmailRequest) (int, err
 	userId, _ := uuid.Parse(emailReq.UserId)
 	user, _, err := campaignSvc.repo.GetCampaignUser(userId)
 	if err != nil {
-		return 500, fmt.Errorf("internal server error")
+		return 500, fmt.Errorf("internal server error: get user")
 	}
 
 	campaignId, _ := uuid.Parse(emailReq.CampaignId)
@@ -251,7 +251,7 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq models.EmailRequest) (int, err
 
 	_, err = campaignSvc.repo.UpdateUserEmails(userId, campaignId, campaign.Title)
 	if err != nil {
-		return 500, fmt.Errorf("internal server error")
+		return 500, err
 	}
 
 	return 200, nil

@@ -14,9 +14,9 @@ type EmailJobs struct {
 
 type WorkerPool struct {
 	noOfWorkers  int
-	emailsChan  <-chan EmailJobs
-	resultChan  chan<- error
-	wg          *sync.WaitGroup
+	emailsChan   <-chan EmailJobs
+	resultChan   chan<- error
+	wg           *sync.WaitGroup
 }
 
 func NewWorkerPool(noOfWorkers int, emailsChan <-chan EmailJobs, resChan chan<- error, wg *sync.WaitGroup) *WorkerPool {
