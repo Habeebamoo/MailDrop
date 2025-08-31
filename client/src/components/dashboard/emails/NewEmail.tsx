@@ -11,6 +11,7 @@ import { toast } from "react-toastify"
 import Loading from "../Loading"
 import { useUser } from "../../../context/UserContext"
 import Error from "../Error"
+import { useNavigate } from "react-router-dom"
 
 const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"dashboard" | "new">> }) => {
   const [content, setContent] = useState<string>("");
@@ -23,6 +24,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     senderName: "",
   })
   const { user } = useUser()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLoadingScreen(true)
@@ -77,6 +79,9 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
 
       if (res.ok) {
         toast.success(response.message)
+        setTimeout(() => {
+          navigate("/dashboard/email")
+        }, 3000);
       } else {
         toast.error(response.error)
       }

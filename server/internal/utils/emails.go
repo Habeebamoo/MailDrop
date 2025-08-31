@@ -242,18 +242,21 @@ func SendPromotionalEmail(emailJob EmailJobs) error {
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html>
-			<body style="font-family: Arial, sans-serif; font-size: 28px; line-height: 1.5; background-color: #f4f4f4; margin: 0; padding: 0;">
+			<body style="font-family: Arial, sans-serif; font-size: 20px; line-height: 1.5; margin: 0; padding: 0;">
 				%s
 
-				<section style="margin-top: 100px; text-align: center; font-size: 14px;">
-					Built with MailDrop
-					<a href="%s">Unsubscribe</a>
+				<section style="margin-top: 100px; text-align: center; font-size: 10px;">
+					Built with MailDrop | <a href="%s">Unsubscribe</a>
+					<div>
+						<img src="cid:logo" style="height: 20px;" />
+					</div>
 				</section>
 			</body>
 		</html>
 	`, emailJob.Content, unsubscribeUrl)
 
 	m.SetBody("text/html", body)
+	m.Embed("../internal/assets/logo.png", gomail.Rename("logo"))
 
 	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
 	d.SSL = true
