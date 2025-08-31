@@ -55,10 +55,11 @@ const App = () => {
     <>
       <RouterProvider router={router} />
       <ToastContainer 
-        position="top-center" 
-        toastClassName="toastify-toast-success"
+        position="top-center"
+        theme="colored" 
+        toastClassName="!bg-[#231e88] text-white"
         progressClassName="!bg-[#231e88]" 
-        
+
       />
     </>
   )
