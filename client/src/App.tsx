@@ -56,7 +56,6 @@ const App = () => {
       <RouterProvider router={router} />
       <ToastContainer 
         position="top-center" 
-        theme="colored"
         toastClassName="toastify-toast-success"
         progressClassName="!bg-[#231e88]" 
       />
