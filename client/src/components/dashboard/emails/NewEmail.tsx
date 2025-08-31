@@ -132,7 +132,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </button>
       </div>
       <p className="text-sm text-accent mb-4 max-md:mt-2">Create and send targetted emails to your campaign audience</p>
-      <h1 className="text-xl text-primary font-inter mt-6 text-center dark:text-white">Email Settings</h1>
+      <h1 className="text-xl text-primary font-inter mt-8 text-center dark:text-white">Email Settings</h1>
       <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-4 border-1 border-accentLight rounded-md mt-2 mb-4">
         <div className="flex-start gap-2">
           <FaUser size={17} color="#231e88" />
@@ -179,43 +179,38 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </div>
       </form>
       <div className="p-4 border-accentLight border-1 rounded-lg w-full mx-auto bg-white shadow">
-        <div className="flex flex-between gap-2 border-b-accent pb-2 mb-2">
-          <div className="flex-start font-inter">
-            <h1>Compose your email</h1>
-          </div>
-          <div className="flex-center gap-2">
-            <button 
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              className={`px-3 py-1 rounded text-sm cursor-pointer ${editor.isActive("bold") ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-            >B</button>
+        <div className="flex flex-end gap-2 border-b-accent pb-2 mb-2">
+          <button 
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={`px-3 py-1 rounded text-sm cursor-pointer ${editor.isActive("bold") ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+          >B</button>
 
-            <button 
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={`px-3 py-1 rounded text-sm cursor-pointer font-inter ${editor.isActive("italic") ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-            >I</button>
+          <button 
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={`px-3 py-1 rounded text-sm cursor-pointer font-inter ${editor.isActive("italic") ? "bg-blue-500 text-white" : "bg-gray-100"}`}
+          >I</button>
 
-            <button 
-              onClick={() => editor.chain().focus().undo().run()}
-              className="px-3 py-1 rounded cursor-pointer bg-gray-100"
-            ><BiUndo size={19} /></button>
+          <button 
+            onClick={() => editor.chain().focus().undo().run()}
+            className="px-3 py-1 rounded cursor-pointer bg-gray-100"
+          ><BiUndo size={19} /></button>
 
-            <button 
-              onClick={() => editor.chain().focus().redo().run()}
-              className="px-3 py-1 rounded cursor-pointer bg-gray-100"
-            ><BiRedo size={19} /></button>
+          <button 
+            onClick={() => editor.chain().focus().redo().run()}
+            className="px-3 py-1 rounded cursor-pointer bg-gray-100"
+          ><BiRedo size={19} /></button>
 
-            <button
-              onClick={addLink}
-              className="px-3 py-1 rounded cursor-pointer bg-gray-100"
-            >
-              <FiLink size={19} />
-            </button>
-          </div>
+          <button
+            onClick={addLink}
+            className="px-3 py-1 rounded cursor-pointer bg-gray-100"
+          >
+            <FiLink size={19} />
+          </button>
         </div>
         <EditorContent editor={editor} className="prose max-w-none p-2 border-accent rounded"  />
       </div>
       <div className="mt-4 mb-8">
-        <button onClick={sendMail} className="btn-primary max-sm:w-full flex-center gap-2">
+        <button onClick={sendMail} className="py-2 btn-primary max-sm:w-full flex-center gap-2">
           Send Email
           <IoIosSend />
         </button>
