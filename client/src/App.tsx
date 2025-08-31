@@ -54,7 +54,7 @@ const App = () => {
   return (
     <>
       <RouterProvider router={router} />
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" progressClassName="bg-[#231e88]" />
     </>
   )
 }

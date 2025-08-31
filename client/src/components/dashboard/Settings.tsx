@@ -69,9 +69,7 @@ const Settings = () => {
       const response = await res.json()
 
       if (res.ok) {
-        toast.success(response.message, {
-          progressClassName: "bg-[#231e88]"
-        })
+        toast.success(response.message)
       } else {
         toast.error(response.error)
       }
@@ -101,9 +99,7 @@ const Settings = () => {
         return
       }
 
-      toast.success(response.message, {
-        progressClassName: "bg-[#231e88]"
-      })
+      toast.success(response.message)
       setTimeout(() => {
         window.location.href = "/login"
       }, 2000)
