@@ -32,7 +32,7 @@ const Header = () => {
         <div className="flex-between">
           <div className="flex-start">
             <img src={logo} alt="Logo" className="h-[30px]" />
-            <h1 className="text-xl font-outfit ml-1">MailDrop</h1>
+            <h1 className="text-xl font-inter text-primary ml-1">MailDrop</h1>
           </div>
           <div className="flex-between gap-2 max-sm:hidden">
             <p className="text-lg text-primary font-inter cursor-pointer">Home</p>

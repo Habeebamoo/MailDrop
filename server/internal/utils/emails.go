@@ -247,16 +247,12 @@ func SendPromotionalEmail(emailJob EmailJobs) error {
 
 				<section style="margin-top: 100px; text-align: center; font-size: 10px;">
 					Built with MailDrop | <a href="%s">Unsubscribe</a>
-					<div>
-						<img src="cid:logo" style="height: 20px;" />
-					</div>
 				</section>
 			</body>
 		</html>
 	`, emailJob.Content, unsubscribeUrl)
 
 	m.SetBody("text/html", body)
-	m.Embed("../internal/assets/logo.png", gomail.Rename("logo"))
 
 	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
 	d.SSL = true
