@@ -251,7 +251,7 @@ func SendPromotionalEmail(emailJob EmailJob) error {
 					<br><br>
 					<span>This email was sent to <b>%s</b><span>
 					<br>
-					<p>Why did i get this? <a href="%s>unsubscribe from this.</a></p>
+					<p>Why did i get this? <a href="%s">unsubscribe from this.</a></p>
 				</section>
 			</body>
 		</html>
@@ -295,7 +295,7 @@ func SendTestEmail(user models.User, emailContent, campaign string) error {
 					<br><br>
 					<span>This email was sent to <b>%s</b><span>
 					<br>
-					<p>Why did i get this? <a href="%s>unsubscribe from this.</a></p>
+					<p>Why did i get this? <a href="%s">unsubscribe from this.</a></p>
 				</section>
 			</body>
 		</html>
