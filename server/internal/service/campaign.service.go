@@ -209,11 +209,6 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 		return code, err
 	}
 
-	//also include the user to view the email
-	subscribers = append(subscribers, models.Subscriber{
-		Email: user.Email,
-	})
-
 	var senderName string
 	if emailReq.SenderName == "" {
 		senderName = user.Name
@@ -221,14 +216,18 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 		senderName = emailReq.SenderName
 	}
 
+	//send a demo/test to the sender's email
+	if err := utils.SendTestEmail(user, emailReq.Content, campaign.Title); err != nil {
+		return 500, fmt.Errorf("failed to schedule emails")
+	}
+
 	//send email to subscribers via WorkerPools Goroutines
 	var wg sync.WaitGroup
 	emailChan := make(chan utils.EmailJob, len(subscribers))
-	resChan := make(chan error, len(subscribers))
 
 	noOfWorkers := utils.GenerateElasticWorker(len(subscribers))
 
-	workerPool := utils.NewWorkerPool(noOfWorkers, emailChan, resChan, &wg) //spawn elastic-number of workers
+	workerPool := utils.NewWorkerPool(noOfWorkers, emailChan, &wg) //spawn elastic-number of workers
 	workerPool.Run()
 
 	//give emailsjobs to workers via channels
@@ -243,18 +242,10 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 	}
 	close(emailChan)
 
-	// a new goroutines to wait for all workers & close result chan
+	// a new goroutines to wait for all workers to finish
 	go func() {
 		wg.Wait()
-		close(resChan)
 	}()
-
-	// send error (if exists) to the client
-	for results := range resChan {
-		if results != nil {
-			return 500, results
-		}
-	}
 
 	_, err = campaignSvc.repo.UpdateUserEmails(userId, campaignId, campaign.Title)
 	if err != nil {

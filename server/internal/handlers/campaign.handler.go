@@ -220,5 +220,5 @@ func (campaignHdl *CampaignHandler) SendMail(c *gin.Context) {
 		return
 	}
 	
-	c.JSON(statusCode, gin.H{"message": "Emails sent successfully"})
+	c.JSON(statusCode, gin.H{"message": "Emails has been scheduled"})
 }

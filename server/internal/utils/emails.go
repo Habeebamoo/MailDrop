@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"gopkg.in/gomail.v2"
 )
 
@@ -246,12 +247,59 @@ func SendPromotionalEmail(emailJob EmailJob) error {
 				%s
 
 				<section style="margin-top: 200px; text-align: center; font-size: 12px; border: 1px 0 0 0;">
-					<p>This email was sent to <b>%s</b><p>
-					<p>Why did i get this? <a href="%s" style="color: #fff;">unsubscribe from this.</a></p>
+					<hr>
+					<br><br>
+					<span>This email was sent to <b>%s</b><span>
+					<br>
+					<p>Why did i get this? <a href="%s>unsubscribe from this.</a></p>
 				</section>
 			</body>
 		</html>
 	`, emailJob.Content, emailJob.ReceiverEmail, unsubscribeUrl)
+
+	m.SetBody("text/html", body)
+
+	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
+	d.SSL = true
+
+	if err := d.DialAndSend(m); err != nil {
+		return fmt.Errorf("failed to send mail")
+	} 
+
+	return nil
+}
+
+func SendTestEmail(user models.User, emailContent, campaign string) error {
+		m := gomail.NewMessage()
+
+	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "Habeeb from MailDrop"))
+	m.SetHeader("To", user.Email)
+	m.SetHeader("Subject", "Email Preview")
+
+	unsubscribeUrl := "https://maildrop.netlify.app"
+
+	//Email body (HTML)
+	body := fmt.Sprintf(`
+		<!DOCTYPE html>
+		<html>
+			<body style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin: 0; padding: 0;">
+				<div style="margin-bottom: 200px">
+					<p>Hi %s.</p>
+					<p>This message you are seeing is the preview of the recent email you sent to %s subscribers</P>
+				</div>
+
+				%s
+
+				<section style="margin-top: 200px; text-align: center; font-size: 12px; border: 1px 0 0 0;">
+					<hr>
+					<br><br>
+					<span>This email was sent to <b>%s</b><span>
+					<br>
+					<p>Why did i get this? <a href="%s>unsubscribe from this.</a></p>
+				</section>
+			</body>
+		</html>
+	`, user.Name, campaign, emailContent, user.Email, unsubscribeUrl)
 
 	m.SetBody("text/html", body)
 
