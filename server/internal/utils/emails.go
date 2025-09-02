@@ -242,15 +242,16 @@ func SendPromotionalEmail(emailJob EmailJob) error {
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html>
-			<body style="font-family: Arial, sans-serif; font-size: 18px; line-height: 1.5; margin: 0; padding: 0;">
+			<body style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin: 0; padding: 0;">
 				%s
 
-				<section style="margin-top: 200px; text-align: center; font-size: 12px;">
-					Built with MailDrop ~~ <a href="%s">Unsubscribe</a>
+				<section style="margin-top: 200px; text-align: center; font-size: 12px; border: 1px 0 0 0;">
+					<p>This email was sent to <b>%s</b><p>
+					<p>Why did i get this? <a href="%s" style="color: #fff;">unsubscribe from this.</a></p>
 				</section>
 			</body>
 		</html>
-	`, emailJob.Content, unsubscribeUrl)
+	`, emailJob.Content, emailJob.ReceiverEmail, unsubscribeUrl)
 
 	m.SetBody("text/html", body)
 
