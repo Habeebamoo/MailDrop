@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -59,18 +60,18 @@ type SubscriberCampaignResponse struct {
 }
 
 type CampaignRequest struct {
-	UserId          string  `json:"userId"         binding:"required"`
-	Title           string  `json:"title"          binding:"required"`
-	Description     string  `json:"description"    binding:"required"`
+	UserId          string  `json:"userId"`
+	Title           string  `json:"title"`
+	Description     string  `json:"description"`
 	LeadMagnetName  string  `json:"leadMagnetName"`
 	LeadMagnetUrl   string  `json:"leadMagnetUrl"`
 }
 
 type SubscriberRequest struct {
-	CampaignId  string  `json:"campaignId"  binding:"required"`
-	UserId      string  `json:"userId"      binding:"required"`
-	Name        string  `json:"name"        binding:"required"`
-	Email       string  `json:"email"       binding:"required,email"`
+	CampaignId  string  `json:"campaignId"`
+	UserId      string  `json:"userId"`
+	Name        string  `json:"name"`
+	Email       string  `json:"email"`
 }
 
 type EmailRequest struct {
@@ -84,4 +85,41 @@ type EmailRequest struct {
 type SubscribersCsv struct {
 	Name   string  `csv:"Name"`
 	Email  string  `csv:"Email"`
+}
+
+func (c *CampaignRequest) ValidateCampaignRequest() error {
+	if c.UserId == "" {
+		return fmt.Errorf("missing field: userId")
+	} else if c.Title == "" {
+		return fmt.Errorf("missing field: campaign title")
+	} else if c.Description == "" {
+		return fmt.Errorf("missing field: campaign description")
+	}
+	return nil
+}
+
+func (s *SubscriberRequest) ValidateSubscriberRequest() error {
+	if s.CampaignId == "" {
+		return fmt.Errorf("invalid campaign id")
+	} else if s.UserId == "" {
+		return fmt.Errorf("invalid creator id")
+	} else if s.Name == "" {
+		return fmt.Errorf("missing field: name")
+	} else if s.Email == "" {
+		return fmt.Errorf("missing field: email")
+	}
+	return nil
+}
+
+func (e *EmailRequest) ValidateEmailRequest() error {
+	if e.UserId == "" {
+		return fmt.Errorf("missing field: userId")
+	} else if e.CampaignId == "" {
+		return fmt.Errorf("missing field: campaignId")
+	} else if e.Subject == "" {
+		return fmt.Errorf("missing field: Email Subject")
+	} else if e.Content == "" {
+		return fmt.Errorf("missing field: Email Body")
+	}
+	return nil
 }

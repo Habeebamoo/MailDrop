@@ -15,8 +15,8 @@ import (
 )
 
 type UserService interface {
-	CreateUser(models.UserRequest) (int, error)
-	LoginUser(models.UserLogin) (string, int, error)
+	CreateUser(*models.UserRequest) (int, error)
+	LoginUser(*models.UserLogin) (string, int, error)
 	HandleGoogleLogin(models.GoogleLoginRequest) (string, int, error)
 	VerifyUser(int) (int, error)
 	GetUser(uuid.UUID) (models.User, int, error)
@@ -34,7 +34,7 @@ func NewUserService(repo repositories.UserRepository) UserService {
 	return &UserSvc{repo: repo}
 }
 
-func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
+func (userSvc *UserSvc) CreateUser(userReq *models.UserRequest) (int, error) {
 	//assing user request to user struct
 	user := &models.User{
 		Name: userReq.Name,
@@ -68,7 +68,7 @@ func (userSvc *UserSvc) CreateUser(userReq models.UserRequest) (int, error) {
 	return statusCode, nil
 }
 
-func (userSvc *UserSvc) LoginUser(userReq models.UserLogin) (string, int, error) {
+func (userSvc *UserSvc) LoginUser(userReq *models.UserLogin) (string, int, error) {
 	user, statusCode, err := userSvc.repo.GetUser(userReq.Email)
 	if err != nil {
 		return "", statusCode, err

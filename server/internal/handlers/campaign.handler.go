@@ -20,9 +20,14 @@ func NewCampaignHandler(svc service.CampaignService) CampaignHandler {
 }
 
 func (campaignHdl *CampaignHandler) CreateCampaign(c *gin.Context) {
-	var campaignReq models.CampaignRequest
+	campaignReq := &models.CampaignRequest{}
 	if err := c.ShouldBindJSON(&campaignReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := campaignReq.ValidateCampaignRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -90,9 +95,14 @@ func (campaignHdl *CampaignHandler) GetSubscribers(c *gin.Context) {
 }
 
 func (campaignHdl *CampaignHandler) CreateSubscriber(c *gin.Context) {
-	var subscriber models.SubscriberRequest
+	subscriber := &models.SubscriberRequest{}
 	if err := c.ShouldBindJSON(&subscriber); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := subscriber.ValidateSubscriberRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -193,9 +203,14 @@ func (campaignHdl *CampaignHandler) DeleteCampaign(c *gin.Context) {
 }
 
 func (campaignHdl *CampaignHandler) SendMail(c *gin.Context) {
-	var emailReq models.EmailRequest
+	emailReq := &models.EmailRequest{}
 	if err := c.ShouldBindJSON(&emailReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := emailReq.ValidateEmailRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 

@@ -25,9 +25,14 @@ var (
 )
 
 func (usrHdl *UserHandler) Register(c *gin.Context) {
-	var userReq models.UserRequest
+	userReq := &models.UserRequest{}
 	if err := c.ShouldBindJSON(&userReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := userReq.ValidateUserRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -41,12 +46,17 @@ func (usrHdl *UserHandler) Register(c *gin.Context) {
 }
 
 func (usrHdl *UserHandler) Login(c *gin.Context) {
-	var userReq models.UserLogin
+	userReq := &models.UserLogin{}
 	if err := c.ShouldBindJSON(&userReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	if err := userReq.ValidateLoginRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+	
 	token, statusCode, err := usrHdl.svc.LoginUser(userReq)
 	if err != nil {
 		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
@@ -233,9 +243,14 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 }
 
 func (userHdl *UserHandler) ForgotPassword(c *gin.Context) {
-	var Request models.ForgotPasswordRequest
+	Request := &models.ForgotPasswordRequest{}
 	if err := c.ShouldBindJSON(&Request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := Request.ValidateRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
@@ -249,9 +264,14 @@ func (userHdl *UserHandler) ForgotPassword(c *gin.Context) {
 }
 
 func (userHdl *UserHandler) ResetPassword(c *gin.Context) {
-	var Request models.ResetPasswordRequest
+	Request := &models.ResetPasswordRequest{}
 	if err := c.ShouldBindJSON(&Request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := Request.ValidateRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 

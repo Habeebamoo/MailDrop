@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-type EmailJobs struct {
+type EmailJob struct {
 	SenderName     string
 	SenderEmail    string
 	ReceiverEmail  string
@@ -14,12 +14,12 @@ type EmailJobs struct {
 
 type WorkerPool struct {
 	noOfWorkers  int
-	emailsChan   <-chan EmailJobs
+	emailsChan   <-chan EmailJob
 	resultChan   chan<- error
 	wg           *sync.WaitGroup
 }
 
-func NewWorkerPool(noOfWorkers int, emailsChan <-chan EmailJobs, resChan chan<- error, wg *sync.WaitGroup) *WorkerPool {
+func NewWorkerPool(noOfWorkers int, emailsChan <-chan EmailJob, resChan chan<- error, wg *sync.WaitGroup) *WorkerPool {
 	return &WorkerPool{noOfWorkers: noOfWorkers, emailsChan: emailsChan, resultChan: resChan, wg: wg}
 }
 

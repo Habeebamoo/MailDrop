@@ -56,14 +56,6 @@
 	@apply flex-start gap-1 text-white cursor-pointer ml-1 font-outfit;
 }
 
-.Toastify__toast--success .Toastify__toast-icon {
-	color: #fff;
-}
-
-.Toastify__toast--error .Toastify__toast-icon {
-	color: #fff;
-}
-
 @theme {
 	--color-primary: #231e88;
 	--color-secondary: #111827;

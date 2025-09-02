@@ -13,16 +13,16 @@ import (
 )
 
 type CampaignService interface {
-	CreateCampaign(models.CampaignRequest) (int, error)
+	CreateCampaign(*models.CampaignRequest) (int, error)
 	GetCampaign(uuid.UUID) (models.Campaign, int, error)
 	GetAllCampaigns(uuid.UUID) ([]models.CampaignResponse, int, error)
 	DeleteCampaign(uuid.UUID) (int, error)
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	DownloadSubscribers(uuid.UUID) (models.Campaign, []models.Subscriber, int, error)
-	CreateSubscriber(models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
+	CreateSubscriber(*models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
 	GetSubscriberCampaign(uuid.UUID) (models.SubscriberCampaignResponse, int, error)
 	CampaignClick(uuid.UUID) (int, error)
-	SendMail(emailReq models.EmailRequest) (int, error)
+	SendMail(emailReq *models.EmailRequest) (int, error)
 }
 
 type CampaignSvc struct {
@@ -33,7 +33,7 @@ func NewCampaignService(repo repositories.CampaignRepository) CampaignService {
 	return &CampaignSvc{repo: repo}
 }
 
-func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq models.CampaignRequest) (int, error) {
+func (campaignSvc *CampaignSvc) CreateCampaign(campaignReq *models.CampaignRequest) (int, error) {
 	campaignId, _ := uuid.Parse(campaignReq.UserId)
 	//checks is campaign exists
 	exists := campaignSvc.repo.CampaignExists(campaignId, campaignReq.Title)
@@ -97,7 +97,7 @@ func (campaignSvc *CampaignSvc) GetSubscribers(campaignId uuid.UUID) ([]models.S
 	return campaignSvc.repo.GetSubscribers(campaignId)
 }
 
-func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq models.SubscriberRequest, userId uuid.UUID, campaignId uuid.UUID) (string, int, error) {
+func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq *models.SubscriberRequest, userId uuid.UUID, campaignId uuid.UUID) (string, int, error) {
 	subscriber := models.Subscriber{
 		CampaignId: campaignId,
 		CampaignStatus: "active",
@@ -188,7 +188,7 @@ func (campaignSvc *CampaignSvc) GetSubscriberCampaign(campaignId uuid.UUID) (mod
 	return campaignResponse, 200, nil
 }
 
-func (campaignSvc *CampaignSvc) SendMail(emailReq models.EmailRequest) (int, error) {
+func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, error) {
 	//get user
 	userId, _ := uuid.Parse(emailReq.UserId)
 	user, _, err := campaignSvc.repo.GetCampaignUser(userId)
@@ -223,15 +223,17 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq models.EmailRequest) (int, err
 
 	//send email to subscribers via WorkerPools Goroutines
 	var wg sync.WaitGroup
-	emailChan := make(chan utils.EmailJobs, len(subscribers))
+	emailChan := make(chan utils.EmailJob, len(subscribers))
 	resChan := make(chan error, len(subscribers))
 
-	workerPool := utils.NewWorkerPool(3, emailChan, resChan, &wg) //spawn 3 workers
+	noOfWorkers := utils.GenerateElasticWorker(len(subscribers))
+
+	workerPool := utils.NewWorkerPool(noOfWorkers, emailChan, resChan, &wg) //spawn elastic-number of workers
 	workerPool.Run()
 
 	//give emailsjobs to workers via channels
 	for _, subscriber := range subscribers {
-		emailChan <- utils.EmailJobs{
+		emailChan <- utils.EmailJob{
 			SenderName: senderName,
 			SenderEmail: user.Email,
 			Subject: emailReq.Subject,

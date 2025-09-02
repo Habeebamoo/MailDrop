@@ -229,7 +229,7 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 	return 200, nil
 }
 
-func SendPromotionalEmail(emailJob EmailJobs) error {
+func SendPromotionalEmail(emailJob EmailJob) error {
 	m := gomail.NewMessage()
 
 	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", emailJob.SenderName))
@@ -242,11 +242,11 @@ func SendPromotionalEmail(emailJob EmailJobs) error {
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html>
-			<body style="font-family: Arial, sans-serif; font-size: 20px; line-height: 1.5; margin: 0; padding: 0;">
+			<body style="font-family: Arial, sans-serif; font-size: 18px; line-height: 1.5; margin: 0; padding: 0;">
 				%s
 
-				<section style="margin-top: 100px; text-align: center; font-size: 10px;">
-					Built with MailDrop | <a href="%s">Unsubscribe</a>
+				<section style="margin-top: 200px; text-align: center; font-size: 12px;">
+					Built with MailDrop ~~ <a href="%s">Unsubscribe</a>
 				</section>
 			</body>
 		</html>

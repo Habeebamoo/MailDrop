@@ -74,3 +74,21 @@ func GetRandomString() (string, error) {
 	
 	return base64.URLEncoding.EncodeToString(b), nil
 }
+
+func GenerateElasticWorker(amountOfJobs int) int {
+	if amountOfJobs < 3 {
+		return 1
+	} else if amountOfJobs < 10 {
+		return 2
+	} else if amountOfJobs < 50 {
+		return 5
+	} else if amountOfJobs < 200 {
+		return 10
+	} else if amountOfJobs < 1000 {
+		return 50
+	} else if amountOfJobs < 10000 {
+		return 200
+	} else {
+		return 500
+	}
+}

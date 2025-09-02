@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"mime/multipart"
 	"time"
 
@@ -40,9 +41,9 @@ type OTP struct {
 }
 
 type UserRequest struct {
-	Name      string  `json:"name"      binding:"required"`
-	Email     string  `json:"email"     binding:"required,email"`
-	Password  string  `json:"password"  binding:"required,min=6"`
+	Name      string  `json:"name"`
+	Email     string  `json:"email"`
+	Password  string  `json:"password"`
 }
 
 type GoogleLoginRequest struct {
@@ -52,8 +53,8 @@ type GoogleLoginRequest struct {
 }
 
 type UserLogin struct {
-	Email     string  `json:"email"     binding:"required"`
-	Password  string  `json:"password"  binding:"required"`
+	Email     string  `json:"email"`
+	Password  string  `json:"password"`
 }
 
 type ProfileRequest struct {
@@ -73,10 +74,46 @@ type ProfileDetailsRequest struct {
 }
 
 type ForgotPasswordRequest struct {
-	Email  string  `json:"email"  binding:"required,email"`
+	Email  string  `json:"email"`
 }
 
 type ResetPasswordRequest struct {
-	Token     string  `json:"token"     binding:"required"`
-	Password  string  `json:"password"  binding:"required,min=6"`
+	Token     string  `json:"token"`
+	Password  string  `json:"password"`
+}
+
+func (u *UserRequest) ValidateUserRequest() error {
+	if u.Name == "" {
+		return fmt.Errorf("missing field: name")
+	} else if u.Email == "" {
+		return fmt.Errorf("missing field: email")
+	} else if len(u.Password) < 6 {
+		return fmt.Errorf("password must be 6 characters or more")
+	}
+	return nil
+}
+
+func (u *UserLogin) ValidateLoginRequest() error {
+	if u.Email == "" {
+		return fmt.Errorf("missing field: email")
+	} else if u.Password == "" {
+		return fmt.Errorf("missing field: password")
+	}
+	return nil
+}
+
+func (u *ForgotPasswordRequest) ValidateRequest() error {
+	if u.Email == "" {
+		return fmt.Errorf("missing field: email")
+	}
+	return nil
+}
+
+func (u *ResetPasswordRequest) ValidateRequest() error {
+	if u.Token == "" {
+		return fmt.Errorf("verification token missing")
+	} else if len(u.Password) < 6 {
+		return fmt.Errorf("password must be 6 characters or more")
+	}
+	return nil
 }
