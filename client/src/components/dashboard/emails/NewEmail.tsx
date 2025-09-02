@@ -138,7 +138,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       </div>
       <p className="text-sm text-accent mb-4 max-md:mt-2">Create and send targetted emails to your campaign audience</p>
       <h1 className="text-xl text-primary font-inter mt-8 text-center dark:text-white">Email Settings</h1>
-      <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-4 border-1 border-accentLight rounded-md mt-2 mb-4">
+      <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-5 border-1 border-accentLight rounded-md mt-2 mb-4">
         <div className="flex-start gap-2">
           <FaUser size={17} color="#231e88" />
           <div>
@@ -165,7 +165,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           </select>
         </div>
         <div className="mb-4">
-          <label htmlFor="subject" className="block font-open text-sm dark:text-white">Subject</label>
+          <label htmlFor="subject" className="block font-open text-sm dark:text-white">Email Subject</label>
           <input 
             type="text"
             className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 
@@ -174,7 +174,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="from-name" className="block font-open text-sm dark:text-white">From Name (Optional)</label>
+          <label htmlFor="from-name" className="block font-open text-sm dark:text-white">Sender Name (Optional)</label>
           <input 
             type="text"
             className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 
@@ -220,7 +220,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <IoIosSend />
         </button>
       </div>
-      <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3 mt-4">
+      <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
         <div className="flex-start gap-2">
           <FaMailBulk size={17} color="orange" />
           <h1 className="text-lg font-inter dark:text-white">Email Tips</h1>

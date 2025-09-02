@@ -181,21 +181,21 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       <p className="text-sm text-accent mb-4 max-md:mt-2">{getBriefOf(campaign.description)}</p>
 
       <div className="md:grid md:grid-cols-3 md:gap-2 mt-6">
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Subscribers</p>
             <FiUsers size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">{campaign.totalSubscribers}</h1>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Clicks</p>
             <FaRegHandPointer size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">{campaign.totalClicks}</h1>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Emails Sent</p>
             <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />

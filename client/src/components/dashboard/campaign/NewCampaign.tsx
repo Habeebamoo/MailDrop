@@ -77,7 +77,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
         </div>
         <p className="text-sm text-accent mb-4 max-md:mt-2">Set up your new email campaign with a compelling lead magnet to attract and convert prospects</p>
 
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-start gap-2">
             <FiTarget size={17} color="#231e88" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Details</h1>
@@ -113,11 +113,11 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
               ></textarea>
             </div>
             <div className="mt-4 mb-2">
-              <label htmlFor="lead-magnet" className="block font-outfit text-black dark:text-accentLight">Lead Magnet Name (optional)</label>
+              <label htmlFor="lead-magnet" className="block font-outfit text-black dark:text-accentLight">Reward Name (optional)</label>
               <input 
                 type="text" 
                 id="lead-magnet" 
-                placeholder="e.g Forex trading course"
+                placeholder="Add gift to attract leads to subscribe to your campaign"
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700 placeholder:text-sm placeholder:text-accent" 
                 value={form.leadMagnetName}
                 onChange={(e) => setForm(prev => ({...prev, leadMagnetName: e.target.value}))}
@@ -125,7 +125,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             </div>
             {form.leadMagnetName &&
               <div className="mt-4 mb-2">
-                <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Lead Magnet URL</label>
+                <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Reward URL</label>
                 <div className="relative">
                   <input 
                     type="text" 
@@ -145,7 +145,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             </button>
           </form>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-4 rounded-md max-md:mb-3 mt-4">
+        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
           <div className="flex-start gap-2">
             <RiFilePaper2Line size={17} color="orange" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Tips</h1>
