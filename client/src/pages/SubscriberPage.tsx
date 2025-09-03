@@ -185,7 +185,7 @@ const SubscriberPage = () => {
           </form>
         </div>
         {campaign.leadMagnetName &&
-          <div className="bg-white py-4 px-6 rounded-sm mt-6 w-[100%] sm:w-[500px] mx-auto mb-4">
+          <div className="bg-white py-4 px-6 rounded-sm mt-6 w-[90%] sm:w-[500px] mx-auto mb-4">
             <h1 className="text-primary font-outfit text-lg text-center">Reward Available</h1>
             <div className="my-5">
               <div className="flex-center mx-auto h-30 w-30 bg-accentXLight border-1 border-accentLight rounded-full">
