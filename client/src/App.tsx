@@ -23,6 +23,7 @@ import "aos/dist/aos.css"
 import SubscriberPage from "./pages/SubscriberPage"
 import { useEffect } from "react"
 import VerificationPage from "./pages/VerificationPage"
+import Unsubscribe from "./pages/unsubscribe/Page"
 
 const App = () => { 
   useEffect(() => {
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/forgot" element={<ForgotPage />} />
         <Route path="/reset" element={<ResetPage />} />
         <Route path="/campaign" element={<SubscriberPage />} />
+        <Route path="/unsubscribe" element={<Unsubscribe />} />
         <Route path="*" element={<NotFoundPage />} />
       </>
     )

@@ -56,6 +56,14 @@
 	@apply flex-start gap-1 text-white cursor-pointer ml-1 font-outfit;
 }
 
+@utility radio {
+	@apply text-accent border-accentLight font-open border-1 text-sm flex-start gap-2 p-3 rounded-md mt-4 cursor-pointer;
+}
+
+@utility radio-active {
+	@apply text-white border-primary bg-primary font-open border-1 text-sm flex-start gap-2 p-3 rounded-md mt-4 cursor-pointer;
+}
+
 @theme {
 	--color-primary: #231e88;
 	--color-secondary: #111827;
