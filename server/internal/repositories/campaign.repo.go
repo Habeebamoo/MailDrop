@@ -22,6 +22,8 @@ type CampaignRepository interface {
 	SubscriberExist(string, uuid.UUID) bool
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
 	ArchiveSubscribers([]models.Subscriber, uuid.UUID) error
+	VerifySubscriber(*models.SubscriberVerifyRequest) (int, error)
+	DeleteSubscriber(string, models.Campaign, uuid.UUID) (int, error)
 	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
 	UpdateUserEmails(userId, campaignId uuid.UUID, campaignTitle string) (int, error)
 }
@@ -262,6 +264,71 @@ func (campaignRepo *CampaignRepo) ArchiveSubscribers(subscribers []models.Subscr
 	}
 
 	return nil
+}
+
+func (campaignRepo *CampaignRepo) VerifySubscriber(subscriberReq *models.SubscriberVerifyRequest) (int, error) {
+	campaignId, _ := uuid.Parse(subscriberReq.CampaignId)
+
+	var subscriber models.Subscriber
+	err := campaignRepo.db.Where(models.Subscriber{CampaignId: campaignId, Email: subscriberReq.Email}).
+												First(&subscriber).
+												Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return 404, fmt.Errorf("this email was not found in our list")
+		}
+		return 500, fmt.Errorf("internal server error")
+	}
+	return 200, nil
+}
+
+func (campaignRepo *CampaignRepo) DeleteSubscriber(email string, campaign models.Campaign, userId uuid.UUID) (int, error) {
+	//delete subscriber
+	res := campaignRepo.db.Model(&models.Subscriber{}).
+									Where(models.Subscriber{Email: email, CampaignId: campaign.CampaignId}).
+									Delete(&models.Subscriber{})
+
+	if res.RowsAffected == 0 {
+		return 500, fmt.Errorf("failed to unsubscribe")
+	}
+
+	if res.Error != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	//update user's profile and campaign
+	err := campaignRepo.db.Model(&models.Profile{}).
+												Where("user_id = ?", userId).
+												UpdateColumn("total_subscribers", gorm.Expr("total_subscribers - ?", 1)).
+												Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user's profile")
+	}
+
+	err = campaignRepo.db.Model(&models.Campaign{}).
+												Where("campaign_id = ?", campaign.CampaignId).
+												UpdateColumn("total_subscribers", gorm.Expr("total_subscribers - ?", 1)).
+												Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user's profile")
+	}	
+
+	//create the activity
+	activityName := fmt.Sprintf("A lead unsubscribed from '%s' campaign", strings.TrimSpace(campaign.Title))
+
+	activity := models.Activity{
+		UserId: userId,
+		Name: activityName,
+		Type: "lead",
+		CreatedAt: time.Now(),
+	}
+
+	err = campaignRepo.db.Create(&activity).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to create user activity")
+	}
+
+	return 200, nil
 }
 
 func (campaignRepo *CampaignRepo) CreateCampaignClick(userId, campaignId uuid.UUID) (int, error) {

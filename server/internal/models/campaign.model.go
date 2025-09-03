@@ -74,6 +74,17 @@ type SubscriberRequest struct {
 	Email       string  `json:"email"`
 }
 
+type SubscriberVerifyRequest struct {
+	CampaignId  string  `json:"campaignId"`
+	Email       string  `json:"email"`
+}
+
+type DeleteSubscriberRequest struct {
+	Email    string  `json:"email"`
+	Reason   string  `json:"reason"`
+	Comment  string  `json:"comment"`
+}
+
 type EmailRequest struct {
 	UserId      string  `json:"userId"      binding:"required"`
 	CampaignId  string  `json:"campaignId"  binding:"required"`
@@ -105,6 +116,15 @@ func (s *SubscriberRequest) ValidateSubscriberRequest() error {
 		return fmt.Errorf("invalid creator id")
 	} else if s.Name == "" {
 		return fmt.Errorf("missing field: name")
+	} else if s.Email == "" {
+		return fmt.Errorf("missing field: email")
+	}
+	return nil
+}
+
+func (s *SubscriberVerifyRequest) ValidateVerificationRequest() error {
+	if s.CampaignId == "" {
+		return fmt.Errorf("invalid campaign")
 	} else if s.Email == "" {
 		return fmt.Errorf("missing field: email")
 	}

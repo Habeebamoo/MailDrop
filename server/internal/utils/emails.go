@@ -312,3 +312,53 @@ func SendTestEmail(user models.User, emailContent string, campaign models.Campai
 
 	return nil
 }
+
+func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriber *models.DeleteSubscriberRequest) {
+	m := gomail.NewMessage()
+
+	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "Habeeb from MailDrop"))
+	m.SetHeader("To", user.Email)
+	m.SetHeader("Subject", "A Lead Unsubscribed")
+
+	//Email body (HTML)
+	body := fmt.Sprintf(`
+		<!DOCTYPE html>
+		<html>
+			<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+				<table align="center" cellspacing="0" cellpadding="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
+					<tr>
+						<td style="background-color: #231e88"; color: #ffffff; text-align: center; padding: 20px;>
+							<h1 style="margin: 0; font-size: 20px;">Lead Unsubscribe</h1>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="padding: 20px; color: #333333;">
+							<p><strong>Lead Email: </strong>%s</p>
+							<p><strong>Campaign: </strong>%s</p>
+	`, subscriber.Email, campaignTitle)
+	if subscriber.Reason != "" {
+		body += fmt.Sprintf("<p><strong>Reason: </strong>%s</p>", subscriber.Reason)
+	}
+	if subscriber.Comment != "" {
+		body += fmt.Sprintf("<p><strong>Comment: </strong>%s</p>", subscriber.Comment)
+	}
+	body += `
+				<p style="margin-top: 20px;">This lead has unsubscribe from your campaign</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td style="background: #f9f9f9; padding: 15px; text-align: center; font-size: 12px; color: #888888;">
+				&copy; 2025 MailDrop. All rights reserved
+			</td>
+		</tr>
+	`
+
+	m.SetBody("text/html", body)
+
+	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
+	d.SSL = true
+
+	d.DialAndSend(m)
+}

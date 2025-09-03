@@ -33,7 +33,7 @@ const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponse
     setLoading(true)
 
     try {
-      const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign/${campaign.campaignId}/unsubscribe`, {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/unsubscribe`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

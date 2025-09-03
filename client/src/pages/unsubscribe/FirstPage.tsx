@@ -29,7 +29,7 @@ const FirstPage = ({ nextStep, setForm, setLoading, campaign }: Props) => {
     setForm(prev => ({...prev, email: email}))
 
     try {
-      const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign/${campaign.campaignId}/subscriber/verify`, {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -171,6 +171,55 @@ func (campaignHdl *CampaignHandler) DownloadSubscribers(c *gin.Context) {
 	}
 }
 
+func (campaignHdl *CampaignHandler) VerifySubscriber(c *gin.Context) {
+	subscriber := &models.SubscriberVerifyRequest{}
+	if err := c.ShouldBindJSON(&subscriber); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := subscriber.ValidateVerificationRequest(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+
+	statusCode, err := campaignHdl.svc.VerifySubscriber(subscriber)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": "Verified"})
+}
+
+func (campaignHdl *CampaignHandler) DeleteSubscriber(c *gin.Context) {
+	subscriber := &models.DeleteSubscriberRequest{}
+	if err := c.ShouldBindJSON(&subscriber); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if subscriber.Email == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing field: Email"})
+		return
+	}
+
+	campaignId, _ := uuid.Parse(c.Param("id"))
+
+	campaignTitle, statusCode, err := campaignHdl.svc.DeleteSubscriber(subscriber, campaignId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+		return
+	}
+
+	responseData := map[string]string{"campaignTitle": campaignTitle, "subscriberEmail": subscriber.Email}
+
+	c.JSON(statusCode, gin.H{
+		"data": responseData,
+		"message": "Unsubscription Successfull",
+	})
+}
+
 func (campaignHdl *CampaignHandler) CampaignClick(c *gin.Context) {
 	campaignIdStr := c.Param("id")
 	campaignId, _ := uuid.Parse(campaignIdStr)
