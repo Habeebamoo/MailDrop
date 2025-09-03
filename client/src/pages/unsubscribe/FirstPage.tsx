@@ -56,8 +56,8 @@ const FirstPage = ({ nextStep, setForm, setLoading, campaign }: Props) => {
   return (
     <>
       <form onSubmit={verifyEmail} className="bg-white p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
-        <div className="flex-center h-10 w-10 bg-primary rounded-full mx-auto">
-          <FiUserMinus color="#fff" size={18} />
+        <div className="flex-center h-13 w-13 bg-primary rounded-full mx-auto">
+          <FiUserMinus color="#fff" size={22} />
         </div>
         <h1 className="font-inter text-xl mt-1 text-center">Unsubscribe</h1>
         <p className="text-[10px] text-accent mt-1 text-center">We're sorry to see you go. Please enter your email address to unsubscribe from our campaign</p>

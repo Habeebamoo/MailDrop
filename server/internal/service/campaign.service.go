@@ -145,14 +145,14 @@ func (campaignSvc *CampaignSvc) VerifySubscriber(subscriberReq *models.Subscribe
 }
 
 func (campaignSvc *CampaignSvc) DeleteSubscriber(subscriberReq *models.DeleteSubscriberRequest, campaignId uuid.UUID) (string, int, error) {
-	//get campaign owner
-	campaignOwner, statusCode, err := campaignSvc.repo.GetCampaignUser(campaignId)
+	//get campaign
+	campaign, statusCode, err := campaignSvc.repo.GetCampaign(campaignId)
 	if err != nil {
 		return "", statusCode, err
 	}
 
-	//get campaign
-	campaign, statusCode, err := campaignSvc.repo.GetCampaign(campaignId)
+	//get user
+	campaignOwner, statusCode, err := campaignSvc.repo.GetCampaignUser(campaign.UserId)
 	if err != nil {
 		return "", statusCode, err
 	}

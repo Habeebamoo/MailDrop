@@ -204,7 +204,13 @@ func (campaignHdl *CampaignHandler) DeleteSubscriber(c *gin.Context) {
 		return
 	}
 
-	campaignId, _ := uuid.Parse(c.Param("id"))
+	campaignIdStr := c.Param("id")
+	if campaignIdStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Campaign"})
+		return
+	}
+	
+	campaignId, _ := uuid.Parse(campaignIdStr)
 
 	campaignTitle, statusCode, err := campaignHdl.svc.DeleteSubscriber(subscriber, campaignId)
 	if err != nil {
