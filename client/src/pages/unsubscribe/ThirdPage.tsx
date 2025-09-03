@@ -2,13 +2,16 @@ import { BiHeart } from "react-icons/bi"
 import { IoMdCheckmarkCircleOutline } from "react-icons/io"
 import { MdOutlineShield } from "react-icons/md"
 import { SlArrowRight } from "react-icons/sl"
+import { useNavigate } from "react-router-dom"
 
 const ThirdPage = ({ responseData }: { responseData: any }) => {
+  const navigate = useNavigate()
+
   return (
     <>
       <div className="bg-white p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
-        <div className="flex-center h-11 w-11 bg-green-500 rounded-full mx-auto">
-          <IoMdCheckmarkCircleOutline color="#fff" size={25} />
+        <div className="flex-center h-14 w-14 bg-green-500 rounded-full mx-auto">
+          <IoMdCheckmarkCircleOutline color="#fff" size={27} />
         </div>
         <h1 className="font-inter text-2xl mt-2 text-center">You've Unsubscribed</h1>
         <p className="text-[10px] text-accent mt-2 text-center">
@@ -48,6 +51,7 @@ const ThirdPage = ({ responseData }: { responseData: any }) => {
         </div>
         <div className="mt-8 max-sm:grid max-sm:grid-cols-1 sm:flex-center gap-4">
           <button
+            onClick={() => navigate("/")}
             className="btn-primary flex-center gap-2 cursor-pointer max-sm:py-2"
           >
             <span>Visit MailDrop</span>

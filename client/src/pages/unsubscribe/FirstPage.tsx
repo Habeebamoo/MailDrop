@@ -59,7 +59,7 @@ const FirstPage = ({ nextStep, setForm, setLoading, campaign }: Props) => {
         <div className="flex-center h-13 w-13 bg-primary rounded-full mx-auto">
           <FiUserMinus color="#fff" size={22} />
         </div>
-        <h1 className="font-inter text-xl mt-1 text-center">Unsubscribe</h1>
+        <h1 className="font-inter text-xl mt-2 text-center">Unsubscribe</h1>
         <p className="text-[10px] text-accent mt-1 text-center">We're sorry to see you go. Please enter your email address to unsubscribe from our campaign</p>
         <div className="mt-6">
           <label htmlFor="email" className="font-outfit">Email Address *</label>

@@ -7,7 +7,7 @@ import SecondPage from "./SecondPage"
 import { FaRegHeart, FaStar, FaStarHalfAlt } from "react-icons/fa"
 import { FaRegMessage } from "react-icons/fa6"
 import { FiUserPlus } from "react-icons/fi"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import Error from "../../components/dashboard/Error"
 import { toast } from "react-toastify"
 
@@ -25,6 +25,7 @@ const Unsubscribe = () => {
   })
   const [ searchParams ] = useSearchParams()
   const campaignId = searchParams.get("id")
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchCampaign = async () => {
@@ -60,6 +61,10 @@ const Unsubscribe = () => {
     }
   }
 
+  const previousStep = () => {
+    setStep(step - 1)
+  }
+
   if (loadingScreen) return <Loading />
 
   if (error) return <Error title="Oops" text="This campaign dosen't exists or it has been deleted" path="/" pathText="Go Back" />
@@ -91,6 +96,7 @@ const Unsubscribe = () => {
       {step === 2 && 
         <SecondPage 
           nextStep={nextStep} 
+          previousStep={previousStep}
           form={form} 
           setForm={setForm} 
           setLoading={setLoading} 
@@ -124,7 +130,7 @@ const Unsubscribe = () => {
           <FaRegMessage />
           <span>Contact Us</span>
         </div>
-        <div className="flex-start gap-2 text-primary mt-2 text-sm">
+        <div onClick={() => navigate("/")} className="flex-start gap-2 text-primary mt-2 text-sm">
           <FiUserPlus />
           <span>Create an Account</span>
         </div>

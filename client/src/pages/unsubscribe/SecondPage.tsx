@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 
 interface Props {
   nextStep: () => void,
+  previousStep: () => void,
   form: any,
   setForm: React.Dispatch<React.SetStateAction<{
     email: string;
@@ -19,7 +20,7 @@ interface Props {
   setResponseData: React.Dispatch<any>,
 }
 
-const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponseData }: Props) => {
+const SecondPage = ({ nextStep, previousStep, form, setForm, setLoading, campaign, setResponseData }: Props) => {
   const [radio, setRadio] = useState<"emails" | "relevant" | "others" | "">("")
   const [comments, setComments] = useState<string>("")
 
@@ -59,10 +60,10 @@ const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponse
   return (
     <>
       <form onSubmit={unsubscribe} className="bg-white p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
-        <div className="flex-center h-11 w-11 bg-primary rounded-full mx-auto">
-          <FaRegMessage color="#fff" size={18} />
+        <div className="flex-center h-14 w-14 bg-primary rounded-full mx-auto">
+          <FaRegMessage color="#fff" size={22} />
         </div>
-        <h1 className="font-inter text-xl mt-1 text-center">Help Us Improve</h1>
+        <h1 className="font-inter text-xl mt-2 text-center">Help Us Improve</h1>
         <p className="text-[10px] text-accent mt-1 text-center">Before you go, would you mind telling us why you're unsubscribing? Your feedback helps us improve</p>
         <div className="mt-4">
           <h1 className="text-sm font-open">Why are you unsubscribing? (optional)</h1>
@@ -99,7 +100,9 @@ const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponse
           ></textarea>
         </div>
         <div className="max-md:grid max-md:grid-cols-1 md:flex-between mt-4">
-          <button className="flex-center gap-2 max-md:py-3 border-accentLight bg-transparent text-accent hover:bg-accentLight hover:text-accent btn-primary md:text-sm">
+          <button 
+            onClick={() => previousStep()}
+            className="flex-center gap-2 max-md:py-3 border-accentLight bg-transparent text-accent hover:bg-accentLight hover:text-accent btn-primary md:text-sm">
             <SlArrowLeft size={10} />
             <span>Back</span>
           </button>
