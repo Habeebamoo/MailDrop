@@ -92,7 +92,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         </div>
       }
       {campaigns.length >= 1 &&
-        <div className="mt-5">
+        <div className="mt-5 p-2">
           {
             campaigns.map((campaign) => {
               return (
