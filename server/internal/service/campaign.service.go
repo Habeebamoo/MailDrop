@@ -217,7 +217,7 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 	}
 
 	//send a demo/test to the sender's email
-	if err := utils.SendTestEmail(user, emailReq.Content, campaign.Title); err != nil {
+	if err := utils.SendTestEmail(user, emailReq.Content, campaign); err != nil {
 		return 500, fmt.Errorf("failed to schedule emails")
 	}
 
@@ -235,6 +235,7 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 		emailChan <- utils.EmailJob{
 			SenderName: senderName,
 			SenderEmail: user.Email,
+			CampaignId: campaign.CampaignId.String(),
 			Subject: emailReq.Subject,
 			Content: emailReq.Content,
 			ReceiverEmail: subscriber.Email,

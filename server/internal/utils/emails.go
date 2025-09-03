@@ -237,7 +237,7 @@ func SendPromotionalEmail(emailJob EmailJob) error {
 	m.SetHeader("To", emailJob.ReceiverEmail)
 	m.SetHeader("Subject", emailJob.Subject)
 
-	unsubscribeUrl := "https://maildrop.netlify.app"
+	unsubscribeUrl := fmt.Sprintf("https://maildrop.netlify.app/unsubscribe?id=%s", emailJob.CampaignId)
 
 	//Email body (HTML)
 	body := fmt.Sprintf(`
@@ -269,14 +269,14 @@ func SendPromotionalEmail(emailJob EmailJob) error {
 	return nil
 }
 
-func SendTestEmail(user models.User, emailContent, campaign string) error {
-		m := gomail.NewMessage()
+func SendTestEmail(user models.User, emailContent string, campaign models.Campaign) error {
+	m := gomail.NewMessage()
 
 	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "Habeeb from MailDrop"))
 	m.SetHeader("To", user.Email)
 	m.SetHeader("Subject", "Email Preview")
 
-	unsubscribeUrl := "https://maildrop.netlify.app"
+	unsubscribeUrl := fmt.Sprintf("https://maildrop.netlify.app/unsubscribe?id=%s", campaign.CampaignId)
 
 	//Email body (HTML)
 	body := fmt.Sprintf(`
@@ -299,7 +299,7 @@ func SendTestEmail(user models.User, emailContent, campaign string) error {
 				</section>
 			</body>
 		</html>
-	`, user.Name, campaign, emailContent, user.Email, unsubscribeUrl)
+	`, user.Name, campaign.Title, emailContent, user.Email, unsubscribeUrl)
 
 	m.SetBody("text/html", body)
 

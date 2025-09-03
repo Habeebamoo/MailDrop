@@ -7,6 +7,7 @@ import (
 type EmailJob struct {
 	SenderName     string
 	SenderEmail    string
+	CampaignId     string
 	ReceiverEmail  string
 	Subject        string
 	Content        string
