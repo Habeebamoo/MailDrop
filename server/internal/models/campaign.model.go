@@ -123,9 +123,7 @@ func (s *SubscriberRequest) ValidateSubscriberRequest() error {
 }
 
 func (s *SubscriberVerifyRequest) ValidateVerificationRequest() error {
-	if s.CampaignId == "" {
-		return fmt.Errorf("invalid campaign")
-	} else if s.Email == "" {
+	if s.Email == "" {
 		return fmt.Errorf("missing field: email")
 	}
 	return nil
