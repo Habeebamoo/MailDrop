@@ -243,7 +243,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <IoMdCheckmarkCircle color="green" />
           <div>
             <p className="font-outfit dark:text-white">Clean Message Body</p>
-            <p className="text-sm text-accent font-outfit">Well edited message body shows professionalism and attracts trust</p>
+            <p className="text-sm text-accent font-outfit">Well edited message body attracts trust</p>
           </div>
         </div>
       </div>

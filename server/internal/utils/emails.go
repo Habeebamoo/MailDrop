@@ -313,6 +313,62 @@ func SendTestEmail(user models.User, emailContent string, campaign models.Campai
 	return nil
 }
 
+func SendSubscriptionEmail(user models.User, subscriber models.Subscriber, campaignTitle string) {
+	m := gomail.NewMessage()
+
+	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "Habeeb from MailDrop"))
+	m.SetHeader("To", user.Email)
+	m.SetHeader("Subject", "New Subscriber")
+
+	dashboardUrl := "https://maildrop.netlify.app/dashboard/home"
+
+	//Email body (HTML)
+	body := fmt.Sprintf(`
+		<!DOCTYPE html>
+		<html>
+			<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+					<tr>
+						<td>
+							<table align="center" cellpadding="0" cellspacing="0" width="0" style="background: #ffffff; border-radius: 8px; overflow: hidden;">
+								<tr>
+									<td style="background: #231e88; padding: 20px; text-align: center;">
+										<h1 style="color: #ffffff; margin: 0;">New Subscriber</h1>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding: 30px; color: #333;">
+										<p style="font-size: 16px;">Hi %s,</p>
+										<p style="font-size: 16px; line-height: 1.5;">You have a new subscriber for <b>%s</b> campaign. Kindly visit your dashboard to view updated stats</p>
+										<p style="font-size: 16px;"><strong>Name: </strong>%s</p>
+										<p style="font-size: 16px;"><strong>Email: </strong>%s</p>
+										<p style="text-align: center; padding: 30px 0;">
+											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Dashboard</a>
+										</p>
+										<p style="font-size: 14px; line-height: 1.5; color: #555;">The mail system is up and running, sending promotional emails have never been easier.</p>
+									</td>
+								</tr>
+								<tr>
+									<td style="background: #f9f9f9; padding: 20px; text-align: center; font-size: 12px; color: #777;">
+										&copy; %d MailDrop. All right reserved.
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</body>
+		</html>
+	`, Capitalize(user.Name, false), strings.TrimSpace(campaignTitle), subscriber.Name, subscriber.Email, dashboardUrl, time.Now().Year())
+
+	m.SetBody("text/html", body)
+
+	d := gomail.NewDialer("smtp.gmail.com", 465, "habeebfrommaildrop@gmail.com", os.Getenv("GOOGLE_APP_PASS"))
+	d.SSL = true
+
+	d.DialAndSend(m)
+}
+
 func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriber *models.DeleteSubscriberRequest) {
 	m := gomail.NewMessage()
 
@@ -327,7 +383,7 @@ func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriber 
 			<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
 				<table align="center" cellspacing="0" cellpadding="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
 					<tr>
-						<td style="background-color: #231e88"; color: #ffffff; text-align: center; padding: 20px;>
+						<td style="background-color: #231e88; color: #ffffff; text-align: center; padding: 20px;">
 							<h1 style="margin: 0; font-size: 20px;">Lead Unsubscribe</h1>
 						</td>
 					</tr>

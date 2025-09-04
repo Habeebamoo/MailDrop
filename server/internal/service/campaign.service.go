@@ -115,6 +115,12 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq *models.Subscribe
 		return "", code, err
 	}
 
+	//get user
+	user, code, err := campaignSvc.repo.GetCampaignUser(subscriber.UserId)
+	if err != nil {
+		return "", code, err
+	}
+
 	//check if the email already exist
 	exists := campaignSvc.repo.SubscriberExist(subscriber.Email, campaign.CampaignId)
 	if exists {
@@ -126,6 +132,9 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq *models.Subscribe
 	if err != nil {
 		return msg, code, err
 	}
+
+	//notify the user
+	go utils.SendSubscriptionEmail(user, subscriber, campaign.Title)
 
 	//send reward to subscriber's email
 	if (campaign.LeadMagnetName == "") {
