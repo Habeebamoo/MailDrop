@@ -23,7 +23,7 @@ type UserService interface {
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 	UpdateProfile(models.ProfileRequest) (int, error)
 	ForgotPassword(string) (int, error)
-	ResetPassword(uuid.UUID, string) (int, error)
+	ResetPassword(string, string) (int, error)
 }
 
 type UserSvc struct {
@@ -223,7 +223,7 @@ func (userSvc *UserSvc) ForgotPassword(email string) (int, error) {
 	//check if user exists
 	exists := userSvc.repo.Exists(email)
 
-	//not giving user-info about users to unauthorzied people :)
+	//not giving user-info to unauthorzied people :)
 	if (!exists) {
 		return 200, nil
 	}
@@ -235,7 +235,9 @@ func (userSvc *UserSvc) ForgotPassword(email string) (int, error) {
 	}
 
 	//create a token to associate with the user
-	token, statusCode, err := userSvc.repo.CreateToken(user.UserId)
+	token, _ := utils.GetRandomString()
+
+	statusCode, err := userSvc.repo.CreateToken(user.UserId, token)
 	if err != nil {
 		return statusCode, err
 	}
@@ -244,7 +246,7 @@ func (userSvc *UserSvc) ForgotPassword(email string) (int, error) {
 	return utils.SendPasswordResetEmail(user.Name, user.Email, token)
 }
 
-func (userSvc *UserSvc) ResetPassword(token uuid.UUID, newPassword string) (int, error) {
+func (userSvc *UserSvc) ResetPassword(token string, newPassword string) (int, error) {
 	//get the user associated with the token
 	userToken, statusCode, err := userSvc.repo.GetUserIdByToken(token)
 	if err != nil {
@@ -257,4 +259,6 @@ func (userSvc *UserSvc) ResetPassword(token uuid.UUID, newPassword string) (int,
 
 	//update the users password
 	return userSvc.repo.UpdatePassword(userToken.UserId, newPassword)
+
+	//delete token
 }

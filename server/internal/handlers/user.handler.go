@@ -275,10 +275,7 @@ func (userHdl *UserHandler) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	token, _ := uuid.Parse(Request.Token)
-	newPassword := Request.Password
-
-	statusCode, err := userHdl.svc.ResetPassword(token, newPassword)
+	statusCode, err := userHdl.svc.ResetPassword(Request.Token, Request.Password)
 	if err != nil {
 		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return	

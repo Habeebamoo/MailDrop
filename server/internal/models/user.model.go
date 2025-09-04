@@ -29,8 +29,8 @@ type Profile struct {
 }
 
 type Token struct {
-	UserId     uuid.UUID  `json:"userId"`
-	Token      uuid.UUID  `json:"token"      gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
+	UserId     uuid.UUID  `json:"userId"     gorm:"primaryKey"`
+	Token      string     `json:"token"`
 	ExpiresAt  time.Time  `json:"expiresAt"`
 }
 

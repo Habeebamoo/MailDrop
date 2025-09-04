@@ -20,10 +20,10 @@ type UserRepository interface {
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
 	GetUserIdByOTP(int) (uuid.UUID, int, error)
-	GetUserIdByToken(uuid.UUID) (models.Token, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
 	UpdateProfile(models.ProfileDetailsRequest) (int, error)
-	CreateToken(uuid.UUID) (string, int, error)
+	CreateToken(uuid.UUID, string) (int, error)
+	GetUserIdByToken(string) (models.Token, int, error)
 	CreateOTP(uuid.UUID) (int, error)
 	UpdatePassword(uuid.UUID, string) (int, error)
 	VerifyEmail(uuid.UUID) (int, error)
@@ -134,18 +134,6 @@ func (userRepo *UserRepo) GetUserIdByOTP(otpCode int) (uuid.UUID, int, error) {
 	return userOtp.UserId, 200, nil
 }
 
-func (userRepo *UserRepo) GetUserIdByToken(token uuid.UUID) (models.Token, int, error) {
-	var userToken models.Token
-	err := userRepo.db.First(&userToken, "token = ?", token).Error
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return models.Token{}, http.StatusNotFound, fmt.Errorf("invalid token")
-		}
-		return models.Token{}, 500, fmt.Errorf("internal server error")
-	}
-	return models.Token{}, 200, nil
-}
-
 func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {
 	var userActivities []models.Activity
 	err := userRepo.db.Find(&userActivities, "user_id = ?", userId).Error
@@ -207,26 +195,40 @@ func (userRepo *UserRepo) CreateOTP(userId uuid.UUID) (int, error) {
 	return otp.Code, nil
 }
 
-func (userRepo *UserRepo) CreateToken(userId uuid.UUID) (string, int, error) {
+func (userRepo *UserRepo) CreateToken(userId uuid.UUID, generatedToken string) (int, error) {
 	//delete all existing tokens created by the user
 	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.Token{}).Error
 	if err != nil {
-		return "", 500, fmt.Errorf("internal server error")
+		return 500, fmt.Errorf("internal server error")
 	}
 
 	//create a token for verification
 	token := models.Token{
 		UserId: userId,
+		Token: generatedToken,
 		ExpiresAt: time.Now().Add(12 * time.Hour),
 	}
 
 	err = userRepo.db.Create(&token).Error
 	if err != nil {
-		return "", 500, fmt.Errorf("internal server error")
+		return 500, fmt.Errorf("internal server error")
+	}
+	
+	return 200, nil
+}
+
+func (userRepo *UserRepo) GetUserIdByToken(token string) (models.Token, int, error) {
+	//get token
+	var userToken models.Token
+	err := userRepo.db.First(&userToken, "token = ?", token).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return models.Token{}, http.StatusUnauthorized, fmt.Errorf("invalid token")
+		}
+		return models.Token{}, 500, fmt.Errorf("internal server error")
 	}
 
-	
-	return token.Token.String(), 200, nil
+	return userToken, 200, nil
 }
 
 func (userRepo *UserRepo) UpdatePassword(userId uuid.UUID, newPassword string) (int, error) {
