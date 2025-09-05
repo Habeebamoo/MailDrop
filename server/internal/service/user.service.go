@@ -258,8 +258,15 @@ func (userSvc *UserSvc) ResetPassword(token string, newPassword string) (int, er
 		return http.StatusNotAcceptable, fmt.Errorf("token is expired")
 	}
 
+	//hash new password
+	newHashedPassword, _ := utils.HashPassword(newPassword)
+
 	//update the users password
-	return userSvc.repo.UpdatePassword(userToken.UserId, newPassword)
+	statusCode, err = userSvc.repo.UpdatePassword(userToken.UserId, newHashedPassword)
+	if err != nil {
+		return statusCode, err
+	}
 
 	//delete token
+	return userSvc.repo.DeleteToken(userToken.UserId)
 }

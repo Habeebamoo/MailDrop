@@ -24,6 +24,7 @@ type UserRepository interface {
 	UpdateProfile(models.ProfileDetailsRequest) (int, error)
 	CreateToken(uuid.UUID, string) (int, error)
 	GetUserIdByToken(string) (models.Token, int, error)
+	DeleteToken(uuid.UUID) (int, error)
 	CreateOTP(uuid.UUID) (int, error)
 	UpdatePassword(uuid.UUID, string) (int, error)
 	VerifyEmail(uuid.UUID) (int, error)
@@ -231,10 +232,25 @@ func (userRepo *UserRepo) GetUserIdByToken(token string) (models.Token, int, err
 	return userToken, 200, nil
 }
 
-func (userRepo *UserRepo) UpdatePassword(userId uuid.UUID, newPassword string) (int, error) {
+func (userRepo *UserRepo) DeleteToken(userId uuid.UUID) (int, error) {
+	res := userRepo.db.Model(&models.Token{}).
+										Where("user_id = ?", userId).
+										Delete(&models.Token{})
+	if res.RowsAffected == 0 {
+		return 500, fmt.Errorf("failed to delete token")
+	}
+
+	if res.Error != nil {
+		return 500, fmt.Errorf("internal server error")
+	}
+
+	return 200, nil
+}
+
+func (userRepo *UserRepo) UpdatePassword(userId uuid.UUID, newHashedPassword string) (int, error) {
 	err := userRepo.db.Model(&models.User{}).
 							Where("user_id = ?", userId).
-							Update("password", newPassword).
+							Update("password", newHashedPassword).
 							Error
 
 	if err != nil {
