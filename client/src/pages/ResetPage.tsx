@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { ClipLoader } from "react-spinners"
+import Spinner from "../components/home/Spinner"
 
 const ResetPage = () => {
   const [form, setForm] = useState({
@@ -107,9 +107,9 @@ const ResetPage = () => {
           }
           <button 
             disabled={loading}
-            className="py-2 flex-center btn-primary w-full mt-4 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:text-white disabled:border-gray-300"
+            className={`${loading ? "py-3" : "py-2"} flex-center btn-primary w-full mt-4 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:text-white disabled:border-gray-300`}
           >
-            {loading ? <ClipLoader size={20} color="white" /> : "Submit"}
+            {loading ? <Spinner size={16} color="white" /> : "Submit"}
           </button>
           <p onClick={toLogin} className="text-center text-sm text-accent mt-4">
             <span className="text-primary cursor-pointer font-outfit">Back to login</span>

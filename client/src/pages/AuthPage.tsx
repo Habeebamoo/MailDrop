@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
-import { ClipLoader } from "react-spinners"
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
 import { toast } from "react-toastify"
-import GoogleLoading from "../components/dashboard/GoogleLoading"
+import GoogleLoading from "../components/home/GoogleLoading"
+import Spinner from "../components/home/Spinner"
 
 interface GooglePayLoad {
   email: string,
@@ -146,13 +146,13 @@ const AuthPage = () => {
   const authText = 
   isLogin ? 
   <div className={`${loading && "flex-center gap-2"}`}>
-    {loading && <ClipLoader size={16} color="white" />}
-    {loading ? "Logging in" : "Login"}
+    {loading && <Spinner size={15} color="white" />}
+    {loading ? "Logging In" : "Login"}
   </div> 
   : 
   <div className={`${loading && "flex-center gap-2"}`}>
-    {loading && <ClipLoader size={16} color="white" />}
-    {loading ? "Signing up" : "Sign Up"}
+    {loading && <Spinner size={15} color="white" />}
+    {loading ? "Signing Up" : "Sign Up"}
   </div>
 
   return (
