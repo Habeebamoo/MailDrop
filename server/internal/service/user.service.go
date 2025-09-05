@@ -11,6 +11,7 @@ import (
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
+	_ "github.com/cloudinary/cloudinary-go/v2"
 	"github.com/google/uuid"
 )
 
