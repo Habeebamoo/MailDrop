@@ -75,7 +75,7 @@ const Unsubscribe = () => {
       <div className="flex items-center justify-center space-x-4 mt-[50px] w-[70%] sm:w-[400px] mx-auto">
         <div 
         className="bg-primary text-white h-9 w-9 rounded-full flex-center">1</div>
-        <div className={`flex-1 w-2 h-1 rounded-full ${step > 1 ? "bg-primary" : "bg-accentLight"} `}></div>
+        <div className={`flex-1 w-2 h-1 rounded-full ${step === 2 ? "bg-primary" : "bg-accentLight"} `}></div>
         <div className={`${step == 2 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}>2</div>
       </div>
       {step === 1 && 
