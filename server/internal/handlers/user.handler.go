@@ -210,7 +210,8 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 	name := c.PostForm("name")
 	email := c.PostForm("email")
 	bio := c.PostForm("bio")
-	if (name == "" || email == "" || bio == "") {
+	
+	if name == "" || email == "" || bio == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No field must be empty"})
 		return
 	}
