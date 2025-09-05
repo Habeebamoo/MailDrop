@@ -283,9 +283,12 @@ func SendTestEmail(user models.User, emailContent string, campaign models.Campai
 		<!DOCTYPE html>
 		<html>
 			<body style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin: 0; padding: 0;">
-				<div style="margin-bottom: 200px">
+				<div>
 					<p>Hi %s.</p>
-					<p>This message you are seeing is the preview of the recent email you sent to %s subscribers</P>
+					<p>This message you are seeing is the preview of the recent email you sent to %s subscribers</p>
+					<br><br>
+					<hr>
+					<br><br>
 				</div>
 
 				%s
