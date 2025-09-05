@@ -126,7 +126,7 @@ const SubscriberPage = () => {
           <h1 className="text-2xl text-primary font-inter">{campaign.title}</h1>
           <p className="text-sm text-accent mt-1">{campaign.description}</p>
         </div>
-        <div className="bg-white py-4 px-6 rounded-sm mt-8 w-[100%] sm:w-[500px] mx-auto mb-4">
+        <div className="bg-white border-1 border-bg2 py-4 px-6 rounded-sm mt-8 w-[100%] sm:w-[500px] mx-auto mb-4">
           <div className="flex-start gap-3">
             <div className="h-7 w-7 bg-accentXLight border-1 border-accentLight rounded-full flex-center overflow-hidden">
               <img src={campaign.userPicture} className="w-full h-full object-cover" />
@@ -138,7 +138,7 @@ const SubscriberPage = () => {
           </div>
         </div>
         <div className="flex-center mt-6">
-          <form onSubmit={handleSubmit} className="bg-white py-4 px-6 rounded-sm w-[100%] sm:w-[500px]">
+          <form onSubmit={handleSubmit} className="bg-white border-1 border-bg2 py-4 px-6 rounded-sm w-[100%] sm:w-[500px]">
             <h1 className="text-center text-xl text-primary font-open">Become a Member</h1>
             {campaign.leadMagnetName && 
               <p className="text-accent text-[12px] text-center mt-1">
@@ -185,7 +185,7 @@ const SubscriberPage = () => {
           </form>
         </div>
         {campaign.leadMagnetName &&
-          <div className="bg-white py-4 px-6 rounded-sm mt-6 w-[90%] sm:w-[500px] mx-auto mb-4">
+          <div className="bg-white border-1 border-bg2 py-4 px-6 rounded-sm mt-6 w-[90%] sm:w-[500px] mx-auto mb-4">
             <h1 className="text-primary font-outfit text-lg text-center">Reward Available</h1>
             <div className="my-5">
               <div className="flex-center mx-auto h-30 w-30 bg-accentXLight border-1 border-accentLight rounded-full">
