@@ -88,7 +88,7 @@ const Unsubscribe = () => {
           setResponseData={setResponseData}
       />}
       {step === 2 && <ThirdPage responseData={responseData} />}
-      <div className="bg-white p-5 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-5">
+      <div className="bg-white border-1 border-bg2 p-5 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-5">
         <div className="flex-start gap-2">
           <FaRegHeart color="red" />
           <h1 className="font-inter">Why People Stay</h1>
@@ -108,7 +108,7 @@ const Unsubscribe = () => {
         <hr className="text-accentLight mt-4" />
         <p className="text-[12px] text-accent mt-3 font-open text-center">Join 150+ professionals who trusts MailDrop</p>
       </div>
-      <div className="bg-white p-5 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-5 mb-10">
+      <div className="bg-white border-1 border-bg2 p-5 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-5 mb-10">
         <h1 className="font-inter">Need Help?</h1>
         <div className="flex-start gap-2 text-primary mt-4 text-sm">
           <FaRegMessage />

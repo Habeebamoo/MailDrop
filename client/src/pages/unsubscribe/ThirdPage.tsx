@@ -9,7 +9,7 @@ const ThirdPage = ({ responseData }: { responseData: any }) => {
 
   return (
     <>
-      <div className="bg-white p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
+      <div className="bg-white border-1 border-bg2 p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
         <div className="flex-center h-14 w-14 bg-green-500 rounded-full mx-auto">
           <IoMdCheckmarkCircleOutline color="#fff" size={27} />
         </div>

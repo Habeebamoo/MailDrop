@@ -66,7 +66,7 @@ const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponse
 
   return (
     <>
-      <form onSubmit={unsubscribe} className="bg-white p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
+      <form onSubmit={unsubscribe} className="bg-white border-1 border-bg2 p-8 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-10">
         <div className="flex-center h-14 w-14 bg-primary rounded-full mx-auto">
           <FaRegMessage color="#fff" size={22} />
         </div>
@@ -109,7 +109,7 @@ const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponse
         <div className="mt-4">
           <button
             type="submit"
-            className="max-md:py-3 w-full btn-primary flex-center gap-2 md:text-sm"
+            className="py-3 md:py-2 w-full btn-primary flex-center gap-2 md:text-sm"
           >
             <FiUserMinus />
             <span>Confirm Unsubscribe</span>
