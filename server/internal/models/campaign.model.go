@@ -23,7 +23,7 @@ type Campaign struct {
 }
 
 type Subscriber struct {
-	Id              uint       `json:"-"               gorm:"primaryKey;autoIncrement"`
+	SubscriberId    uuid.UUID  `json:"-"               gorm:"primaryKey;unique;type:uuid;default:uuid_generate_v4()"`
 	CampaignId      uuid.UUID  `json:"campaignId"`
 	CampaignStatus  string     `json:"campaignStatus"`
 	UserId          uuid.UUID  `json:"userId"`
@@ -80,7 +80,6 @@ type SubscriberVerifyRequest struct {
 }
 
 type DeleteSubscriberRequest struct {
-	Email    string  `json:"email"`
 	Reason   string  `json:"reason"`
 	Comment  string  `json:"comment"`
 }

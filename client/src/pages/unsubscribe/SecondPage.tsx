@@ -3,15 +3,13 @@ import { FaRegThumbsDown } from "react-icons/fa"
 import { FaRegMessage } from "react-icons/fa6"
 import { FiUserMinus } from "react-icons/fi"
 import { HiOutlineSpeakerWave } from "react-icons/hi2"
-import { SlArrowLeft } from "react-icons/sl"
+import { useSearchParams } from "react-router-dom"
 import { toast } from "react-toastify"
 
 interface Props {
   nextStep: () => void,
-  previousStep: () => void,
   form: any,
   setForm: React.Dispatch<React.SetStateAction<{
-    email: string;
     reason: string;
     comment: string;
   }>>
@@ -20,9 +18,11 @@ interface Props {
   setResponseData: React.Dispatch<any>,
 }
 
-const SecondPage = ({ nextStep, previousStep, form, setForm, setLoading, campaign, setResponseData }: Props) => {
+const SecondPage = ({ nextStep, form, setForm, setLoading, campaign, setResponseData }: Props) => {
   const [radio, setRadio] = useState<"emails" | "relevant" | "others" | "">("")
   const [comments, setComments] = useState<string>("")
+  const [ searchParams ] = useSearchParams()
+  const leadId = searchParams.get("leadId")
 
   const addReason = (radioTxt: any, text: string) => {
     setRadio(radioTxt)
@@ -33,14 +33,21 @@ const SecondPage = ({ nextStep, previousStep, form, setForm, setLoading, campaig
     e.preventDefault()
     setLoading(true)
 
+    if (!leadId) {
+      toast.error("invalid subscriber")
+      return
+    }
+
+    const body = {...form, subscriberId: leadId}
+
     try {
-      const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${campaign.campaignId}/unsubscribe`, {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/subscriber/${leadId}/unsubscribe/${campaign.campaignId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-API-KEY": import.meta.env.VITE_X_API_KEY,
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(body)
       })
       const response = await res.json()
 
@@ -99,16 +106,10 @@ const SecondPage = ({ nextStep, previousStep, form, setForm, setLoading, campaig
             onChange={e => setComments(e.target.value)}
           ></textarea>
         </div>
-        <div className="max-md:grid max-md:grid-cols-1 md:flex-between mt-4">
-          <button 
-            onClick={() => previousStep()}
-            className="flex-center gap-2 max-md:py-3 border-accentLight bg-transparent text-accent hover:bg-accentLight hover:text-accent btn-primary md:text-sm">
-            <SlArrowLeft size={10} />
-            <span>Back</span>
-          </button>
+        <div className="mt-4">
           <button
             type="submit"
-            className="max-md:py-3 btn-primary flex-center gap-2 max-md:mt-3 md:text-sm"
+            className="max-md:py-3 w-full btn-primary flex-center gap-2 md:text-sm"
           >
             <FiUserMinus />
             <span>Confirm Unsubscribe</span>

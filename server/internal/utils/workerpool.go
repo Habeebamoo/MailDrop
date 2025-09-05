@@ -8,6 +8,7 @@ type EmailJob struct {
 	SenderName     string
 	SenderEmail    string
 	CampaignId     string
+	ReceiverId     string
 	ReceiverEmail  string
 	Subject        string
 	Content        string

@@ -20,8 +20,7 @@ type CampaignService interface {
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	DownloadSubscribers(uuid.UUID) (models.Campaign, []models.Subscriber, int, error)
 	CreateSubscriber(*models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
-	VerifySubscriber(*models.SubscriberVerifyRequest) (int, error)
-	DeleteSubscriber(*models.DeleteSubscriberRequest, uuid.UUID) (string, int, error)
+	DeleteSubscriber(*models.DeleteSubscriberRequest, uuid.UUID, uuid.UUID) (string, string, int, error)
 	GetSubscriberCampaign(uuid.UUID) (models.SubscriberCampaignResponse, int, error)
 	CampaignClick(uuid.UUID) (int, error)
 	SendMail(emailReq *models.EmailRequest) (int, error)
@@ -149,38 +148,40 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq *models.Subscribe
 	return msg, code, nil
 }
 
-func (campaignSvc *CampaignSvc) VerifySubscriber(subscriberReq *models.SubscriberVerifyRequest) (int, error) {
-	return campaignSvc.repo.VerifySubscriber(subscriberReq)
-}
-
-func (campaignSvc *CampaignSvc) DeleteSubscriber(subscriberReq *models.DeleteSubscriberRequest, campaignId uuid.UUID) (string, int, error) {
+func (campaignSvc *CampaignSvc) DeleteSubscriber(subscriberReq *models.DeleteSubscriberRequest, subscriberId uuid.UUID, campaignId uuid.UUID) (string, string, int, error) {
 	//get campaign
 	campaign, statusCode, err := campaignSvc.repo.GetCampaign(campaignId)
 	if err != nil {
-		return "", statusCode, err
+		return "", "", statusCode, err
 	}
 
 	//get user
 	campaignOwner, statusCode, err := campaignSvc.repo.GetCampaignUser(campaign.UserId)
 	if err != nil {
-		return "", statusCode, err
+		return "", "", statusCode, err
+	}
+
+	//verify subscriber
+	subscriber, statusCode, err := campaignSvc.repo.VerifySubscriber(subscriberId, campaignId)
+	if err != nil {
+		return "", "", statusCode, err
 	}
 
 	//delete subscriber
-	statusCode, err = campaignSvc.repo.DeleteSubscriber(subscriberReq.Email, campaign, campaign.UserId)
+	statusCode, err = campaignSvc.repo.DeleteSubscriber(subscriberId, campaign, campaign.UserId)
 	if err != nil {
-		return "", statusCode, err
+		return "", "", statusCode, err
 	}
 
 	//send response if no comment to notify campaign owner
 	if subscriberReq.Reason == "" && subscriberReq.Comment == "" {
-		return "", 200, nil
+		return "", "", 200, nil
 	}
 
 	//send email to campaign owner
-	go utils.SendUnsubscriptionEmail(campaignOwner, campaign.Title, subscriberReq)
+	go utils.SendUnsubscriptionEmail(campaignOwner, campaign.Title, subscriber.Email, subscriberReq)
 	
-	return campaign.Title, 200, nil
+	return campaign.Title, subscriber.Email, 200, nil
 }
 
 func (campaignSvc *CampaignSvc) CampaignClick(campaignId uuid.UUID) (int, error) {
@@ -281,6 +282,7 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 			SenderName: senderName,
 			SenderEmail: user.Email,
 			CampaignId: campaign.CampaignId.String(),
+			ReceiverId: subscriber.SubscriberId.String(),
 			Subject: emailReq.Subject,
 			Content: emailReq.Content,
 			ReceiverEmail: subscriber.Email,

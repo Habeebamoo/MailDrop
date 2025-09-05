@@ -22,8 +22,8 @@ type CampaignRepository interface {
 	SubscriberExist(string, uuid.UUID) bool
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
 	ArchiveSubscribers([]models.Subscriber, uuid.UUID) error
-	VerifySubscriber(*models.SubscriberVerifyRequest) (int, error)
-	DeleteSubscriber(string, models.Campaign, uuid.UUID) (int, error)
+	VerifySubscriber(uuid.UUID, uuid.UUID) (models.Subscriber, int, error)
+	DeleteSubscriber(uuid.UUID, models.Campaign, uuid.UUID) (int, error)
 	CreateCampaignClick(uuid.UUID, uuid.UUID) (int, error)
 	UpdateUserEmails(userId, campaignId uuid.UUID, campaignTitle string) (int, error)
 }
@@ -266,26 +266,24 @@ func (campaignRepo *CampaignRepo) ArchiveSubscribers(subscribers []models.Subscr
 	return nil
 }
 
-func (campaignRepo *CampaignRepo) VerifySubscriber(subscriberReq *models.SubscriberVerifyRequest) (int, error) {
-	campaignId, _ := uuid.Parse(subscriberReq.CampaignId)
-
+func (campaignRepo *CampaignRepo) VerifySubscriber(subscriberId uuid.UUID, campaignId uuid.UUID) (models.Subscriber, int, error) {
 	var subscriber models.Subscriber
-	err := campaignRepo.db.Where(models.Subscriber{CampaignId: campaignId, Email: subscriberReq.Email}).
+	err := campaignRepo.db.Where(models.Subscriber{CampaignId: campaignId, SubscriberId: subscriberId}).
 												First(&subscriber).
 												Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return 404, fmt.Errorf("this email was not found in our list")
+			return models.Subscriber{}, 404, fmt.Errorf("this email was not found in our list")
 		}
-		return 500, fmt.Errorf("internal server error")
+		return models.Subscriber{}, 500, fmt.Errorf("internal server error")
 	}
-	return 200, nil
+	return subscriber, 200, nil
 }
 
-func (campaignRepo *CampaignRepo) DeleteSubscriber(email string, campaign models.Campaign, userId uuid.UUID) (int, error) {
+func (campaignRepo *CampaignRepo) DeleteSubscriber(subscriberId uuid.UUID, campaign models.Campaign, userId uuid.UUID) (int, error) {
 	//delete subscriber
 	res := campaignRepo.db.Model(&models.Subscriber{}).
-									Where(models.Subscriber{Email: email, CampaignId: campaign.CampaignId}).
+									Where(models.Subscriber{SubscriberId: subscriberId, CampaignId: campaign.CampaignId}).
 									Delete(&models.Subscriber{})
 
 	if res.RowsAffected == 0 {

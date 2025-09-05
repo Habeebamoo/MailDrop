@@ -237,7 +237,7 @@ func SendPromotionalEmail(emailJob EmailJob) error {
 	m.SetHeader("To", emailJob.ReceiverEmail)
 	m.SetHeader("Subject", emailJob.Subject)
 
-	unsubscribeUrl := fmt.Sprintf("https://maildrop.netlify.app/unsubscribe?id=%s", emailJob.CampaignId)
+	unsubscribeUrl := fmt.Sprintf("https://maildrop.netlify.app/unsubscribe?campaignId=%s&leadId=%s", emailJob.CampaignId, emailJob.ReceiverId)
 
 	//Email body (HTML)
 	body := fmt.Sprintf(`
@@ -369,7 +369,7 @@ func SendSubscriptionEmail(user models.User, subscriber models.Subscriber, campa
 	d.DialAndSend(m)
 }
 
-func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriber *models.DeleteSubscriberRequest) {
+func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriberEmail string, subscriberReq *models.DeleteSubscriberRequest) {
 	m := gomail.NewMessage()
 
 	m.SetHeader("From", m.FormatAddress("habeebfrommaildrop@gmail.com", "Habeeb from MailDrop"))
@@ -392,12 +392,12 @@ func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriber 
 						<td style="padding: 20px; color: #333333;">
 							<p><strong>Lead Email: </strong>%s</p>
 							<p><strong>Campaign: </strong>%s</p>
-	`, subscriber.Email, campaignTitle)
-	if subscriber.Reason != "" {
-		body += fmt.Sprintf("<p><strong>Reason: </strong>%s</p>", subscriber.Reason)
+	`, subscriberEmail, campaignTitle)
+	if subscriberReq.Reason != "" {
+		body += fmt.Sprintf("<p><strong>Reason: </strong>%s</p>", subscriberReq.Reason)
 	}
-	if subscriber.Comment != "" {
-		body += fmt.Sprintf("<p><strong>Comment: </strong>%s</p>", subscriber.Comment)
+	if subscriberReq.Comment != "" {
+		body += fmt.Sprintf("<p><strong>Comment: </strong>%s</p>", subscriberReq.Comment)
 	}
 	body += `
 				<p style="margin-top: 20px;">This lead has unsubscribe from your campaign</p>

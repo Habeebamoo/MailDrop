@@ -171,54 +171,31 @@ func (campaignHdl *CampaignHandler) DownloadSubscribers(c *gin.Context) {
 	}
 }
 
-func (campaignHdl *CampaignHandler) VerifySubscriber(c *gin.Context) {
-	subscriber := &models.SubscriberVerifyRequest{}
-	if err := c.ShouldBindJSON(&subscriber); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if err := subscriber.ValidateVerificationRequest(); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
-		return
-	}
-
-	statusCode, err := campaignHdl.svc.VerifySubscriber(subscriber)
-	if err != nil {
-		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
-		return
-	}
-
-	c.JSON(statusCode, gin.H{"message": "Verified"})
-}
-
 func (campaignHdl *CampaignHandler) DeleteSubscriber(c *gin.Context) {
-	subscriber := &models.DeleteSubscriberRequest{}
-	if err := c.ShouldBindJSON(&subscriber); err != nil {
+	subscriberRequest := &models.DeleteSubscriberRequest{}
+	if err := c.ShouldBindJSON(&subscriberRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if subscriber.Email == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing field: Email"})
-		return
-	}
+	campaignIdStr := c.Param("campaignId")
+	subscriberIdStr := c.Param("subscriberId")
 
-	campaignIdStr := c.Param("id")
 	if campaignIdStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Campaign"})
 		return
 	}
 	
 	campaignId, _ := uuid.Parse(campaignIdStr)
+	subscriberId, _ := uuid.Parse(subscriberIdStr)
 
-	campaignTitle, statusCode, err := campaignHdl.svc.DeleteSubscriber(subscriber, campaignId)
+	campaignTitle, subscriberEmail, statusCode, err := campaignHdl.svc.DeleteSubscriber(subscriberRequest, subscriberId, campaignId)
 	if err != nil {
 		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
 		return
 	}
 
-	responseData := map[string]string{"campaignTitle": campaignTitle, "subscriberEmail": subscriber.Email}
+	responseData := map[string]string{"campaignTitle": campaignTitle, "subscriberEmail": subscriberEmail}
 
 	c.JSON(statusCode, gin.H{
 		"data": responseData,

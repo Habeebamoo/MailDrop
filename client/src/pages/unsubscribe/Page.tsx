@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import Loading from "../../components/dashboard/Loading"
 import logo from "../../assets/logo.png"
-import FirstPage from "./FirstPage"
 import ThirdPage from "./ThirdPage"
 import SecondPage from "./SecondPage"
 import { FaRegHeart, FaStar, FaStarHalfAlt } from "react-icons/fa"
@@ -19,12 +18,11 @@ const Unsubscribe = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [step, setStep] = useState<number>(1)
   const [form, setForm] = useState({
-    email: "",
     reason: "",
     comment: "",
   })
   const [ searchParams ] = useSearchParams()
-  const campaignId = searchParams.get("id")
+  const campaignId = searchParams.get("campaignId")
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -56,13 +54,9 @@ const Unsubscribe = () => {
   }, [])
 
   const nextStep = () => {
-    if (step <= 3) {
+    if (step <= 2) {
       setStep(step + 1)
     }
-  }
-
-  const previousStep = () => {
-    setStep(step - 1)
   }
 
   if (loadingScreen) return <Loading />
@@ -81,29 +75,19 @@ const Unsubscribe = () => {
       <div className="flex items-center justify-center space-x-4 mt-[50px] w-[70%] sm:w-[400px] mx-auto">
         <div 
         className={`${step >= 1 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}>1</div>
-        <div className={`flex-1 w-2 h-1 rounded-full ${step >=2 ? "bg-primary" : "bg-accentLight"} `}></div>
-        <div className={`${step >= 2 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}>2</div>
-        <div className={`flex-1 w-2 h-1 rounded-full ${step >= 3 ? "bg-primary" : "bg-accentLight"} `}></div>
-        <div className={`${step >= 3 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}>3</div>
+        <div className={`flex-1 w-2 h-1 rounded-full ${step >= 1 ? "bg-primary" : "bg-accentLight"} `}></div>
+        <div className={`${step == 2 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}>2</div>
       </div>
       {step === 1 && 
-        <FirstPage 
-          nextStep={nextStep} 
-          setForm={setForm} 
-          setLoading={setLoading} 
-          campaign={campaign} 
-      />}
-      {step === 2 && 
         <SecondPage 
           nextStep={nextStep} 
-          previousStep={previousStep}
           form={form} 
           setForm={setForm} 
           setLoading={setLoading} 
           campaign={campaign} 
           setResponseData={setResponseData}
       />}
-      {step === 3 && <ThirdPage responseData={responseData} />}
+      {step === 2 && <ThirdPage responseData={responseData} />}
       <div className="bg-white p-5 rounded-sm w-[95%] sm:w-[500px] mx-auto mt-5">
         <div className="flex-start gap-2">
           <FaRegHeart color="red" />
