@@ -1,17 +1,13 @@
 package service
 
 import (
-	"bytes"
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/Habeebamoo/MailDrop/server/internal/models"
 	"github.com/Habeebamoo/MailDrop/server/internal/repositories"
 	"github.com/Habeebamoo/MailDrop/server/internal/utils"
-	_ "github.com/cloudinary/cloudinary-go/v2"
 	"github.com/google/uuid"
 )
 
@@ -168,8 +164,6 @@ func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityRespon
 }
 
 func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, error) {
-	ref := os.Getenv("SUPABASE_ID")
-
 	//open the file
 	f, err := profileReq.Image.Open()
 	if err != nil {
@@ -177,42 +171,11 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	}
 	defer f.Close()
 
-	fileBytes, err := io.ReadAll(f)
+	//upload profile picture
+	profileUrl, err := utils.UploadPic(f)
 	if err != nil {
-		return 500, fmt.Errorf("cannot read file")
+		return 500, err
 	}
-
-	bucket := "profile-pictures"
-	filePath := fmt.Sprintf("%s_%s", profileReq.UserId.String(), profileReq.Image.Filename) 
-	url := os.Getenv("SUPABASE_URL")
-	key := os.Getenv("SUPABASE_KEY")
-
-	//upload url
-	uploadUrl := fmt.Sprintf("%s/storage/v1/object/%s/%s", url, bucket, filePath)
-
-	//request to Supabase storage API
-	req, err := http.NewRequest("POST", uploadUrl, io.NopCloser(io.Reader(bytes.NewReader(fileBytes))))
-	if err != nil {
-		return 500, fmt.Errorf("request build failed")
-	}
-
-	//add headers
-	req.Header.Set("Authorization", "Bearer "+key)
-	req.Header.Set("Content-Type", "application/octet-stream")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return 500, fmt.Errorf("upload error")
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		return 500, fmt.Errorf("upload failed")
-	}
-
-	//get the url
-	profileUrl := fmt.Sprintf("https://%s.supabase.co/storage/v1/object/public/%s/%s", ref, bucket, filePath)
 
 	//update user profile
 	detailsReq := models.ProfileDetailsRequest{

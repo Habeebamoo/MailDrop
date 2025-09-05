@@ -1,12 +1,15 @@
 package utils
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
 	"os"
 	"time"
 
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -91,4 +94,38 @@ func GenerateElasticWorker(amountOfJobs int) int {
 	} else {
 		return 500
 	}
+}
+
+func UploadPic(file any) (string, error) {
+	cld, err := cloudinary.NewFromParams(
+		os.Getenv("CLD_CLOUD_NAME"),
+		os.Getenv("CLD_API_KEY"),
+		os.Getenv("CLD_API_SECRET"),
+	)
+	if err != nil {
+		return "", fmt.Errorf("failed to connect to storage")
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	uploadRes, err := cld.Upload.Upload(ctx, file, uploader.UploadParams{
+		Folder: "profile_pics",
+	})
+	if err != nil {
+		return "", fmt.Errorf("upload error")
+	}
+
+	image, err := cld.Image(uploadRes.PublicID)
+	if err != nil {
+		return "", fmt.Errorf("internal server error")
+	}
+
+	image.Transformation = "c_fill,h_200,w_200"
+	imageUrl, err := image.String()
+	if err != nil {
+		return "", fmt.Errorf("internal server error")
+	}
+
+	return imageUrl, nil
 }

@@ -161,10 +161,29 @@ func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResp
 }
 
 func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest) (int, error) {
-	res := userRepo.db.Model(&models.Profile{}).Where("user_id = ?", profileReq.UserId).Updates(profileReq)
-	if res.Error != nil {
-		return 500, res.Error
+	//update user
+	err := userRepo.db.Model(&models.User{}).
+										Where("user_id = ?", profileReq.UserId).
+										Updates(map[string]string{
+											"name": profileReq.Name,
+											"email": profileReq.Email,
+										}).Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user")
 	}
+
+	//update user profile
+	err = userRepo.db.Model(&models.Profile{}).
+										Where("user_id = ?", profileReq.UserId).
+										Updates(map[string]string{
+											"bio": profileReq.Bio, 
+											"profile_pic": profileReq.Image,
+										}).
+										Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user's profile")
+	}
+	
 	return 200, nil
 }
 
