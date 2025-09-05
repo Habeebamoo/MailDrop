@@ -26,6 +26,7 @@ type UserRepository interface {
 	GetUserIdByToken(string) (models.Token, int, error)
 	DeleteToken(uuid.UUID) (int, error)
 	CreateOTP(uuid.UUID) (int, error)
+	DeleteOTP(uuid.UUID) (int, error)
 	UpdatePassword(uuid.UUID, string) (int, error)
 	VerifyEmail(uuid.UUID) (int, error)
 }
@@ -196,6 +197,14 @@ func (userRepo *UserRepo) CreateOTP(userId uuid.UUID) (int, error) {
 	return otp.Code, nil
 }
 
+func (userRepo *UserRepo) DeleteOTP(userId uuid.UUID) (int, error) {
+	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.OTP{}).Error
+	if err != nil {
+		return 0, fmt.Errorf("internal server error")
+	}
+	return 200, nil
+}
+
 func (userRepo *UserRepo) CreateToken(userId uuid.UUID, generatedToken string) (int, error) {
 	//delete all existing tokens created by the user
 	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.Token{}).Error
@@ -233,14 +242,8 @@ func (userRepo *UserRepo) GetUserIdByToken(token string) (models.Token, int, err
 }
 
 func (userRepo *UserRepo) DeleteToken(userId uuid.UUID) (int, error) {
-	res := userRepo.db.Model(&models.Token{}).
-										Where("user_id = ?", userId).
-										Delete(&models.Token{})
-	if res.RowsAffected == 0 {
-		return 500, fmt.Errorf("failed to delete token")
-	}
-
-	if res.Error != nil {
+	err := userRepo.db.Where("user_id = ?", userId).Delete(&models.Token{}).Error
+	if err != nil {
 		return 500, fmt.Errorf("internal server error")
 	}
 

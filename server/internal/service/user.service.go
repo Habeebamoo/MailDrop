@@ -150,7 +150,13 @@ func (userSvc *UserSvc) VerifyUser(otpCode int) (int, error) {
 	}
 
 	//verify the user
-	return userSvc.repo.VerifyEmail(userId)
+	statusCode, err = userSvc.repo.VerifyEmail(userId)
+	if err != nil {
+		return statusCode, err
+	}
+
+	//delete otp
+	return userSvc.repo.DeleteOTP(userId)
 }
 
 func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {
