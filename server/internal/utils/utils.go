@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"mime/multipart"
 	"os"
 	"time"
 
@@ -96,7 +97,7 @@ func GenerateElasticWorker(amountOfJobs int) int {
 	}
 }
 
-func UploadPic(file any) (string, error) {
+func UploadPic(file multipart.File) (string, error) {
 	cld, err := cloudinary.NewFromParams(
 		os.Getenv("CLD_CLOUD_NAME"),
 		os.Getenv("CLD_API_KEY"),
@@ -121,7 +122,7 @@ func UploadPic(file any) (string, error) {
 		return "", fmt.Errorf("internal server error")
 	}
 
-	image.Transformation = "c_fill,h_200,w_200"
+	image.Transformation = "c_fill,h_150,w_150"
 	imageUrl, err := image.String()
 	if err != nil {
 		return "", fmt.Errorf("internal server error")
