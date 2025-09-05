@@ -5,6 +5,7 @@ import { ClipLoader } from "react-spinners"
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
 import { toast } from "react-toastify"
+import GoogleLoading from "../components/dashboard/GoogleLoading"
 
 interface GooglePayLoad {
   email: string,
@@ -17,6 +18,7 @@ const AuthPage = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true)
   const [passwordShown, setPasswordShown] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const [googleLoading, setGoogleLoading] = useState<boolean>(false)
   const [status, setStatus] = useState<"success" | "error" | "">("")
   const [msg, setMsg] = useState<string>("")
   const [form, setForm] = useState({
@@ -27,6 +29,8 @@ const AuthPage = () => {
   const navigate = useNavigate()
 
   const handleGoogleSuccess = async (tokenResponse: CredentialResponse) => {
+    setGoogleLoading(true)
+
     try {
       if (tokenResponse.credential) {
         const userInfo = jwtDecode<GooglePayLoad>(tokenResponse.credential);
@@ -56,6 +60,8 @@ const AuthPage = () => {
       }
     } catch (err) {
       toast.error("Something went wrong")
+    } finally {
+      setGoogleLoading(false)
     }
   }
 
@@ -151,7 +157,8 @@ const AuthPage = () => {
 
   return (
     <main className="flex-center h-[100vh] bg-bg">
-      <section className="bg-white p-8 rounded-sm w-[90%] sm:w-[400px]">
+      {googleLoading && <GoogleLoading />}
+      <section className="bg-white border-1 border-bg2 p-8 rounded-sm w-[90%] sm:w-[400px]">
         <h1 className="text-xl font-outfit text-primary text-center">{isLogin ? "Welcome Back" : "Create Your Account"}</h1>
         <p className="text-sm text-accent text-center">{isLogin ? "Sign in to your MailDrop account to continue" : "Sign up to create an account with MailDrop"}</p>
         <div className="flex-center mt-4 w-full">
