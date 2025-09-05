@@ -158,7 +158,7 @@ const AuthPage = () => {
   return (
     <main className="flex-center h-[100vh] bg-bg">
       {googleLoading && <GoogleLoading />}
-      <section className="bg-white border-1 border-bg2 rounded-lg p-8 rounded-sm w-[90%] sm:w-[400px]">
+      <section className="bg-white border-1 border-bg2 rounded-lg p-8 w-[90%] sm:w-[400px]">
         <h1 className="text-xl font-outfit text-primary text-center">{isLogin ? "Welcome Back" : "Create Your Account"}</h1>
         <p className="text-sm text-accent text-center">{isLogin ? "Sign in to your MailDrop account to continue" : "Sign up to create an account with MailDrop"}</p>
         <div className="flex-center mt-4 w-full">
