@@ -6,7 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../context/UserContext";
 import { useCampaignId } from "../../../context/CampaignContext";
-import campaignImg from "../../../assets/campaign.png";
+import { MdCampaign } from "react-icons/md";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -69,14 +69,14 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
       <p className="text-sm text-accent mb-4 max-md:mt-2">Create and manage your email campaigns</p>
 
       <div className="md:grid md:grid-cols-2 md:gap-2 mt-4">
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
             <FiEdit size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
           <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalCampaigns}</h1>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-between">
             <p className="font-outfit text-sm text-accent">Total Email Sent</p>
             <IoIosSend size={18} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
@@ -87,8 +87,10 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
       <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit text-center">All Campaigns</h1>
       {campaigns.length == 0 && 
         <div className="p-14 mt-2 flex-center flex-col gap-2">
-          <img src={campaignImg} className="h-35" />
-          <p className="text-accent text-sm">You haven't created any campaigns</p>
+          <div className="bg-primary text-white h-20 w-20 flex-center rounded-full">
+            <MdCampaign size={40} />
+          </div>
+          <p className="text-accent text-sm mt-2 font-inter">You haven't created any campaigns</p>
         </div>
       }
       {campaigns.length >= 1 &&

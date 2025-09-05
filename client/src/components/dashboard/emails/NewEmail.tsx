@@ -138,7 +138,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       </div>
       <p className="text-sm text-accent mb-4 max-md:mt-2">Create and send targetted emails to your campaign audience</p>
       <h1 className="text-xl text-primary font-inter mt-8 text-center dark:text-white">Email Settings</h1>
-      <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-5 border-1 border-accentLight rounded-md mt-2 mb-4">
+      <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-5 border-1 border-bg2 rounded-md mt-2 mb-4">
         <div className="flex-start gap-2">
           <FaUser size={17} color="#231e88" />
           <div>
@@ -183,7 +183,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           />
         </div>
       </form>
-      <div className="p-4 border-accentLight border-1 rounded-lg w-full mx-auto bg-white shadow">
+      <div className="p-4 border-bg2 border-1 rounded-lg w-full mx-auto bg-white shadow">
         <div className="flex flex-end gap-2 border-b-accent pb-2 mb-2">
           <button 
             onClick={() => editor.chain().focus().toggleBold().run()}
@@ -220,7 +220,7 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
           <IoIosSend />
         </button>
       </div>
-      <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
+      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
         <div className="flex-start gap-2">
           <FaMailBulk size={17} color="orange" />
           <h1 className="text-lg font-inter dark:text-white">Email Tips</h1>

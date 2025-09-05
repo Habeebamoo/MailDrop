@@ -33,7 +33,8 @@ const Footer = () => {
           <small>Privacy</small>
         </div>
       </div>
-      <p className="mt-8 mb-2 text-accent font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
+      <hr className="text-accent mt-10" />
+      <p className="mt-6 mb-2 text-accent font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
     </footer>
   )
 }

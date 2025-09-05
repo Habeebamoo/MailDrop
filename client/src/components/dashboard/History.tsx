@@ -19,7 +19,7 @@ const History = ({ title, backupText, history }: { title: string, backupText: st
 
   return (
     <>
-      <div className="bg-white p-5 dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-6">
+      <div className="bg-white p-5 dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 rounded-sm mt-6">
         <div className="flex-start gap-2">
           <GoPulse color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           <h1 className="font-inter dark:text-accent">{title}</h1>

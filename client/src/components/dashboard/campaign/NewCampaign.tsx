@@ -77,7 +77,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
         </div>
         <p className="text-sm text-accent mb-4 max-md:mt-2">Set up your new email campaign with a compelling lead magnet to attract and convert prospects</p>
 
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
           <div className="flex-start gap-2">
             <FiTarget size={17} color="#231e88" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Details</h1>
@@ -145,7 +145,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             </button>
           </form>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
           <div className="flex-start gap-2">
             <RiFilePaper2Line size={17} color="orange" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Tips</h1>

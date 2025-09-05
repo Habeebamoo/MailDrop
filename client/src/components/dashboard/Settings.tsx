@@ -118,7 +118,7 @@ const Settings = () => {
       <div className="md:grid md:grid-cols-2 gap-2 items-start">
         <form 
           onSubmit={submitProfile} 
-          className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary dark:text-white"
+          className="p-6 rounded-md bg-white border-1 border-bg2 dark:bg-gray-900 dark:border-1 dark:border-gray-800 text-primary dark:text-white"
         >
           <div className="flex-start gap-2">
             <FiUser size={20} />
@@ -189,7 +189,7 @@ const Settings = () => {
             </button>
           </div>
         </form>
-        <div className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 max-md:mt-4">
+        <div className="p-6 rounded-md bg-white border-1 border-bg2 dark:bg-gray-900 dark:border-1 dark:border-gray-800 max-md:mt-4">
           <div className="flex-start gap-2 text-primary dark:text-white">
             <FaGears size={20} />
             <h1 className="text-xl font-outfit">Quick Action</h1>
