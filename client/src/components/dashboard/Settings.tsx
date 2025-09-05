@@ -147,7 +147,6 @@ const Settings = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
-                required
               />
             </div>
           </div>
@@ -160,7 +159,6 @@ const Settings = () => {
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700"
                 value={form.name}
                 onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
-                required
               />
             </div>
             <div className="mb-2">
@@ -170,7 +168,6 @@ const Settings = () => {
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" 
                 value={form.email}
                 onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
-                required
               />
             </div>
             <div className="mb-2">
@@ -181,7 +178,6 @@ const Settings = () => {
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 resize-none dark:bg-gray-800 dark:border-gray-700"
                 value={form.bio}
                 onChange={(e) => setForm(prev => ({...prev, bio: e.target.value}))}
-                required
               ></textarea>
             </div>
             <button className="mt-4 flex-center gap-2 btn-primary">
