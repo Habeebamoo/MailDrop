@@ -173,11 +173,6 @@ func (campaignSvc *CampaignSvc) DeleteSubscriber(subscriberReq *models.DeleteSub
 		return "", "", statusCode, err
 	}
 
-	//send response if no comment to notify campaign owner
-	if subscriberReq.Reason == "" && subscriberReq.Comment == "" {
-		return "", "", 200, nil
-	}
-
 	//send email to campaign owner
 	go utils.SendUnsubscriptionEmail(campaignOwner, campaign.Title, subscriber.Email, subscriberReq)
 	
