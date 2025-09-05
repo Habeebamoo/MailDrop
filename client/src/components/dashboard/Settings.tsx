@@ -20,10 +20,10 @@ type FormData = {
 const Settings = () => {
   const { user } = useUser()
   const [form, setForm] = useState<FormData>({
-    file: user!.profile.profilePic ?? "",
-    name: user!.name ?? "",
-    email: user!.email ?? "",
-    bio: user!.profile.bio ?? ""
+    file: user!.profile.profilePic,
+    name: user!.name,
+    email: user!.email,
+    bio: user!.profile.bio
   })
   const [preview, setPreview] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
