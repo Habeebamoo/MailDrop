@@ -3,7 +3,7 @@ import Loading from "../../components/dashboard/Loading"
 import logo from "../../assets/logo.png"
 import ThirdPage from "./ThirdPage"
 import SecondPage from "./SecondPage"
-import { FaRegHeart, FaStar, FaStarHalfAlt } from "react-icons/fa"
+import { FaCheck, FaRegHeart, FaStar, FaStarHalfAlt } from "react-icons/fa"
 import { FaRegMessage } from "react-icons/fa6"
 import { FiUserPlus } from "react-icons/fi"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -74,9 +74,15 @@ const Unsubscribe = () => {
       </header>
       <div className="flex items-center justify-center space-x-4 mt-[50px] w-[70%] sm:w-[400px] mx-auto">
         <div 
-        className="bg-primary text-white h-9 w-9 rounded-full flex-center">1</div>
+          className="bg-primary text-white h-9 w-9 rounded-full flex-center"
+        >
+          {step === 2 ? <FaCheck /> : "1"}
+        </div>
         <div className={`flex-1 w-2 h-1 rounded-full ${step === 2 ? "bg-primary" : "bg-accentLight"} `}></div>
-        <div className={`${step == 2 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}>2</div>
+        <div className={`${step == 2 ? "bg-primary text-white" : "bg-accentLight text-accent"} h-9 w-9 rounded-full flex-center`}
+        >
+          {step === 2 ? <FaCheck /> : "2"}
+        </div>
       </div>
       {step === 1 && 
         <SecondPage 
