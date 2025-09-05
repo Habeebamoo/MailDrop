@@ -54,9 +54,8 @@ const Settings = () => {
     data.append("email", form.email)
     data.append("bio", form.bio)
     data.append("file", form.file)
-    console.log(data)
-
-    /*try {
+    
+    try {
       const res = await fetch("https://maildrop-znoo.onrender.com/api/user/profile", {
         method: "POST",
         credentials: "include",
@@ -78,7 +77,7 @@ const Settings = () => {
         toast.error("Something went wrong")
     } finally {
       setLoading(false)
-    }*/
+    }
   }
 
   const logout = async () => {
