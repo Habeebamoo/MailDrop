@@ -47,7 +47,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		subscriber.GET("/campaign/:id", campaignHandler.GetSubscriberCampaign)
 		subscriber.POST("", campaignHandler.CreateSubscriber)
 		subscriber.POST("/:id/click", campaignHandler.CampaignClick)
-		subscriber.POST("/:subscriberId/unsubscribe/:campaignId", campaignHandler.DeleteSubscriber)
+		subscriber.POST("/unsubscribe/:subscriberId/:campaignId", campaignHandler.DeleteSubscriber)
 	}
 
 	//user routes
