@@ -195,13 +195,13 @@ func (userRepo *UserRepo) UpdateProfileWithImage(userId uuid.UUID, name, bio, pr
 	//update user profile
 	err = userRepo.db.Model(&models.Profile{}).
 										Where("user_id = ?", userId).
-										Updates(map[string]string{
+										Updates(map[string]interface{}{
 											"bio": bio, 
 											"profile_pic": profilePic,
 										}).
 										Error
 	if err != nil {
-		return 500, err
+		return 500, fmt.Errorf("failed to update user's profile")
 	}
 	
 	return 200, nil
