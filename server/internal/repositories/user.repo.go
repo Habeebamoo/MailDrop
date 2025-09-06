@@ -164,10 +164,8 @@ func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest)
 	//update user
 	err := userRepo.db.Model(&models.User{}).
 										Where("user_id = ?", profileReq.UserId).
-										Updates(map[string]string{
-											"name": profileReq.Name,
-											"email": profileReq.Email,
-										}).Error
+										Update("name", profileReq.Name).
+										Error
 	if err != nil {
 		return 500, fmt.Errorf("failed to update user")
 	}

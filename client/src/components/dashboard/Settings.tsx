@@ -13,7 +13,6 @@ import { toast } from "react-toastify"
 type FormData = {
   file: File | string,
   name: string,
-  email: string,
   bio: string
 }
 
@@ -22,7 +21,6 @@ const Settings = () => {
   const [form, setForm] = useState<FormData>({
     file: user!.profile.profilePic,
     name: user!.name,
-    email: user!.email,
     bio: user!.profile.bio
   })
   const [preview, setPreview] = useState<string | null>(null)
@@ -51,7 +49,6 @@ const Settings = () => {
     
     const data = new FormData()
     data.append("name", form.name)
-    data.append("email", form.email)
     data.append("bio", form.bio)
     data.append("file", form.file)
     
@@ -157,15 +154,6 @@ const Settings = () => {
                 className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700"
                 value={form.name}
                 onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
-              />
-            </div>
-            <div className="mb-2">
-              <label htmlFor="email" className="block font-outfit text-black dark:text-accentLight">Email Address</label>
-              <input 
-                type="email" 
-                className="text-black dark:text-white py-2 px-3 border-1 border-accentLight block w-full rounded-md mt-1 dark:bg-gray-800 dark:border-gray-700" 
-                value={form.email}
-                onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
               />
             </div>
             <div className="mb-2">

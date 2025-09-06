@@ -68,7 +68,6 @@ type ProfileRequest struct {
 type ProfileDetailsRequest struct {
 	UserId  uuid.UUID
 	Name    string
-	Email   string
 	Bio     string
 	Image 	string
 }

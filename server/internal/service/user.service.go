@@ -181,7 +181,6 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 	detailsReq := models.ProfileDetailsRequest{
 		UserId: profileReq.UserId,
 		Name: profileReq.Name,
-		Email: profileReq.Email,
 		Bio: profileReq.Bio,
 		Image: profileUrl,
 	}
