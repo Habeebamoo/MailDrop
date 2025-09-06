@@ -201,7 +201,7 @@ func (userRepo *UserRepo) UpdateProfileWithImage(userId uuid.UUID, name, bio, pr
 										}).
 										Error
 	if err != nil {
-		return 500, fmt.Errorf(err.Error())
+		return 500, err
 	}
 	
 	return 200, nil
