@@ -23,7 +23,7 @@ func ResendVerificationEmail(name, email string, otp int) error {
 		<!DOCTYPE html>
 		<html>
 			<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 10px;">
 					<tr>
 						<td>
 							<table align="center" cellpadding="0" cellspacing="0" width="0" style="background: #ffffff; border-radius: 8px; overflow: hidden;">
@@ -39,7 +39,7 @@ func ResendVerificationEmail(name, email string, otp int) error {
 										<p style="text-align: center; padding: 30px 0;">
 											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Verify my account</a>
 										</p>
-										<p style="font-size: 14px; line-height: 1.5; color: #555;">This OTP is valid for <strong>10 minutes</strong>. If you didn't create an account, you can ignore this email</p>
+										<p style="font-size: 14px; line-height: 1.5; color: #555; text-align: center;">This OTP is valid for <strong>10 minutes</strong>. If you didn't create an account, you can ignore this email</p>
 									</td>
 								</tr>
 								<tr>
@@ -78,7 +78,7 @@ func SendVerificationEmail(name, email string, otp int) error {
 		<!DOCTYPE html>
 		<html>
 			<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 10px;">
 					<tr>
 						<td>
 							<table align="center" cellpadding="0" cellspacing="0" width="0" style="background: #ffffff; border-radius: 8px; overflow: hidden;">
@@ -94,7 +94,7 @@ func SendVerificationEmail(name, email string, otp int) error {
 										<p style="text-align: center; padding: 30px 0; font-size: 28px;">
 											%d
 										</p>
-										<p style="font-size: 14px; line-height: 1.5; color: #555;">This OTP is valid for <strong>10 minutes</strong>. If you didn't create an account, you can ignore this email</p>
+										<p style="font-size: 14px; line-height: 1.5; color: #555; text-align: center;">This OTP is valid for <strong>10 minutes</strong>. If you didn't create an account, you can ignore this email</p>
 									</td>
 								</tr>
 								<tr>
@@ -134,7 +134,7 @@ func SendPasswordResetEmail(name, email, token string) (int, error) {
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html lang="en">
-			<body style="font-family: Arial, sans-serif; background-color: #f4f4f7; padding: 20px; margin: 0;">
+			<body style="font-family: Arial, sans-serif; background-color: #f4f4f7; padding: 10px; margin: 0;">
 				<table width="100%%" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
 					<tr>
 						<td style="background-color: #231e88; padding: 20px; text-align: center;">
@@ -149,7 +149,9 @@ func SendPasswordResetEmail(name, email, token string) (int, error) {
 								<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">Reset Password</a>
 							</p>
 							<p>If you did not request this, you can safely ignore this email</p>
-							<p>Thank you,<br> The Team</p>
+							<p>Thank you,</p>
+							<br>
+							<p style="font-size: 14px;">The Team</p>
 						</td>
 					</tr>
 					<tr>
@@ -186,7 +188,7 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 		<!DOCTYPE html>
 		<html>
 			<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 10px;">
 					<tr>
 						<td>
 							<table align="center" cellpadding="0" cellspacing="0" width="0" style="background: #ffffff; border-radius: 8px; overflow: hidden;">
@@ -202,7 +204,7 @@ func SendRewardEmail(name, email, campaignTitle, rewardurl string) (int, error) 
 										<p style="text-align: center; padding: 30px 0;">
 											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Get Mine</a>
 										</p>
-										<p style="font-size: 14px; line-height: 1.5; color: #555;">If you have any questions, feel free to reply to this email. We are here to help!</p>
+										<p style="font-size: 14px; line-height: 1.5; color: #555; text-align: center;">If you have any questions, feel free to reply to this email. We are here to help!</p>
 									</td>
 								</tr>
 								<tr>
@@ -330,7 +332,7 @@ func SendSubscriptionEmail(user models.User, subscriber models.Subscriber, campa
 		<!DOCTYPE html>
 		<html>
 			<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+				<table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 10px;">
 					<tr>
 						<td>
 							<table align="center" cellpadding="0" cellspacing="0" width="0" style="background: #ffffff; border-radius: 8px; overflow: hidden;">
@@ -348,7 +350,7 @@ func SendSubscriptionEmail(user models.User, subscriber models.Subscriber, campa
 										<p style="text-align: center; padding: 30px 0;">
 											<a href="%s" style="background-color: #231e88; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Dashboard</a>
 										</p>
-										<p style="font-size: 14px; line-height: 1.5; color: #555;">The mail system is up and running, sending promotional emails have never been easier.</p>
+										<p style="font-size: 14px; line-height: 1.5; color: #555; text-align: center;">The mail system is up and running, sending promotional emails have never been easier.</p>
 									</td>
 								</tr>
 								<tr>
@@ -383,11 +385,11 @@ func SendUnsubscriptionEmail(user models.User, campaignTitle string, subscriberE
 	body := fmt.Sprintf(`
 		<!DOCTYPE html>
 		<html>
-			<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+			<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 10px;">
 				<table align="center" cellspacing="0" cellpadding="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
 					<tr>
 						<td style="background-color: #231e88; color: #ffffff; text-align: center; padding: 20px;">
-							<h1 style="margin: 0; font-size: 20px;">Lead Unsubscribe</h1>
+							<h1 style="margin: 0; font-size: 20px;">Unsubscription Details</h1>
 						</td>
 					</tr>
 
