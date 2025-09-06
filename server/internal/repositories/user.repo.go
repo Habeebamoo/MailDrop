@@ -21,7 +21,8 @@ type UserRepository interface {
 	GetUserById(uuid.UUID) (models.User, int, error)
 	GetUserIdByOTP(int) (uuid.UUID, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
-	UpdateProfile(models.ProfileDetailsRequest) (int, error)
+	UpdateProfile(uuid.UUID, string, string) (int, error)
+	UpdateProfileWithImage(uuid.UUID, string, string, string) (int, error)
 	CreateToken(uuid.UUID, string) (int, error)
 	GetUserIdByToken(string) (models.Token, int, error)
 	DeleteToken(uuid.UUID) (int, error)
@@ -160,11 +161,10 @@ func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResp
 	return response, 200, nil
 }
 
-func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest) (int, error) {
-	//update user
+func (userRepo *UserRepo) UpdateProfile(userId uuid.UUID, name, bio string) (int, error) {
 	err := userRepo.db.Model(&models.User{}).
-										Where("user_id = ?", profileReq.UserId).
-										Update("name", profileReq.Name).
+										Where("user_id = ?", userId).
+										Update("name", name).
 										Error
 	if err != nil {
 		return 500, fmt.Errorf("failed to update user")
@@ -172,10 +172,32 @@ func (userRepo *UserRepo) UpdateProfile(profileReq models.ProfileDetailsRequest)
 
 	//update user profile
 	err = userRepo.db.Model(&models.Profile{}).
-										Where("user_id = ?", profileReq.UserId).
+										Where("user_id = ?", userId).
+										Update("bio", bio).
+										Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user's profile")
+	}
+	
+	return 200, nil
+}
+
+func (userRepo *UserRepo) UpdateProfileWithImage(userId uuid.UUID, name, bio, profilePic string) (int, error) {
+	//update user
+	err := userRepo.db.Model(&models.User{}).
+										Where("user_id = ?", userId).
+										Update("name", name).
+										Error
+	if err != nil {
+		return 500, fmt.Errorf("failed to update user")
+	}
+
+	//update user profile
+	err = userRepo.db.Model(&models.Profile{}).
+										Where("user_id = ?", userId).
 										Updates(map[string]string{
-											"bio": profileReq.Bio, 
-											"profile_pic": profileReq.Image,
+											"bio": bio, 
+											"profile_pic": profilePic,
 										}).
 										Error
 	if err != nil {

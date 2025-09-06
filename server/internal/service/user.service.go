@@ -19,6 +19,7 @@ type UserService interface {
 	GetUser(uuid.UUID) (models.User, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 	UpdateProfile(models.ProfileRequest) (int, error)
+	UpdateProfileWithImage(models.ProfileRequestImage) (int, error)
 	ForgotPassword(string) (int, error)
 	ResetPassword(string, string) (int, error)
 }
@@ -164,6 +165,10 @@ func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityRespon
 }
 
 func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, error) {
+	return userSvc.repo.UpdateProfile(profileReq.UserId, profileReq.Name, profileReq.Bio)
+}
+
+func (userSvc *UserSvc) UpdateProfileWithImage(profileReq models.ProfileRequestImage) (int, error) {
 	//open the file
 	f, err := profileReq.Image.Open()
 	if err != nil {
@@ -177,15 +182,7 @@ func (userSvc *UserSvc) UpdateProfile(profileReq models.ProfileRequest) (int, er
 		return 500, err
 	}
 
-	//update user profile
-	detailsReq := models.ProfileDetailsRequest{
-		UserId: profileReq.UserId,
-		Name: profileReq.Name,
-		Bio: profileReq.Bio,
-		Image: profileUrl,
-	}
-
-	return userSvc.repo.UpdateProfile(detailsReq)
+	return userSvc.repo.UpdateProfileWithImage(profileReq.UserId, profileReq.Name, profileReq.Bio, profileUrl)
 }
 
 func (userSvc *UserSvc) ForgotPassword(email string) (int, error) {

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
@@ -209,7 +210,7 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	name := c.PostForm("name")
 	bio := c.PostForm("bio")
-	
+
 	if name == "" || bio == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No field must be empty"})
 		return
@@ -217,28 +218,43 @@ func (usrHdl *UserHandler) UpdateProfile(c *gin.Context) {
 
 	image, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": Capitalize(err.Error(), false)})
-		return
+		if errors.Is(err, http.ErrMissingFile) {
+			//no profile pic
+			profileReq := models.ProfileRequest{
+				UserId: userId,
+				Name: name,
+				Bio: bio,
+			}
+
+			statusCode, err := usrHdl.svc.UpdateProfile(profileReq)
+			if err != nil {
+				c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+				return
+			}
+		} else {
+			c.JSON(500, gin.H{"error": Capitalize(err.Error(), false)})
+		}
+	} else {
+		//update with profile pic
+		if image.Size > 5 << 20 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Image must be 5MB or less"})
+		}
+
+		profileReq := models.ProfileRequestImage{
+			UserId: userId,
+			Image: image,
+			Name: name,
+			Bio: bio,
+		}
+
+		statusCode, err := usrHdl.svc.UpdateProfileWithImage(profileReq)
+		if err != nil {
+			c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
+			return
+		}
 	}
 
-	if image.Size > 5 << 20 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Image must be 5MB or less"})
-	}
-
-	profileReq := models.ProfileRequest{
-		UserId: userId,
-		Image: image,
-		Name: name,
-		Bio: bio,
-	}
-
-	statusCode, err := usrHdl.svc.UpdateProfile(profileReq)
-	if err != nil {
-		c.JSON(statusCode, gin.H{"error": Capitalize(err.Error(), false)})
-		return
-	}
-
-	c.JSON(statusCode, gin.H{"message": "Profile Updated Successfully"})
+	c.JSON(200, gin.H{"message": "Profile Updated Successfully"})
 }
 
 func (userHdl *UserHandler) ForgotPassword(c *gin.Context) {

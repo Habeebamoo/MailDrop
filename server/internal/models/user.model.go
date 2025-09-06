@@ -60,16 +60,14 @@ type UserLogin struct {
 type ProfileRequest struct {
 	UserId  uuid.UUID
 	Name    string
-	Email   string
 	Bio     string
-	Image  	*multipart.FileHeader
 }
 
-type ProfileDetailsRequest struct {
+type ProfileRequestImage struct {
 	UserId  uuid.UUID
 	Name    string
 	Bio     string
-	Image 	string
+	Image  	*multipart.FileHeader
 }
 
 type ForgotPasswordRequest struct {

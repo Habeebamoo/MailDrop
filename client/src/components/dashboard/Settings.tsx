@@ -50,7 +50,10 @@ const Settings = () => {
     const data = new FormData()
     data.append("name", form.name)
     data.append("bio", form.bio)
-    data.append("file", form.file)
+
+    if (form.file) {
+      data.append("file", form.file)
+    }
     
     try {
       const res = await fetch("https://maildrop-znoo.onrender.com/api/user/profile", {
