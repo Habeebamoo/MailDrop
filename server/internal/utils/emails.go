@@ -150,7 +150,6 @@ func SendPasswordResetEmail(name, email, token string) (int, error) {
 							</p>
 							<p>If you did not request this, you can safely ignore this email</p>
 							<p>Thank you,</p>
-							<br>
 							<p style="font-size: 14px;">The Team</p>
 						</td>
 					</tr>
