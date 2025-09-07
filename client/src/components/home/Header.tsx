@@ -53,6 +53,12 @@ const Header = () => {
             >
               Pricing
             </NavLink>
+            <NavLink 
+              to={"/contact"} 
+              className={({ isActive }) => isActive ? "home-dsk-link-active" : "home-dsk-link"}
+            >
+              Contact
+            </NavLink>          
           </div>
           <button onClick={autoSignIn} className="max-sm:hidden btn-primary">{autoSignInText}</button>
           <div onClick={toggleNav} className="sm:hidden cursor-pointer">

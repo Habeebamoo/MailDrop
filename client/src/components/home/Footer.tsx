@@ -13,6 +13,10 @@ const Footer = () => {
     navigate("/about")
   }
 
+  const toContact = () => {
+    navigate("/contact")
+  }
+
   return (
     <footer className="bg-secondary px-6 py-10 z-10">
       <div className="flex-start">
@@ -28,7 +32,7 @@ const Footer = () => {
         <div className="mb-7">
           <p className="text-white mb-1">Support</p>
           <small onClick={toAbout}>About Us</small>
-          <small>Contact Us</small>
+          <small onClick={toContact}>Contact Us</small>
         </div>
         <div>
           <p className="text-white mb-1">Legal</p>

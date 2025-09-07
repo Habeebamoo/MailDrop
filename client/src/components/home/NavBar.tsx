@@ -27,13 +27,19 @@ const NavBar = () => {
         to={"/about"}
         className={({ isActive }) => isActive ? "home-mobile-link-active" : "home-mobile-link"}
       >
-        About Us
+        About
       </NavLink>
       <NavLink 
         to={"/pricing"} 
         className={({ isActive }) => isActive ? "home-mobile-link-active" : "home-mobile-link"}
       >
         Pricing
+      </NavLink>
+      <NavLink 
+        to={"/contact"} 
+        className={({ isActive }) => isActive ? "home-mobile-link-active" : "home-mobile-link"}
+      >
+        Contact
       </NavLink>
       <button onClick={autoSignIn} className="btn-primary mt-1">{autoSignInText}</button>
     </div>
