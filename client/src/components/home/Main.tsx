@@ -34,8 +34,8 @@ const Main = () => {
       <div className="grid md:grid-cols-2 md:gap-3 mt-5 p-2 max-md:w-[100%] md:w-[95%] mx-auto">
         <div className="bg-white flex flex-col border-2 border-bg2 rounded-lg max-md:mb-4" data-aos="fade-up">
           <div className="pt-4 pl-4 mb-8">
-            <h1 className="font-open mt-1 text-xl">Real Time Notifications</h1>
-            <p className="text-accent text-[12px] mt-1">Receive notifications emails about activities going on with your leads. You can also view a short summary in your dashboard</p>
+            <h1 className="font-open mt-1 text-xl">Email Composer</h1>
+            <p className="text-accent text-[12px] mt-1">Compose and edit email messages with our built-in text editor, giving you the ability to be expressful.</p>
           </div>
           <div className="flex-end bg-bg2 h-full pl-10 max-md:pt-8">
             <div className="p-4 border-bg2 border-1 rounded-lg w-full mx-auto bg-white font-open text-sm">
@@ -73,7 +73,7 @@ const Main = () => {
         <div className="bg-white border-2 border-bg2 rounded-lg" data-aos="fade-up">
           <div className="pt-4 pl-4 mb-8">
             <h1 className="font-open mt-1 text-xl">Real Time Notifications</h1>
-            <p className="text-accent text-[12px] mt-1">Receive notifications emails about activities going on with your leads. You can also view a short summary in your dashboard</p>
+            <p className="text-accent text-[12px] mt-1">Receive notifications emails about activities going on with your leads. You can also view a short summary in your dashboard.</p>
           </div>
           <div className="flex-end bg-bg2 pl-10">
             <History title="Recent Activities" backupText="" history={activities} />
