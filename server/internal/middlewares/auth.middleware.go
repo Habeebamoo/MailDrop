@@ -3,6 +3,7 @@ package middlewares
 import (
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -65,6 +66,17 @@ func AuthenticateUser() gin.HandlerFunc {
 		userIdStr, ok := claims["userId"].(string)
 		if !ok {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token Payload"})
+			return 
+		}
+
+		exp, ok := claims["exp"].(time.Time)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token Payload"})
+			return 		
+		}
+
+		if time.Now().After(exp) {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "JWT Token Expired"})
 			return 
 		}
 
