@@ -25,6 +25,7 @@ import { useEffect } from "react"
 import VerificationPage from "./pages/VerificationPage"
 import Unsubscribe from "./pages/unsubscribe/Page"
 import PricingPage from "./pages/PricingPage"
+import AboutPage from "./pages/AboutPage"
 
 const App = () => { 
   useEffect(() => {
@@ -38,6 +39,7 @@ const App = () => {
       <>
         <Route path="/" element={<HomePage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/verify" element={<VerificationPage />} />
         <Route path="/dashboard" element={<Dashboard />} errorElement={<Error />} >

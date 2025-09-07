@@ -9,6 +9,10 @@ const Footer = () => {
     navigate("/pricing")
   }
 
+  const toAbout = () => {
+    navigate("/about")
+  }
+
   return (
     <footer className="bg-secondary px-6 py-10 z-10">
       <div className="flex-start">
@@ -23,7 +27,7 @@ const Footer = () => {
         </div>
         <div className="mb-7">
           <p className="text-white mb-1">Support</p>
-          <small>About Us</small>
+          <small onClick={toAbout}>About Us</small>
           <small>Contact Us</small>
         </div>
         <div>
