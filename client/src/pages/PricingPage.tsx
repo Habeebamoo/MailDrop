@@ -17,10 +17,10 @@ const PricingPage = () => {
     <>
       <Header />
       <main className="bg-bg pt-25 pb-15 min-h-[calc(100vh-4rem)]">
-        <h1 className="font-inter text-center text-2xl">Choose Your Plan</h1>
-        <p className="text-center text-sm text-accent mt-1">Start your email marketing journey with our flexible plans</p>
+        <h1 className="font-inter text-center text-2xl" data-aos="zoom-in">Choose Your Plan</h1>
+        <p className="text-center text-sm text-accent mt-1" data-aos="zoom-in">Start your email marketing journey with our flexible plans</p>
         <div className="mt-6">
-          <div className="bg-white border-1 border-bg2 p-8 rounded-xl w-[90%] sm:w-[400px] mx-auto">
+          <div className="bg-white border-1 border-bg2 p-8 rounded-xl w-[90%] sm:w-[400px] mx-auto" data-aos="fade-up">
             <div className="flex-start gap-2">
               <FaStar color="#231e88" size={20} />
               <p className="font-inter text-xl">Free</p>
