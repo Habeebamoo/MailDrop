@@ -41,7 +41,7 @@ const NavBar = () => {
       >
         Contact
       </NavLink>
-      <button onClick={autoSignIn} className="btn-primary mt-1">{autoSignInText}</button>
+      <button onClick={autoSignIn} className="max-sm:px-3 max-sm:py-2 btn-primary mt-1">{autoSignInText}</button>
     </div>
   )
 }
