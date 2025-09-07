@@ -17,6 +17,10 @@ const Footer = () => {
     navigate("/contact")
   }
 
+  const toTerms = () => {
+    navigate("/terms")
+  }
+
   return (
     <footer className="bg-secondary px-6 py-10 z-10">
       <div className="flex-start">
@@ -36,7 +40,7 @@ const Footer = () => {
         </div>
         <div>
           <p className="text-white mb-1">Legal</p>
-          <small>Terms & Condition</small>
+          <small onClick={toTerms}>Terms & Condition</small>
           <small>Privacy Policy</small>
         </div>
       </div>

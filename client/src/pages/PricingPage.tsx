@@ -2,6 +2,7 @@ import { BsArrowRight } from "react-icons/bs"
 import Header from "../components/home/Header"
 import { FaStar } from "react-icons/fa6"
 import { FaFolder, FaUser } from "react-icons/fa"
+import { TbCurrencyNaira } from "react-icons/tb"
 import { IoMdMail } from "react-icons/io"
 import Footer from "../components/home/Footer"
 import { useNavigate } from "react-router-dom"
@@ -26,6 +27,10 @@ const PricingPage = () => {
               <p className="font-inter text-xl">Free</p>
             </div>
             <p className="text-sm text-accent mt-1 font-open">Has everything included for you</p>
+            <div className="my-4 flex-start text-accent">
+              <TbCurrencyNaira size={40} />
+              <h1 className="text-3xl">0.00</h1>
+            </div>
             <button 
               onClick={toLogin}
               className="py-2 mt-4 btn-primary w-full flex-center gap-2"
