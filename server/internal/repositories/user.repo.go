@@ -19,7 +19,7 @@ type UserRepository interface {
 	Exists(string) bool
 	GetUser(string) (models.User, int, error)
 	GetUserById(uuid.UUID) (models.User, int, error)
-	GetUserIdByOTP(int) (uuid.UUID, int, error)
+	GetUserByOTP(int) (models.OTP, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int ,error)
 	UpdateProfile(uuid.UUID, string, string) (int, error)
 	UpdateProfileWithImage(uuid.UUID, string, string, string) (int, error)
@@ -124,17 +124,17 @@ func (userRepo *UserRepo) GetUserById(userId uuid.UUID) (models.User, int, error
 	return user, 200, nil
 }
 
-func (userRepo *UserRepo) GetUserIdByOTP(otpCode int) (uuid.UUID, int, error) {
+func (userRepo *UserRepo) GetUserByOTP(otpCode int) (models.OTP, int, error) {
 	var userOtp models.OTP
 	err := userRepo.db.First(&userOtp, "code = ?", otpCode).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return uuid.UUID{}, http.StatusUnauthorized, fmt.Errorf("invalid OTP code")
+			return userOtp, http.StatusUnauthorized, fmt.Errorf("invalid OTP code")
 		}
-		return uuid.UUID{}, 500, fmt.Errorf("internal server error")
+		return userOtp, 500, fmt.Errorf("internal server error")
 	}
 
-	return userOtp.UserId, 200, nil
+	return userOtp, 200, nil
 }
 
 func (userRepo *UserRepo) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {

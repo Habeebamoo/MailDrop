@@ -141,19 +141,23 @@ func (userSvc *UserSvc) HandleGoogleLogin(userInfo models.GoogleLoginRequest) (s
 
 func (userSvc *UserSvc) VerifyUser(otpCode int) (int, error) {
 	//get the user associated with the token
-	userId, statusCode, err := userSvc.repo.GetUserIdByOTP(otpCode)
+	userOtp, statusCode, err := userSvc.repo.GetUserByOTP(otpCode)
 	if err != nil {
 		return statusCode, err
 	}
 
+	if time.Now().After(userOtp.ExpiresAt) {
+		return http.StatusNotAcceptable, fmt.Errorf("code is expired")
+	}
+
 	//verify the user
-	statusCode, err = userSvc.repo.VerifyEmail(userId)
+	statusCode, err = userSvc.repo.VerifyEmail(userOtp.UserId)
 	if err != nil {
 		return statusCode, err
 	}
 
 	//delete otp
-	return userSvc.repo.DeleteOTP(userId)
+	return userSvc.repo.DeleteOTP(userOtp.UserId)
 }
 
 func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {

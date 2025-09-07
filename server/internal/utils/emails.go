@@ -278,7 +278,7 @@ func SendTestEmail(user models.User, emailContent string, campaign models.Campai
 	m.SetHeader("To", user.Email)
 	m.SetHeader("Subject", "Email Preview")
 
-	unsubscribeUrl := fmt.Sprintf("https://maildrop.netlify.app/unsubscribe?id=%s", campaign.CampaignId)
+	unsubscribeUrl := fmt.Sprintf("https://maildrop.netlify.app/unsubscribe?campaignId=%s&leadId=%s", campaign.CampaignId, user.UserId)
 
 	//Email body (HTML)
 	body := fmt.Sprintf(`
