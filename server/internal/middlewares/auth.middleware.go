@@ -63,20 +63,20 @@ func AuthenticateUser() gin.HandlerFunc {
 			return 
 		}
 
-		userIdStr, ok := claims["userId"].(string)
-		if !ok {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token Payload"})
-			return 
-		}
-
-		exp, ok := claims["exp"].(time.Time)
+		exp, ok := claims["exp"].(float64)
 		if !ok {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token Payload"})
 			return 		
 		}
 
-		if time.Now().After(exp) {
+		if time.Unix(int64(exp), 0).Before(time.Now()) {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "JWT Token Expired"})
+			return 
+		}
+
+		userIdStr, ok := claims["userId"].(string)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Token Payload"})
 			return 
 		}
 
