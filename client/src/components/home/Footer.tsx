@@ -1,7 +1,13 @@
+import { useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 
 const Footer = () => {
+  const navigate = useNavigate()
   const year = new Date().getFullYear()
+
+  const toPricing = () => {
+    navigate("/pricing")
+  }
 
   return (
     <footer className="bg-secondary px-6 py-10 z-10">
@@ -11,29 +17,22 @@ const Footer = () => {
       </div>
       <p className="text-accent mt-1">The future of email marketing is here</p>
       <div className="mt-6 sm:grid sm:grid-cols-3 sm:gap-2">
-        <div className="mb-3">
-          <p className="text-white mb-1">Product</p>
-          <small>Features</small>
-          <small>Pricing</small>
-          <small>Security</small>
-          <small>Integrations</small>
+        <div className="mb-7">
+          <p className="text-white mb-1">Links</p>
+          <small onClick={toPricing}>Pricing</small>
         </div>
-        <div className="mb-3">
-          <p className="text-white mb-1">Company</p>
-          <small>About</small>
-          <small>Blog</small>
-          <small>Careers</small>
-          <small>Contact</small>
+        <div className="mb-7">
+          <p className="text-white mb-1">Support</p>
+          <small>About Us</small>
+          <small>Contact Us</small>
         </div>
         <div>
-          <p className="text-white mb-1">Support</p>
-          <small>Help Center</small>
-          <small>Documentation</small>
-          <small>Status</small>
-          <small>Privacy</small>
+          <p className="text-white mb-1">Legal</p>
+          <small>Terms & Condition</small>
+          <small>Privacy Policy</small>
         </div>
       </div>
-      <hr className="text-accent mt-10" />
+      <hr className="text-fade mt-10" />
       <p className="mt-6 mb-2 text-accent font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
     </footer>
   )
