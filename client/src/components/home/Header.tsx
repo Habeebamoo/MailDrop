@@ -3,7 +3,7 @@ import { RiMenu3Line } from "react-icons/ri"
 import { LiaTimesSolid } from "react-icons/lia"
 import NavBar from "./NavBar"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useUser } from "../../context/UserContext"
 
 const Header = () => {
@@ -35,8 +35,18 @@ const Header = () => {
             <h1 className="text-xl font-inter text-primary ml-1">MailDrop</h1>
           </div>
           <div className="flex-between gap-2 max-sm:hidden">
-            <p className="text-lg text-primary font-inter cursor-pointer">Home</p>
-            <p className="text-lg text-primary font-inter cursor-pointer">About</p>
+            <NavLink 
+              to={"/"} 
+              className={({ isActive }) => isActive ? "home-dsk-link-active" : "home-dsk-link"}
+            >
+              Home
+            </NavLink>
+            <NavLink 
+              to={"/pricing"} 
+              className={({ isActive }) => isActive ? "home-dsk-link-active" : "home-dsk-link"}
+            >
+              Pricing
+            </NavLink>
           </div>
           <button onClick={autoSignIn} className="max-sm:hidden btn-primary">{autoSignInText}</button>
           <div onClick={toggleNav} className="sm:hidden cursor-pointer">

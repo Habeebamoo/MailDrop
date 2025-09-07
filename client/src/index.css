@@ -48,6 +48,22 @@
 	@apply py-1 bg-primary text-white rounded-md px-3 hover:bg-transparent hover:text-primary border-1 border-primary cursor-pointer;
 }
 
+@utility home-mobile-link {
+	@apply text-lg mb-5 cursor-pointer font-open;
+}
+
+@utility home-mobile-link-active {
+	@apply text-xl mb-5 text-primary cursor-pointer font-open;
+}
+
+@utility home-dsk-link {
+	@apply font-open cursor-pointer;
+}
+
+@utility home-dsk-link-active {
+ @apply text-primary font-open cursor-pointer;
+}
+
 @utility nav-link {
 	@apply flex-start gap-1 text-accent cursor-pointer ml-1 font-outfit hover:text-white;
 }
