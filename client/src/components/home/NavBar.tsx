@@ -23,6 +23,12 @@ const NavBar = () => {
       >
         Home
       </NavLink>
+      <NavLink
+        to={"/about"}
+        className={({ isActive }) => isActive ? "home-mobile-link-active" : "home-mobile-link"}
+      >
+        About Us
+      </NavLink>
       <NavLink 
         to={"/pricing"} 
         className={({ isActive }) => isActive ? "home-mobile-link-active" : "home-mobile-link"}
