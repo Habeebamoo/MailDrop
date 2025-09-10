@@ -46,6 +46,23 @@ type UserRequest struct {
 	Password  string  `json:"password"`
 }
 
+type ProfileResponse struct {
+	ProfilePic        string     `json:"profilePic"`
+	Bio 			        string     `json:"bio"`
+	TotalCampaigns    int        `json:"totalCampaigns"`
+	TotalSubscribers  int		     `json:"totalSubscribers"`
+	TotalClicks       int        `json:"totalClicks"`
+	TotalEmails       int		     `json:"totalEmails"`
+}
+
+type UserResponse struct {
+	UserId     uuid.UUID        `json:"userId"`
+	Name       string           `json:"name"`
+	Email      string           `json:"email"`
+	Verified   bool             `json:"verified"`
+	Profile    ProfileResponse  `json:"profile"`
+}
+
 type GoogleLoginRequest struct {
 	Email    string  `json:"email"`
 	Name     string  `json:"name"`

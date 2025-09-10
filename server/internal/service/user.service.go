@@ -16,7 +16,7 @@ type UserService interface {
 	LoginUser(*models.UserLogin) (string, int, error)
 	HandleGoogleLogin(models.GoogleLoginRequest) (string, int, error)
 	VerifyUser(int) (int, error)
-	GetUser(uuid.UUID) (models.User, int, error)
+	GetUser(uuid.UUID) (models.UserResponse, int, error)
 	GetActivities(uuid.UUID) ([]models.ActivityResponse, int, error)
 	UpdateProfile(models.ProfileRequest) (int, error)
 	UpdateProfileWithImage(models.ProfileRequestImage) (int, error)
@@ -160,8 +160,28 @@ func (userSvc *UserSvc) VerifyUser(otpCode int) (int, error) {
 	return userSvc.repo.DeleteOTP(userOtp.UserId)
 }
 
-func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.User, int, error) {
-	return userSvc.repo.GetUserById(userId)
+func (userSvc *UserSvc) GetUser(userId uuid.UUID) (models.UserResponse, int, error) {
+	user, statusCode, err := userSvc.repo.GetUserById(userId)
+	if err != nil {
+		return models.UserResponse{}, statusCode, err
+	}
+
+	userResponse := models.UserResponse{
+		UserId: user.UserId,
+		Name: user.Name,
+		Email: user.Email,
+		Verified: user.Verified,
+		Profile: models.ProfileResponse{
+			ProfilePic: user.Profile.ProfilePic,
+			Bio: user.Profile.Bio,
+			TotalCampaigns: user.Profile.TotalCampaigns,
+			TotalSubscribers: user.Profile.TotalSubscribers,
+			TotalEmails: user.Profile.TotalEmails,
+			TotalClicks: user.Profile.TotalClicks,
+		},
+	}
+
+	return userResponse, 200, nil
 }
 
 func (userSvc *UserSvc) GetActivities(userId uuid.UUID) ([]models.ActivityResponse, int, error) {

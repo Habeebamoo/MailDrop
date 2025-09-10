@@ -4,8 +4,11 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit"
 import Link from "@tiptap/extension-link"
 import { BiRedo, BiUndo } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+  const navigate = useNavigate()
+
   const activities = [
     { type: "lead", name: "A lead unsubscribe from 'Summer Sale 2025' campaign", createdAt: "25 mins ago" },
     { type: "email", name: "Emails sent to 'Summer Sale 2025' subscribers", createdAt: "3 hours ago" },
@@ -116,6 +119,17 @@ const Main = () => {
           <h1 className="font-open mt-1 text-xl">Email Marketing</h1>
           <p className="text-accent text-sm mt-1">Send targeted promotional or follow-up emails to your leads directly from your dashboard</p>
         </div>
+      </div>
+
+      <div className="w-[90%] md:w-[500px] bg-primary my-6 rounded-lg p-6 mx-auto flex-center flex-col">
+        <h1 className="font-inter text-xl text-white text-center">Ready To Transform Your Email Marketing?</h1>
+        <p className="text-[12px] text-accent font-outfit text-center mt-2 text-accentLight">Join 200+ professionals who already priotize MailDrop as thier go-to for email marketing</p>
+        <button
+          onClick={() => navigate("/login")}
+          className="bg-white py-2 px-4 mx-auto mt-4 rounded-md cursor-pointer font-outfit hover:bg-accent"
+        >
+          Start Today
+        </button>
       </div>
     </section>
   )
