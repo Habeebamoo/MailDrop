@@ -264,6 +264,7 @@ func (campaignSvc *CampaignSvc) SendMail(emailReq *models.EmailRequest) (int, er
 
 	//send email to subscribers via WorkerPools Goroutines
 	var wg sync.WaitGroup
+	wg.Add(len(subscribers))
 	emailChan := make(chan utils.EmailJob, len(subscribers))
 
 	noOfWorkers := utils.GenerateElasticWorker(len(subscribers))

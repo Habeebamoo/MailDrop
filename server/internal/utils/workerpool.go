@@ -33,7 +33,6 @@ func (wp *WorkerPool) Work() {
 
 func (wp *WorkerPool) Run() {
 	for w := 1; w <= wp.noOfWorkers; w++ {
-		wp.wg.Add(1)
 		go wp.Work()
 	}
 }
