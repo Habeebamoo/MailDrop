@@ -5,8 +5,8 @@ import { IoMdCheckmarkCircle } from "react-icons/io"
 import { IoSave } from "react-icons/io5"
 import { RiFilePaper2Line } from "react-icons/ri"
 import { toast } from "react-toastify"
-import Loading from "../Loading"
 import { useUser } from "../../../context/UserContext"
+import Spinner from "../Spinner"
 
 const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -67,7 +67,6 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
   return (
     <>
       <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
-        {loading && <Loading />}
         <div className="flex-between mt-4">
           <h1 className="text-xl text-primary font-inter dark:text-white">Create New Campaign</h1>
           <button onClick={allCampaigns} className="px-3 flex-center gap-1 btn-primary">
@@ -139,10 +138,18 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
                 </div>
               </div>
             }
-            <button className="flex-center gap-2 btn-primary mt-6">
-              <IoSave />
-              <span>Create Campaign</span>
-            </button>
+
+            {!loading &&         
+              <button className="py-2 btn-primary max-sm:w-full flex-center gap-2">
+                <IoSave />
+                <span>Create Campaign</span>
+              </button>
+            }
+            {loading && 
+              <button className="btn-primary bg-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white py-3 max-sm:w-full flex-center">
+                <Spinner size={18} />
+              </button>
+            }
           </form>
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">

@@ -12,6 +12,7 @@ import Loading from "../Loading"
 import { useUser } from "../../../context/UserContext"
 import Error from "../Error"
 import { useNavigate } from "react-router-dom"
+import Spinner from "../Spinner"
 
 const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"dashboard" | "new">> }) => {
   const [content, setContent] = useState<string>("");
@@ -128,7 +129,6 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
 
   return (
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
-      {loading && <Loading />}
       <div className="flex-between mt-4">
         <h1 className="text-xl text-primary font-inter dark:text-white">Compose & Send Emails</h1>
         <button onClick={toDashboard} className="px-3 flex-center gap-1 btn-primary">
@@ -215,10 +215,17 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         <EditorContent editor={editor} className="prose max-w-none p-2 border-accent rounded"  />
       </div>
       <div className="mt-4 mb-8">
-        <button onClick={sendMail} className="py-2 btn-primary max-sm:w-full flex-center gap-2">
-          Send Email
-          <IoIosSend />
-        </button>
+        {!loading &&         
+          <button onClick={sendMail} className="py-2 btn-primary max-sm:w-full flex-center gap-2">
+            <span>Send Mail</span>
+            <IoIosSend />
+          </button>
+        }
+        {loading && 
+          <button className="btn-primary bg-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white py-3 max-sm:w-full flex-center">
+            <Spinner size={18} />
+          </button>
+        }
       </div>
       <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
         <div className="flex-start gap-2">
