@@ -49,7 +49,7 @@ const DashboardPage = () => {
       {/* stats */}
       <h1 className="text-2xl text-primary font-inter mt-4 dark:text-white">Hello, {user?.name}</h1>
       <p className="text-sm text-accent font-open mt-1">Welcome back, Here's what's happening with your email campaigns</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+      <div className="grid md:grid-cols-3 gap-3 mt-4">
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
           <div className="bg-gray-200 p-4 rounded-lg">
             <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />

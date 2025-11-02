@@ -35,7 +35,7 @@ const Main = () => {
         </p>
       </div>
       <p className="text-sm text-center mt-1 mx-auto text-accent w-[80%]">Everything you need to market through emails is provided by the platform</p>
-      <div className="grid md:grid-cols-2 md:gap-3 mt-5 px-6 max-md:w-[100%] md:w-[95%] mx-auto">
+      <div className="grid md:grid-cols-2 md:gap-3 mt-5 px-2 max-md:w-[100%] md:w-[95%] mx-auto">
         <div className="bg-white flex flex-col border-2 border-bg2 rounded-lg max-md:mb-4">
           <div className="pt-4 pl-4 mb-8">
             <h1 className="font-open mt-1 text-xl">Email Composer</h1>
