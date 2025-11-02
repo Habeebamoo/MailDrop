@@ -1,4 +1,4 @@
-import { SlArrowRight } from "react-icons/sl"
+import emailImg from "../../../assets/illustration.jpeg"
 import { useTheme } from "../../../context/ThemeContext"
 import { IoIosSend } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../../context/UserContext";
 import { useCampaignId } from "../../../context/CampaignContext";
 import { MdCampaign } from "react-icons/md";
+import { CgMail } from "react-icons/cg";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -51,38 +52,39 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
     setActiveTab("leads")
     setCampaignId(id)
   }
-
-  const getBriefOf = (str: string) => {
-    const maxLength = 75;
-    return str.length > maxLength ? str.slice(0, maxLength) + "..." : str
-  }
   
   return (
     <section className="md:ml-[170px] mt-[57px] px-3 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       <div className="flex-between mt-4">
         <h1 className="text-xl text-primary font-inter dark:text-white">Campaigns</h1>
-        <button onClick={newCampaign} className="px-3 flex-center gap-1 btn-primary">
-          <span>New</span>
-          <BiPlus />
+        <button onClick={newCampaign} className="px-3 py-2 flex-center gap-1 btn-primary">
+          <BiPlus size={20} />
         </button>
       </div>
-      <p className="text-sm text-accent mb-4 max-md:mt-2">Create and manage your email campaigns</p>
+      <p className="text-sm font-open text-accent mb-4 max-md:mt-2">Create and manage your email campaigns</p>
 
-      <div className="md:grid md:grid-cols-2 md:gap-2 mt-4">
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
+      {/* stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <FiEdit size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          </div>
+          <div>
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
-            <FiEdit size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalCampaigns}</h1>
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalCampaigns}</h1>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
-            <p className="font-outfit text-sm text-accent">Total Email Sent</p>
-            <IoIosSend size={18} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <IoIosSend size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalEmails}</h1>
+          <div>
+            <p className="font-outfit text-sm text-accent">Total Emails Sent</p>
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalEmails}</h1>
+          </div>
         </div>
+
       </div>
       <h1 className="text-primary mt-6 dark:text-white text-xl font-outfit text-center">All Campaigns</h1>
       {campaigns.length == 0 && 
@@ -94,27 +96,24 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         </div>
       }
       {campaigns.length >= 1 &&
-        <div className="mt-5 p-2">
+        <div className="mt-5 p-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {
             campaigns.map((campaign) => {
               return (
-                <div className="mb-4 border-b-1 border-b-accentLight dark:border-b-transparent pb-4">
-                  <div className="flex-between">
-                    <h1 className="text-lg text-primary font-inter dark:text-accentLight">{campaign.title}</h1>
-                    <button onClick={() => toLeads(campaign.campaignId)} className="flex-center gap-2 btn-primary text-[12px]">
-                      <span>View</span>
-                      <SlArrowRight size={10} />
-                    </button>
+                <div 
+                  onClick={() => toLeads(campaign.campaignId)}
+                  className="bg-white dark:bg-gray-900 border-1 border-accentLight border-l-2 border-l-primary rounded-lg dark:border-gray-800 cursor-pointer"
+                >
+                  <div className="relative overflow-hidden group h-40 border-b-1 border-b-gray-200">
+                    <img src={emailImg} className="object-center object-cover h-full w-full" />
+                    <div className="absolute bg-white/80 inset-0"></div>
                   </div>
-                  <p className="text-sm text-accent font-open mt-1">{getBriefOf(campaign.description)}</p>
-                  <div className="flex-start gap-1 mt-1">
-                    <div className="flex-start bg-fade p-1 rounded-full pr-3 gap-2 text-[10px] mt-2">
-                      <div className="bg-yellow-500 text-white py-1 px-2 rounded-full">Subscribers</div>
-                      <p className="text-accent dark:text-white">{campaign.totalSubscribers}</p>
+                  <div className="px-4 pb-4">
+                    <div className="bg-gray-200 p-3 inline-block rounded-lg mt-4">
+                      <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
                     </div>
-                    <div className="flex-start bg-fade p-1 rounded-full pr-3 gap-2 text-[10px] mt-2">
-                      <div className="bg-green-500 text-white py-1 px-2 rounded-full">Created At</div>
-                      <p className="text-accent dark:text-white">{campaign.createdAt}</p>
+                    <div className="mt-1 px-1">
+                      <h1 className="text-xl text-accent font-inter dark:text-accentLight">{campaign.title}</h1>
                     </div>
                   </div>
                 </div>
