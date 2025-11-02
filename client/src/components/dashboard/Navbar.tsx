@@ -22,7 +22,7 @@ const Navbar = () => {
             )}
           </NavLink>
         </div>
-        <div className="mt-2 pl-3">
+        <div className="mt-3 pl-3">
           <NavLink 
             to={"/dashboard/campaigns"} 
             className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}
@@ -35,7 +35,7 @@ const Navbar = () => {
             )}
           </NavLink>
         </div>
-        <div className="mt-2 pl-3">
+        <div className="mt-3 pl-3">
           <NavLink 
             to={"/dashboard/email"} 
             className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}
@@ -48,7 +48,7 @@ const Navbar = () => {
             )}
           </NavLink>
         </div>
-        <div className="mt-2 pl-3">
+        <div className="mt-3 pl-3">
           <NavLink 
             to={"/dashboard/settings"} 
             className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}

@@ -9,7 +9,9 @@ import { useEffect, useState } from "react"
 
 const DashboardPage = () => {
   const [activities, setActivities] = useState<any[]>([])
-  const [campaigns, setCampaigns] = useState<any[]>([])
+  const [campaigns, setCampaigns] = useState<any[]>([{
+    title: "Hello", totalSubscribers: 8, createdAt: "8 year"
+  }])
   const { theme } = useTheme()
   const { user } = useUser()
 
@@ -76,33 +78,42 @@ const DashboardPage = () => {
 
   return (
     <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
-      <h1 className="text-2xl text-primary font-inter mt-4 dark:text-white">Overview</h1>
-      <p className="text-sm text-accent mt-1">Welcome back, Here's what's happening with your email campaigns</p>
-      <div className="md:grid md:grid-cols-3 md:gap-2 mt-4">
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
-            <p className="font-outfit text-sm text-accent">Total Campaigns</p>
+      {/* stats */}
+      <h1 className="text-2xl text-primary font-inter mt-4 dark:text-white">Hello, {user?.name}</h1>
+      <p className="text-sm text-accent font-open mt-1">Welcome back, Here's what's happening with your email campaigns</p>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
             <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalCampaigns}</h1>
+          <div>
+            <p className="font-outfit text-sm text-accent">Total Campaigns</p>
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalCampaigns}</h1>
+          </div>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
-            <p className="font-outfit text-sm text-accent">Total Subscribers</p>
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
             <FiUsers size={18} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalSubscribers}</h1>
+          <div>
+            <p className="font-outfit text-sm text-accent">Total Subscribers</p>
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalSubscribers}</h1> 
+          </div>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md">
-          <div className="flex-between">
-            <p className="font-outfit text-sm text-accent">Total Campaign Clicks</p>
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
             <FaRegHandPointer size={17} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalClicks}</h1>
+          <div>
+            <p className="font-outfit text-sm text-accent">Total Campaign Clicks</p>
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalClicks}</h1>
+          </div>
         </div>
       </div>
+
+      {/* others */}
       <h1 className="text-xl text-primary font-inter mt-6 dark:text-white">Recent Campaigns</h1>
-      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 rounded-sm mt-2">
+      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 rounded-xl mt-3">
         {campaigns.length >= 1 &&
           <div className="grid grid-cols-3 gap-1 font-inter text-sm border-b-1 border-b-bg2 dark:border-gray-700 dark:text-white py-4 text-center">
             <p>Campaign</p>
@@ -122,9 +133,11 @@ const DashboardPage = () => {
           })
         }
         {campaigns.length == 0 &&
-          <div className="p-14 mt-2 flex-center flex-col gap-4">
-            <GoHistory size={50} color="rgb(121, 120, 120)" />
-            <p className="text-accent text-sm">Your campaigns would go here</p>
+          <div className="p-14 bg-black flex-center flex-col gap-4">
+            <div className="bg-gray-200 p-4 rounded-lg">
+              <GoHistory size={40} color="#231e88" />
+            </div>
+            <p className="text-accent font-open text-sm">Your campaigns would go here</p>
           </div>
         }
       </div>
