@@ -5,8 +5,8 @@ import { FiLink } from "react-icons/fi"
 import { BiRedo, BiUndo } from "react-icons/bi"
 import { BsArrowLeft } from "react-icons/bs"
 import { useEffect, useState } from "react"
-import { IoIosSend, IoMdCheckmarkCircle } from "react-icons/io"
-import { FaMailBulk, FaUser } from "react-icons/fa"
+import { IoIosSend } from "react-icons/io"
+import { FaUser } from "react-icons/fa"
 import { toast } from "react-toastify"
 import Loading from "../Loading"
 import { useUser } from "../../../context/UserContext"
@@ -15,10 +15,11 @@ import { useNavigate } from "react-router-dom"
 import Spinner from "../Spinner"
 
 const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"dashboard" | "new">> }) => {
+  const [step, setStep] = useState<number>(1)
   const [content, setContent] = useState<string>("");
   const [campaigns, setCampaigns] = useState<any[]>([]);
   const [campaignSelected, setCampaignSelected] = useState<string>("");
-  const [loadingScreen, setLoadingScreen] = useState<boolean>(true)
+  const [loadingScreen, setLoadingScreen] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [form, setForm] = useState({
     subject: "",
@@ -123,6 +124,10 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
     }
   }
 
+  const nextStep = () => {
+    setStep(step + 1)
+  }
+
   if (loadingScreen) return <Loading />
 
   if (campaigns.length === 0) return <Error title="Unexpected Error" text="An unexpected error occured. Please try again" path="/dashboard/email" pathText="Go Back" />
@@ -137,123 +142,121 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </button>
       </div>
       <p className="text-sm text-accent mb-4 max-md:mt-2">Create and send targetted emails to your campaign audience</p>
-      <h1 className="text-xl text-primary font-inter mt-8 text-center dark:text-white">Email Settings</h1>
-      <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-5 border-1 border-bg2 rounded-md mt-2 mb-4">
-        <div className="flex-start gap-2">
-          <FaUser size={17} color="#231e88" />
-          <div>
-            <p className="font-inter text-lg dark:text-white">Sender Information</p>
-          </div>
+
+      {/* tab */}
+      <div className="flex-between gap-4 w-[70%] sm:w-[250px] mx-auto mt-8">
+        <div className="step-active">1</div>
+        <div className={`${step > 1 ? "bg-primary" : "bg-gray-200"} h-1 flex-1 rounded-full`}></div>
+        <div className={`${step == 2 ? "step-active" : "step"}`}>2</div>
+      </div>
+
+      {/* step 1 */}
+      {step === 1 && 
+        <div>
+          <h1 className="text-xl text-primary font-inter mt-8 text-center dark:text-white">Email Settings</h1>
+          <form className="bg-white dark:bg-gray-900 dark:border-gray-800 p-6 border-1 border-bg2 rounded-xl mt-4 mb-4">
+            <div className="flex-start gap-2">
+              <FaUser size={17} color="#231e88" />
+              <div>
+                <p className="font-inter text-lg dark:text-white">Sender Information</p>
+              </div>
+            </div>
+            <p className="text-accent text-[12px] mb-4">Configure sender's information and delivery options</p>
+            <div className="mb-4">
+              <label htmlFor="campaign" className="block font-open text-sm dark:text-white">Select Campaign</label>
+              <select 
+                className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full"
+                value={campaignSelected}
+                onChange={(e) => setCampaignSelected(e.target.value)}
+              >
+                <option value="">select campaign</option>
+                {campaigns ? 
+                  campaigns.map(campaign => {
+                    return (
+                      <option key={campaign.campaignId} value={campaign.campaignId}>{campaign.title}</option>
+                    )
+                  }) :
+                  <option value="no">No Campaign</option>
+                }
+              </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="subject" className="block font-open text-sm dark:text-white">Email Subject</label>
+              <input 
+                type="text"
+                className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 
+                value={form.subject}
+                onChange={(e) => setForm(prev => ({...prev, subject: e.target.value}))}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="from-name" className="block font-open text-sm dark:text-white">Sender Name (Optional)</label>
+              <input 
+                type="text"
+                className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 
+                value={form.senderName}
+                onChange={(e) => setForm(prev => ({...prev, senderName: e.target.value}))}
+              />
+            </div>
+          </form>
         </div>
-        <p className="text-accent text-[12px] mb-4">Configure sender's information and delivery options</p>
-        <div className="mb-4">
-          <label htmlFor="campaign" className="block font-open text-sm dark:text-white">Select Campaign</label>
-          <select 
-            className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full"
-            value={campaignSelected}
-            onChange={(e) => setCampaignSelected(e.target.value)}
-          >
-            <option value="">select campaign</option>
-            {campaigns ? 
-              campaigns.map(campaign => {
-                return (
-                  <option key={campaign.campaignId} value={campaign.campaignId}>{campaign.title}</option>
-                )
-              }) :
-              <option value="no">No Campaign</option>
+      }
+
+      {/* editor */}
+      {step === 2 && 
+        <div>
+          <div className="mt-8 p-4 border-bg2 border-1 rounded-lg w-full mx-auto bg-white">
+            <div className="flex flex-end gap-2 border-b-accent pb-2 mb-2">
+              <button 
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                className={`px-3 py-1 rounded text-sm cursor-pointer ${editor.isActive("bold") ? "bg-primary text-white" : "bg-gray-100"}`}
+              >B</button>
+
+              <button 
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                className={`px-3 py-1 rounded text-sm cursor-pointer font-inter ${editor.isActive("italic") ? "bg-primary text-white" : "bg-gray-100"}`}
+              >I</button>
+
+              <button 
+                onClick={() => editor.chain().focus().undo().run()}
+                className="px-3 py-1 rounded cursor-pointer bg-gray-100"
+              ><BiUndo size={19} /></button>
+
+              <button 
+                onClick={() => editor.chain().focus().redo().run()}
+                className="px-3 py-1 rounded cursor-pointer bg-gray-100"
+              ><BiRedo size={19} /></button>
+
+              <button
+                onClick={addLink}
+                className="px-3 py-1 rounded cursor-pointer bg-gray-100"
+              >
+                <FiLink size={19} />
+              </button>
+            </div>
+            <EditorContent editor={editor} className="max-w-none rounded-lg"  />
+          </div>
+          <div className="mt-4 mb-8">
+            {!loading &&         
+              <button onClick={sendMail} className="py-2 btn-primary max-sm:w-full flex-center gap-2">
+                <span>Send Mail</span>
+                <IoIosSend />
+              </button>
             }
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="subject" className="block font-open text-sm dark:text-white">Email Subject</label>
-          <input 
-            type="text"
-            className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 
-            value={form.subject}
-            onChange={(e) => setForm(prev => ({...prev, subject: e.target.value}))}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="from-name" className="block font-open text-sm dark:text-white">Sender Name (Optional)</label>
-          <input 
-            type="text"
-            className="border-1 border-accentLight dark:border-gray-700 dark:bg-gray-800 dark:text-white p-2 mt-2 rounded w-full" 
-            value={form.senderName}
-            onChange={(e) => setForm(prev => ({...prev, senderName: e.target.value}))}
-          />
-        </div>
-      </form>
-      <div className="p-4 border-bg2 border-1 rounded-lg w-full mx-auto bg-white shadow">
-        <div className="flex flex-end gap-2 border-b-accent pb-2 mb-2">
-          <button 
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`px-3 py-1 rounded text-sm cursor-pointer ${editor.isActive("bold") ? "bg-primary text-white" : "bg-gray-100"}`}
-          >B</button>
-
-          <button 
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`px-3 py-1 rounded text-sm cursor-pointer font-inter ${editor.isActive("italic") ? "bg-primary text-white" : "bg-gray-100"}`}
-          >I</button>
-
-          <button 
-            onClick={() => editor.chain().focus().undo().run()}
-            className="px-3 py-1 rounded cursor-pointer bg-gray-100"
-          ><BiUndo size={19} /></button>
-
-          <button 
-            onClick={() => editor.chain().focus().redo().run()}
-            className="px-3 py-1 rounded cursor-pointer bg-gray-100"
-          ><BiRedo size={19} /></button>
-
-          <button
-            onClick={addLink}
-            className="px-3 py-1 rounded cursor-pointer bg-gray-100"
-          >
-            <FiLink size={19} />
-          </button>
-        </div>
-        <EditorContent editor={editor} className="prose max-w-none p-2 border-accent rounded"  />
-      </div>
-      <div className="mt-4 mb-8">
-        {!loading &&         
-          <button onClick={sendMail} className="py-2 btn-primary max-sm:w-full flex-center gap-2">
-            <span>Send Mail</span>
-            <IoIosSend />
-          </button>
-        }
-        {loading && 
-          <button className="btn-primary bg-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white py-3 max-sm:w-full flex-center">
-            <Spinner size={18} />
-          </button>
-        }
-      </div>
-      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
-        <div className="flex-start gap-2">
-          <FaMailBulk size={17} color="orange" />
-          <h1 className="text-lg font-inter dark:text-white">Email Tips</h1>
-        </div>
-        <div className="flex-start gap-2 mt-4">
-          <IoMdCheckmarkCircle color="green" />
-          <div>
-            <p className="font-outfit dark:text-white">Compelling Subjects</p>
-            <p className="text-sm text-accent font-outfit">Make it short and convincing</p>
+            {loading && 
+              <button className="btn-primary bg-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white py-3 max-sm:w-full flex-center">
+                <Spinner size={18} />
+              </button>
+            }
           </div>
         </div>
-          <div className="flex-start gap-2 mt-4">
-          <IoMdCheckmarkCircle color="green" />
-          <div>
-            <p className="font-outfit dark:text-white">Clear CTA</p>
-            <p className="text-sm text-accent font-outfit">Include 1 primary call-to-action button</p>
-          </div>
+      }
+
+      {step == 1 && 
+        <div className="flex-center mt-8">
+          <button onClick={nextStep} className="btn-primary py-2 px-4">Next</button>
         </div>
-          <div className="flex-start gap-2 mt-4">
-          <IoMdCheckmarkCircle color="green" />
-          <div>
-            <p className="font-outfit dark:text-white">Clean Message Body</p>
-            <p className="text-sm text-accent font-outfit">Well edited message body attracts trust</p>
-          </div>
-        </div>
-      </div>
+      }
     </section>
   )
 }

@@ -61,22 +61,29 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         </div>
         <p className="text-sm text-accent max-md:mt-2 mb-4">Send targeted and promotion emails to your leads and subscribers</p>
 
-        <div className="md:grid md:grid-cols-2 md:gap-2 mt-4">
-          <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-            <div className="flex-between">
-              <p className="font-outfit text-sm text-accent">Total Campaigns</p>
-              <FiEdit size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+        {/* stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+            <div className="bg-gray-200 p-4 rounded-lg">
+              <FiEdit size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
             </div>
-            <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalCampaigns}</h1>
+            <div>
+              <p className="font-outfit text-sm text-accent">Total Campaigns</p>
+              <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalCampaigns}</h1>
+            </div>
           </div>
-          <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-            <div className="flex-between">
-              <p className="font-outfit text-sm text-accent">Emails Sent</p>
+
+          <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+            <div className="bg-gray-200 p-4 rounded-lg">
               <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
             </div>
-            <h1 className="font-inter text-xl mt-1 dark:text-white">{user!.profile.totalEmails}</h1>
+            <div>
+              <p className="font-outfit text-sm text-accent">Emails Sent</p>
+              <h1 className="font-inter text-xl mt-2 dark:text-white">{user!.profile.totalEmails}</h1>
+            </div>
           </div>
         </div>
+
         <History 
           title="Recent Emails Sent"
           backupText="Latest emails sent would appear here"

@@ -80,6 +80,18 @@
 	@apply text-white border-primary bg-primary font-open border-1 text-sm flex-start gap-2 p-3 rounded-md mt-4 cursor-pointer;
 }
 
+.ProseMirror:focus {
+	outline: none;
+}
+
+@utility step {
+	@apply h-8 w-8 rounded-full bg-gray-400 flex-center font-inter text-white
+}
+
+@utility step-active {
+	@apply h-8 w-8 rounded-full bg-primary flex-center font-inter text-white;
+}
+
 @theme {
 	--color-primary: #231e88;
 	--color-secondary: #111827;
