@@ -130,7 +130,7 @@ func (campaignHdl *CampaignHandler) ImportCSV(c *gin.Context) {
 	//validate file
 	file, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "CSV file required"})
 		return
 	}
 
