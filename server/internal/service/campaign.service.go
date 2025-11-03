@@ -1,8 +1,11 @@
 package service
 
 import (
+	"encoding/csv"
 	"fmt"
+	"mime/multipart"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -20,6 +23,7 @@ type CampaignService interface {
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	DownloadSubscribers(uuid.UUID) (models.Campaign, []models.Subscriber, int, error)
 	CreateSubscriber(*models.SubscriberRequest, uuid.UUID, uuid.UUID) (string, int, error)
+	ImportSubscribers(*multipart.FileHeader, uuid.UUID) (int, error)
 	DeleteSubscriber(*models.DeleteSubscriberRequest, uuid.UUID, uuid.UUID) (string, string, int, error)
 	GetSubscriberCampaign(uuid.UUID) (models.SubscriberCampaignResponse, int, error)
 	CampaignClick(uuid.UUID) (int, error)
@@ -146,6 +150,67 @@ func (campaignSvc *CampaignSvc) CreateSubscriber(subscriberReq *models.Subscribe
 	}
 
 	return msg, code, nil
+}
+
+func (campaignSvc *CampaignSvc) ImportSubscribers(file *multipart.FileHeader, campaignId uuid.UUID) (int, error) {
+	//open file
+	f, err := file.Open()
+	if err != nil {
+		return 400, fmt.Errorf("invalid CSV file")
+	}
+	defer f.Close()
+
+	//read file
+	reader := csv.NewReader(f)
+	rows, err := reader.ReadAll()
+	if err != nil {
+		return 400, fmt.Errorf("invalid CSV file")
+	}
+
+	//get campaign author
+	campaign, code, err := campaignSvc.repo.GetCampaign(campaignId)
+	if err != nil {
+		return code, err
+	}
+
+	var subs []models.Subscriber
+
+	for _, row := range rows {
+		var sub models.Subscriber
+
+		//add email fields
+		for _, cell := range row {
+			cell = strings.TrimSpace(cell)
+			if utils.IsValidEmail(cell) {
+				sub = models.Subscriber{
+					CampaignId: campaignId,
+					CampaignStatus: "active",
+					UserId: campaign.UserId,
+					Name: "",
+					Email: cell,
+					CreatedAt: time.Now(),
+				}
+				break
+			}
+		}
+
+		//check db duplicates
+		exists := campaignSvc.repo.SubscriberExist(sub.Email, campaignId)
+		if exists {
+			continue
+		}
+
+		subs = append(subs, sub)
+	}
+
+	if len(subs) > 0 {
+		_, code, err = campaignSvc.repo.InsertSubscribers(subs, campaign.UserId, campaignId, campaign.Title)
+		if err != nil {
+			return code, err
+		}
+	}
+
+	return 201, nil
 }
 
 func (campaignSvc *CampaignSvc) DeleteSubscriber(subscriberReq *models.DeleteSubscriberRequest, subscriberId uuid.UUID, campaignId uuid.UUID) (string, string, int, error) {

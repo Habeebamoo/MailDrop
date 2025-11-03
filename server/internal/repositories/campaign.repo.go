@@ -21,6 +21,7 @@ type CampaignRepository interface {
 	GetSubscribers(uuid.UUID) ([]models.Subscriber, int, error)
 	SubscriberExist(string, uuid.UUID) bool
 	CreateSubscriber(models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
+	InsertSubscribers([]models.Subscriber, uuid.UUID, uuid.UUID, string) (string, int, error)
 	ArchiveSubscribers([]models.Subscriber, uuid.UUID) error
 	VerifySubscriber(uuid.UUID, uuid.UUID) (models.Subscriber, int, error)
 	DeleteSubscriber(uuid.UUID, models.Campaign, uuid.UUID) (int, error)
@@ -250,6 +251,48 @@ func (campaignRepo *CampaignRepo) CreateSubscriber(subscriber models.Subscriber,
 	}
 
 	return "Subscription successful", 200, nil
+}
+
+func (campaignRepo *CampaignRepo) InsertSubscribers(subscribers []models.Subscriber, userId uuid.UUID, campaignId uuid.UUID, campaignName string) (string, int, error) {
+	//create the subscriber
+	err := campaignRepo.db.Create(&subscribers).Error
+	if err != nil {
+		return "", 500, fmt.Errorf("failed to import subscribers")
+	}
+
+	//update the user & campaign
+	err = campaignRepo.db.Model(&models.Profile{}).
+									Where("user_id = ?", userId).
+									UpdateColumn("total_subscribers", gorm.Expr("total_subscribers + ?", len(subscribers))).
+									Error
+	if err != nil {
+		return "", 500, fmt.Errorf("failed to update user profile")
+	}
+
+	err = campaignRepo.db.Model(&models.Campaign{}).
+												Where("campaign_id = ?", campaignId).
+												UpdateColumn("total_subscribers", gorm.Expr("total_subscribers + ?", len(subscribers))).
+												Error
+	if err != nil {
+		return "", 500, fmt.Errorf("failed to update campaign")
+	}
+
+	//create the actvity
+	activityName := fmt.Sprintf("imported subscribers in '%s' campaign", strings.TrimSpace(campaignName))
+
+	activity := models.Activity{
+		UserId: userId,
+		Name: activityName,
+		Type: "lead",
+		CreatedAt: time.Now(),
+	}
+
+	err = campaignRepo.db.Create(&activity).Error
+	if err != nil {
+		return "", 500, fmt.Errorf("failed to create user activity")
+	}
+
+	return "Imported Successfully", 200, nil
 }
 
 func (campaignRepo *CampaignRepo) ArchiveSubscribers(subscribers []models.Subscriber, campaignId uuid.UUID) error {

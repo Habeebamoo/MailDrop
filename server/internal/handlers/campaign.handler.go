@@ -118,6 +118,31 @@ func (campaignHdl *CampaignHandler) CreateSubscriber(c *gin.Context) {
 	c.JSON(statusCode, gin.H{"message": msg})
 }
 
+func (campaignHdl *CampaignHandler) ImportCSV(c *gin.Context) {
+	campaignIdStr := c.Param("id")
+	if campaignIdStr == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Campaign Id Missing"})
+		return
+	}
+
+	campaignId, _ := uuid.Parse(campaignIdStr)
+
+	//validate file
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "CSV file required"})
+		return
+	}
+
+	statusCode, err := campaignHdl.svc.ImportSubscribers(file, campaignId)
+	if err != nil {
+		c.JSON(statusCode, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(statusCode, gin.H{"message": "Import Successfull"})
+}
+
 func (campaignHdl *CampaignHandler) GetSubscriberCampaign(c *gin.Context) {
 	campaignIdStr := c.Param("id")
 	if campaignIdStr == "" {

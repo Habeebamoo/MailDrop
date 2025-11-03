@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/cloudinary/cloudinary-go/v2"
@@ -35,6 +36,11 @@ func GenerateJWT(userId uuid.UUID) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("JWT_KEY")))
+}
+
+func IsValidEmail(email string) bool {
+	re := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z{2,}$]`)
+	return re.MatchString(email)
 }
 
 func GetTimeAgo(t time.Time) string {
