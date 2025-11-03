@@ -106,7 +106,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                 >
                   <div className="relative z-10 overflow-hidden h-40 dark:border-b-0 border-b-1 border-b-gray-200 rounded-t-lg">
                     <img src={emailImg} className="object-center object-cover h-full w-full" />
-                    <div className="absolute flex-center bg-black/90 inset-0 rounded-t-lg">
+                    <div className="absolute flex-center bg-white/85 dark:bg-black/90 inset-0 rounded-t-lg">
                       <p className="font-inter text-gray-400">Click to view</p>
                     </div>
                   </div>
