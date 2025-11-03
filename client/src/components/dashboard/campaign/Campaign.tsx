@@ -1,5 +1,5 @@
 import { BiArrowBack, BiTrash } from "react-icons/bi"
-import { FaArrowRightFromBracket, FaGears } from "react-icons/fa6"
+import { FaArrowRightFromBracket } from "react-icons/fa6"
 import { useTheme } from "../../../context/ThemeContext"
 import { CgMail } from "react-icons/cg"
 import { FiLink, FiUsers } from "react-icons/fi"
@@ -13,14 +13,17 @@ import Error from "../Error"
 import { toast } from "react-toastify"
 import Warning from "../Warning"
 import {  HiArrowLeftStartOnRectangle } from "react-icons/hi2"
+import Spinner from "../Spinner"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
   const [campaign, setCampaign] = useState<any>()
   const [loading, setLoading] = useState<boolean>(true)
+  const [uploading, setUploading] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
   const [leads, setLeads] = useState<any[]>([])
   const [warning, setWarning] = useState<boolean>(false)
+  const [file, setFile] = useState<File | null>(null)
   const { theme } = useTheme()
   const { campaignId } = useCampaignId()
 
@@ -103,6 +106,37 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       toast.error("something went wrong")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleUpload = async () => {
+    if (!file) return 
+    setUploading(true)
+
+    const formData = new FormData()
+    formData.append("file", file)
+
+    try {
+      const res = await fetch(`https://maildrop-znoo.onrender.com/api/campaign/${campaign.campaignId}/importcsv`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": import.meta.env.VITE_X_API_KEY
+        }
+      })
+      const response = await res.json()
+
+      if (res.ok) {
+        toast.success(response.message)
+        setTimeout(() => window.location.href = "/dashboard/campaigns", 2500)
+      } else {
+        toast.error(response.error)
+      }
+    } catch {
+      toast.error("something went wrong")
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -213,19 +247,14 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </div>
       </div>
 
-      <h1 className="text-lg text-primary font-inter dark:text-white mt-6">Subscribers</h1>
-      <p className="text-sm text-accent mb-4">Manage and track your leads</p>
-
-      <div className="flex-center gap-3 mb-6">
-        <button onClick={exportSubscribers} className="px-3 py-2 flex-center gap-2 text-sm btn-primary">
-          <span>Import CSV</span>
-          <HiArrowLeftStartOnRectangle />
-        </button>
-        <button onClick={exportSubscribers} className="px-3 py-2 flex-center gap-2 text-sm btn-primary">
-          <span>Export Subscribers</span>
+      <div className="flex-between mt-8">
+        <h1 className="text-xl text-primary font-inter dark:text-white">Subscribers</h1>
+        <button onClick={exportSubscribers} className="px-3 flex-center gap-2 text-[12px] btn-primary">
+          <span>Export</span>
           <FaArrowRightFromBracket />
         </button>
       </div>
+      <p className="text-sm font-open text-accent mb-4">Manage and track your leads</p>
 
       {leads ? (
         <Pagination data={leads} />
@@ -238,11 +267,32 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </div>
       )}
 
-      <div className="p-6 rounded-md bg-white dark:bg-gray-900 dark:border-1 dark:border-gray-800 mt-6">
-        <div className="flex-start gap-2 text-primary dark:text-white">
-          <FaGears size={20} />
-          <h1 className="text-xl font-outfit">Quick Action</h1>
+      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl mt-6">
+        <h1 className="text-primary font-inter text-lg">Import CSV File</h1>
+        <p className="font-open text-sm text-accent mb-4 mt-1">Add a CSV file containing other fields including emails</p>
+
+        <div className="bg-gray-200 rounded-full p-1 overflow-hidden w-[400px]">
+          <input 
+            type="file" 
+            accept=".csv"
+            className="file:bg-primary file:text-white file:py-1 file:px-4 text-[12px] file:rounded-full file:cursor-pointer" 
+            onChange={e => setFile(e.target.files![0])}
+          />
         </div>
+
+        {uploading ? 
+          <button className="px-3 mt-4 py-3 bg-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white btn-primary text-sm max-sm:w-full flex-center">
+            <Spinner size={16} />
+          </button>
+        : 
+          <button onClick={handleUpload} className="px-3 py-2 flex-center gap-2 text-sm btn-primary mt-4 max-sm:w-full">
+            <span>Import CSV</span>
+            <HiArrowLeftStartOnRectangle />
+          </button>
+        }
+      </div>
+
+      <div className="flex-start gap-3 mt-6">
         <button
           onClick={copySlug}
           className="flex-start gap-2 p-2 rounded-md mt-4 border-1 border-primary text-white bg-primary hover:bg-transparent hover:text-primary cursor-pointer"
