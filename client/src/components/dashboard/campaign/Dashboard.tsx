@@ -118,7 +118,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                       <h1 className="text-xl font-inter dark:text-accentLight">{campaign.title}</h1>
                     </div>
                   </div>
-                  <div className="ml-4 mb-4 mt-4 flex-start bg-gray-200 rounded-full inline-block py-2 pl-2 pr-4 text-[12px]">
+                  <div className="ml-4 mb-4 mt-4 flex-start bg-gray-200 dark:bg-gray-800 rounded-full inline-block py-2 pl-2 pr-4 text-[12px]">
                     <span className="bg-blue-800 font-open py-1 px-3 rounded-full text-white">Created</span>
                     <span className="ml-2">{campaign.createdAt}</span>
                   </div>
