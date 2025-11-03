@@ -290,7 +290,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         }
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 px-1">
         <button
           onClick={copySlug}
           className="flex-start gap-2 p-2 rounded-md border-1 border-primary text-white bg-primary hover:bg-transparent hover:text-primary cursor-pointer"
