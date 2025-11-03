@@ -120,7 +120,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                   </div>
                   <div className="ml-4 mb-4 mt-4 flex-start bg-gray-200 dark:bg-gray-800 rounded-full inline-block py-2 pl-2 pr-4 text-[12px]">
                     <span className="bg-blue-800 font-open py-1 px-3 rounded-full text-white">Created</span>
-                    <span className="ml-2">{campaign.createdAt}</span>
+                    <span className="ml-2 dark:text-accent">{campaign.createdAt}</span>
                   </div>
                 </div>
               )
