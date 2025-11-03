@@ -1,5 +1,4 @@
 import emailImg from "../../../assets/illustration.jpeg"
-import { useTheme } from "../../../context/ThemeContext"
 import { IoIosSend } from "react-icons/io";
 import { BiPlus } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
@@ -14,7 +13,6 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
   const [campaigns, setCampaigns] = useState<any[]>([
     {title: "Summer Sale", createdAt: "8 months"}
   ])
-  const { theme } = useTheme()
   const { user } = useUser()
   const { setCampaignId } = useCampaignId()
 
@@ -106,15 +104,15 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                   onClick={() => toLeads(campaign.campaignId)}
                   className="bg-white dark:bg-gray-900 border-1 border-accentLight border-l-2 border-l-primary rounded-lg dark:border-gray-800 cursor-pointer"
                 >
-                  <div className="relative z-10 overflow-hidden h-40 border-b-1 border-b-gray-200 rounded-t-lg">
+                  <div className="relative z-10 overflow-hidden h-40 dark:border-b-0 border-b-1 border-b-gray-200 rounded-t-lg">
                     <img src={emailImg} className="object-center object-cover h-full w-full" />
-                    <div className="absolute flex-center bg-white/85 inset-0 rounded-t-lg">
+                    <div className="absolute flex-center bg-black/90 inset-0 rounded-t-lg">
                       <p className="font-inter text-gray-400">Click to view</p>
                     </div>
                   </div>
                   <div className="flex-start gap-2 px-4 mt-4">
-                    <div className="bg-gray-200 p-2 inline-block rounded-lg">
-                      <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+                    <div className="bg-gray-200 dark:bg-gray-800 p-2 inline-block rounded-lg">
+                      <CgMail size={20} color="#2f299cff" />
                     </div>
                     <div className="px-1">
                       <h1 className="text-xl font-inter dark:text-accentLight">{campaign.title}</h1>
