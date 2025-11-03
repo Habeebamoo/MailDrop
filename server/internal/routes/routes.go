@@ -46,7 +46,6 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 	{
 		subscriber.GET("/campaign/:id", campaignHandler.GetSubscriberCampaign)
 		subscriber.POST("", campaignHandler.CreateSubscriber)
-		subscriber.POST("/:id/importcsv")
 		subscriber.POST("/:id/click", campaignHandler.CampaignClick)
 		subscriber.POST("/unsubscribe/:subscriberId/:campaignId", campaignHandler.DeleteSubscriber)
 	}
@@ -66,6 +65,7 @@ func ConfigureRoutes(userHandler handlers.UserHandler, campaignHandler handlers.
 		campaign.POST("", campaignHandler.CreateCampaign)
 		campaign.GET("", campaignHandler.GetAllCampaigns)
 		campaign.GET("/:id", campaignHandler.GetCampaign)
+		campaign.POST("/:id/importcsv", campaignHandler.ImportCSV)
 		campaign.GET("/:id/subscribers", campaignHandler.GetSubscribers)
 		campaign.GET("/:id/subscribers/download", campaignHandler.DownloadSubscribers)
 		campaign.DELETE("/:id", campaignHandler.DeleteCampaign)
