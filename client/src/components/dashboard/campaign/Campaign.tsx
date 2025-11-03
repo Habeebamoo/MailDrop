@@ -12,6 +12,7 @@ import { GoHistory } from "react-icons/go"
 import Error from "../Error"
 import { toast } from "react-toastify"
 import Warning from "../Warning"
+import {  HiArrowLeftStartOnRectangle } from "react-icons/hi2"
 
 const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
@@ -180,38 +181,51 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
       </div>
       <p className="text-sm text-accent mb-4 max-md:mt-2">{getBriefOf(campaign.description)}</p>
 
-      <div className="md:grid md:grid-cols-3 md:gap-2 mt-6">
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <FiUsers size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          </div>
+          <div>
             <p className="font-outfit text-sm text-accent">Subscribers</p>
-            <FiUsers size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{campaign.totalSubscribers}</h1>
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{campaign.totalSubscribers}</h1>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
+
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <FaRegHandPointer size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          </div>
+          <div>
             <p className="font-outfit text-sm text-accent">Clicks</p>
-            <FaRegHandPointer size={16} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{campaign.totalClicks}</h1>
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{campaign.totalClicks}</h1>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
-          <div className="flex-between">
-            <p className="font-outfit text-sm text-accent">Emails Sent</p>
+
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
             <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
           </div>
-          <h1 className="font-inter text-xl mt-1 dark:text-white">{campaign.totalEmails}</h1>
+          <div>
+            <p className="font-outfit text-sm text-accent">Emails Sent</p>
+            <h1 className="font-inter text-xl mt-2 dark:text-white">{campaign.totalEmails}</h1>
+          </div>
         </div>
       </div>
 
-      <div className="flex-between mt-6">
-        <h1 className="text-lg text-primary font-inter dark:text-white">Subscribers</h1>
-        <button onClick={exportSubscribers} className="px-3 flex-center gap-2 text-sm btn-primary">
-          <span>Export</span>
+      <h1 className="text-lg text-primary font-inter dark:text-white mt-6">Subscribers</h1>
+      <p className="text-sm text-accent mb-4">Manage and track your leads</p>
+
+      <div className="flex-center gap-3 mb-6">
+        <button onClick={exportSubscribers} className="px-3 py-2 flex-center gap-2 text-sm btn-primary">
+          <span>Import CSV</span>
+          <HiArrowLeftStartOnRectangle />
+        </button>
+        <button onClick={exportSubscribers} className="px-3 py-2 flex-center gap-2 text-sm btn-primary">
+          <span>Export Subscribers</span>
           <FaArrowRightFromBracket />
         </button>
       </div>
-      <p className="text-sm text-accent mb-4">Manage and track your leads</p>
 
       {leads ? (
         <Pagination data={leads} />

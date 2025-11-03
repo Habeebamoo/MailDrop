@@ -152,7 +152,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             }
           </form>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-xl max-md:mb-3 mt-4">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-xl max-md:mb-3 mt-4 text-sm">
           <div className="flex-start gap-2">
             <RiFilePaper2Line size={17} color="orange" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Tips</h1>
