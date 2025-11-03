@@ -29,19 +29,21 @@ const Main = () => {
 
   return (
     <section className="py-6 bg-accentXLight border-t-1 border-t-accentLight">
+      {/* Features */}
       <div className="flex-center">
         <p className="bg-bg2 font-outfit py-1 px-2 rounded font-open text-sm text-primary">
         <span className="ml-1">Features</span>
         </p>
       </div>
       <p className="text-sm text-center mt-1 mx-auto text-accent w-[80%]">Everything you need to market through emails is provided by the platform</p>
-      <div className="grid md:grid-cols-2 md:gap-3 mt-5 px-4 max-md:w-[100%] md:w-[95%] mx-auto">
-        <div className="bg-white flex flex-col border-2 border-bg2 rounded-lg max-md:mb-4">
+
+      <div className="grid md:grid-cols-2 md:gap-3 mt-6 px-4 max-md:w-[100%] md:w-[95%] mx-auto">
+        <div className="bg-white border-1 border-gray-300 flex flex-col rounded-lg max-md:mb-4">
           <div className="pt-4 pl-4 mb-8">
             <h1 className="font-open mt-1 text-xl">Email Composer</h1>
             <p className="text-accent text-[12px] mt-1">Compose and edit email messages with our built-in text editor, giving you the ability to be expressful.</p>
           </div>
-          <div className="flex-end bg-bg2 h-full pl-10 max-md:pt-8">
+          <div className="flex-end bg-gray-200 h-full pl-10 max-md:pt-8">
             <div className="p-4 border-bg2 border-1 rounded-lg w-full mx-auto bg-white font-open text-sm">
               <div className="flex flex-end gap-2 border-b-accent pb-2 mb-2">
                 <button 
@@ -74,46 +76,46 @@ const Main = () => {
             </div> 
           </div>
         </div>
-        <div className="bg-white border-2 border-bg2 rounded-lg">
+        <div className="bg-white border-1 border-gray-300 rounded-lg">
           <div className="pt-4 pl-4 mb-8">
             <h1 className="font-open mt-1 text-xl">Real Time Notifications</h1>
             <p className="text-accent text-[12px] mt-1">Receive notifications emails about activities going on with your leads. You can also view a short summary in your dashboard.</p>
           </div>
-          <div className="flex-end bg-bg2 pl-10">
+          <div className="flex-end bg-gray-200 pl-10">
             <History title="Recent Activities" backupText="" history={activities} />
           </div>
         </div>
       </div>
 
-      <div className="flex-center mt-8">
+      <div className="flex-center mt-10">
         <p className="bg-bg2 font-outfit py-1 px-2 rounded font-open text-sm text-primary">
         <span className="ml-1">Platform Tools</span>
         </p>
       </div>
       <p className="text-sm text-center mt-1 mx-auto text-accent w-[80%]">We've gotten everything prepared down for you</p>
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 lg:gap-3 md:gap-3 mt-5 px-5 w-[95%] lg:w-[95%] mx-auto">
-        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 lg:gap-3 md:gap-3 mt-6 px-5 w-[95%] lg:w-[95%] mx-auto">
+        <div className="bg-white p-7 rounded-xl mb-4">
           <div className="bg-primary p-2 rounded-md inline-block">
             <FiEdit color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">Campaign Builder</h1>
           <p className="text-accent text-sm mt-1 font-open">Create personalized campaigns with ease, add descriptions, upload lead magnets and get a sharable link instantly</p>
         </div>
-        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
+        <div className="bg-white p-7 rounded-xl mb-4">
           <div className="bg-primary p-2 rounded-md inline-block">
             <FiUsers color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">Leads Organization</h1>
           <p className="text-accent text-sm mt-1 font-open">Collect, view and manage all your leads, sort by any category and export data for later use</p>
         </div>
-        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
+        <div className="bg-white p-7 rounded-xl mb-4">
           <div className="bg-primary p-2 rounded-md inline-block">
             <TbCsv color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">CSV Support</h1>
           <p className="text-accent text-sm mt-1 font-open">Easily import audiences in csv files, also export campaign subscribers for personal use.</p>
         </div>
-        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
+        <div className="bg-white p-7 rounded-xl mb-4">
           <div className="bg-primary p-2 rounded-md inline-block">
             <FiMail color="white" size={25} />
           </div>

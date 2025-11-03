@@ -11,7 +11,9 @@ import { CgMail } from "react-icons/cg";
 
 const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<"campaigns" | "new" | "leads">>
 }) => {
-  const [campaigns, setCampaigns] = useState<any[]>([])
+  const [campaigns, setCampaigns] = useState<any[]>([
+    {title: "Summer Sale", createdAt: "8 months"}
+  ])
   const { theme } = useTheme()
   const { user } = useUser()
   const { setCampaignId } = useCampaignId()
@@ -104,17 +106,23 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                   onClick={() => toLeads(campaign.campaignId)}
                   className="bg-white dark:bg-gray-900 border-1 border-accentLight border-l-2 border-l-primary rounded-lg dark:border-gray-800 cursor-pointer"
                 >
-                  <div className="relative overflow-hidden group h-40 border-b-1 border-b-gray-200">
+                  <div className="relative overflow-hidden h-40 border-b-1 border-b-gray-200 rounded-t-lg">
                     <img src={emailImg} className="object-center object-cover h-full w-full" />
-                    <div className="absolute bg-white/80 inset-0"></div>
+                    <div className="absolute flex-center bg-white/85 inset-0 rounded-t-lg">
+                      <p className="font-inter text-gray-400">Click to view</p>
+                    </div>
                   </div>
-                  <div className="px-4 pb-4">
-                    <div className="bg-gray-200 p-3 inline-block rounded-lg mt-4">
+                  <div className="flex-start gap-2 px-4 mt-4">
+                    <div className="bg-gray-200 p-2 inline-block rounded-lg">
                       <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
                     </div>
-                    <div className="mt-1 px-1">
-                      <h1 className="text-xl text-accent font-inter dark:text-accentLight">{campaign.title}</h1>
+                    <div className="px-1">
+                      <h1 className="text-xl font-inter dark:text-accentLight">{campaign.title}</h1>
                     </div>
+                  </div>
+                  <div className="ml-4 mb-4 mt-4 flex-start bg-gray-200 rounded-full inline-block py-2 pl-2 pr-4 text-sm">
+                    <span className="bg-blue-800 font-open py-1 px-3 rounded-full text-white">Created</span>
+                    <span className="ml-2">{campaign.createdAt}</span>
                   </div>
                 </div>
               )
@@ -122,6 +130,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
           }
         </div>
       }
+
     </section>
   )
 }
