@@ -123,7 +123,8 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         headers: {
           "Content-Type": "application/json",
           "X-API-KEY": import.meta.env.VITE_X_API_KEY
-        }
+        },
+        body: formData
       })
       const response = await res.json()
 
