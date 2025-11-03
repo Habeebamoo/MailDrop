@@ -76,7 +76,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
         </div>
         <p className="text-sm text-accent mb-4 max-md:mt-2">Set up your new email campaign with a compelling lead magnet to attract and convert prospects</p>
 
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-6 rounded-xl max-md:mb-3">
           <div className="flex-start gap-2">
             <FiTarget size={17} color="#231e88" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Details</h1>
@@ -123,7 +123,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
               />
             </div>
             {form.leadMagnetName &&
-              <div className="mt-4 mb-2">
+              <div className="mt-4 mb-4">
                 <label htmlFor="url" className="block font-outfit text-black dark:text-accentLight">Reward URL</label>
                 <div className="relative">
                   <input 
@@ -152,7 +152,7 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
             }
           </form>
         </div>
-        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-md max-md:mb-3 mt-4">
+        <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-5 rounded-xl max-md:mb-3 mt-4">
           <div className="flex-start gap-2">
             <RiFilePaper2Line size={17} color="orange" />
             <h1 className="text-lg font-inter dark:text-white">Campaign Tips</h1>
@@ -160,22 +160,22 @@ const NewCampaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetS
           <div className="flex-start gap-2 mt-4">
             <IoMdCheckmarkCircle color="green" />
             <div>
-              <p className="font-outfit dark:text-white">Clear Campaign Name</p>
-              <p className="text-sm text-accent font-outfit">Use descriptive names that indicate the campaign purpose</p>
+              <p className="font-open dark:text-white">Clear Campaign Name</p>
+              <p className="text-sm text-accent font-open">Use descriptive names that indicate the campaign purpose</p>
             </div>
           </div>
            <div className="flex-start gap-2 mt-4">
             <IoMdCheckmarkCircle color="green" />
             <div>
-              <p className="font-outfit dark:text-white">Compelling Description</p>
-              <p className="text-sm text-accent font-outfit">Explain your goals and target audience clearly</p>
+              <p className="font-open dark:text-white">Compelling Description</p>
+              <p className="text-sm text-accent font-open">Explain your goals and target audience clearly</p>
             </div>
           </div>
            <div className="flex-start gap-2 mt-4">
             <IoMdCheckmarkCircle color="green" />
             <div>
-              <p className="font-outfit dark:text-white">Valuable Lead Magnet</p>
-              <p className="text-sm text-accent font-outfit">Offer something valueable in exchange for thier contact info</p>
+              <p className="font-open dark:text-white">Valuable Lead Magnet</p>
+              <p className="text-sm text-accent font-open">Offer something valueable in exchange for thier contact info</p>
             </div>
           </div>
         </div>

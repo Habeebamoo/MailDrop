@@ -106,7 +106,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
                   onClick={() => toLeads(campaign.campaignId)}
                   className="bg-white dark:bg-gray-900 border-1 border-accentLight border-l-2 border-l-primary rounded-lg dark:border-gray-800 cursor-pointer"
                 >
-                  <div className="relative overflow-hidden h-40 border-b-1 border-b-gray-200 rounded-t-lg">
+                  <div className="relative z-10 overflow-hidden h-40 border-b-1 border-b-gray-200 rounded-t-lg">
                     <img src={emailImg} className="object-center object-cover h-full w-full" />
                     <div className="absolute flex-center bg-white/85 inset-0 rounded-t-lg">
                       <p className="font-inter text-gray-400">Click to view</p>
