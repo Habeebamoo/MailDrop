@@ -68,8 +68,8 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
       {/* stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <FiEdit size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+            <FiEdit size={20} color="#2f299cff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
@@ -78,8 +78,8 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         </div>
 
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <IoIosSend size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+            <IoIosSend size={20} color="#2f299cff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Total Emails Sent</p>

@@ -1,6 +1,5 @@
 import { BiArrowBack, BiTrash } from "react-icons/bi"
 import { FaArrowRightFromBracket } from "react-icons/fa6"
-import { useTheme } from "../../../context/ThemeContext"
 import { CgMail } from "react-icons/cg"
 import { FiLink, FiUsers } from "react-icons/fi"
 import { FaRegHandPointer } from "react-icons/fa"
@@ -24,7 +23,6 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   const [leads, setLeads] = useState<any[]>([])
   const [warning, setWarning] = useState<boolean>(false)
   const [file, setFile] = useState<File | null>(null)
-  const { theme } = useTheme()
   const { campaignId } = useCampaignId()
 
   useEffect(() => {
@@ -217,8 +215,8 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <FiUsers size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+            <FiUsers size={20} color="#2f299cff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Subscribers</p>
@@ -227,8 +225,8 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </div>
 
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <FaRegHandPointer size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+            <FaRegHandPointer size={20} color="#2f299cff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Clicks</p>
@@ -237,8 +235,8 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </div>
 
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <CgMail size={20} color={theme == "light" ? "#231e88" : "rgb(121, 120, 120)"} />
+          <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+            <CgMail size={20} color="#2f299cff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Emails Sent</p>
@@ -267,8 +265,8 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         </div>
       )}
 
-      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl mt-6">
-        <h1 className="text-primary font-inter text-lg">Import CSV File</h1>
+      <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl mt-8">
+        <h1 className="text-primary dark:text-white font-inter text-lg">Import CSV File</h1>
         <p className="font-open text-sm text-accent mb-4 mt-1">Add a CSV file containing other fields including emails</p>
 
         <div className="bg-gray-200 rounded-full p-1 overflow-hidden w-[100%] sm:w-[400px]">
