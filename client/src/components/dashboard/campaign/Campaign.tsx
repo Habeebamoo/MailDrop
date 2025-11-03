@@ -271,7 +271,7 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         <h1 className="text-primary font-inter text-lg">Import CSV File</h1>
         <p className="font-open text-sm text-accent mb-4 mt-1">Add a CSV file containing other fields including emails</p>
 
-        <div className="bg-gray-200 rounded-full p-1 overflow-hidden w-[400px]">
+        <div className="bg-gray-200 rounded-full p-1 overflow-hidden w-[100%] sm:w-[400px]">
           <input 
             type="file" 
             accept=".csv"
@@ -292,10 +292,10 @@ const Campaign = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
         }
       </div>
 
-      <div className="flex-start gap-3 mt-6">
+      <div className="mt-6">
         <button
           onClick={copySlug}
-          className="flex-start gap-2 p-2 rounded-md mt-4 border-1 border-primary text-white bg-primary hover:bg-transparent hover:text-primary cursor-pointer"
+          className="flex-start gap-2 p-2 rounded-md border-1 border-primary text-white bg-primary hover:bg-transparent hover:text-primary cursor-pointer"
         >
           <FiLink size={20} />
           <span className="font-outfit">Share Campaign</span>
