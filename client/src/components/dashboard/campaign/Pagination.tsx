@@ -13,7 +13,6 @@ const Pagination = ({ data }: { data: any[] }) => {
       <div className="bg-white dark:bg-gray-900 border-1 border-accentLight dark:border-gray-800 rounded-sm mt-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 dark:text-white p-3">
           <p className="w-7">S/N</p>
-          <p>Name</p>
           <p>Email</p>
         </div>
 
@@ -22,7 +21,6 @@ const Pagination = ({ data }: { data: any[] }) => {
             return (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-1 font-inter text-sm border-b-1 border-b-accentLight dark:border-gray-700 text-accent p-3">
               <p className="w-6">{i+1}</p>
-              <p className="break-words">{data.name}</p>
               <p className="break-words">{data.email}</p>
             </div>
             )
