@@ -13,7 +13,7 @@ const Warning = ({ title, text, setWarning, confirmAction }: PropsType) => {
   }
 
   return (
-    <main className="fixed top-0 bottom-0 left-0 right-0 flex-center bg-black/50 z-50">
+    <main className="fixed top-0 bottom-0 left-0 right-0 flex-center bg-black/70 z-50">
       <div className="p-6 bg-white flex-center flex-col w-[90%] sm:w-[400px]">
         <PiWarningFill size={45} className="mb-2" color="#231e88" />
         <h1 className="font-inter text-xl mb-2">{title}</h1>
