@@ -49,11 +49,11 @@
 }
 
 @utility home-mobile-link {
-	@apply text-lg mb-5 cursor-pointer font-open;
+	@apply mb-5 cursor-pointer font-open;
 }
 
 @utility home-mobile-link-active {
-	@apply text-xl mb-5 text-primary cursor-pointer font-open;
+	@apply text-lg mb-5 text-primary cursor-pointer font-open;
 }
 
 @utility home-dsk-link {

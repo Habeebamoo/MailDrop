@@ -94,28 +94,28 @@ const Main = () => {
       </div>
       <p className="text-sm text-center mt-1 mx-auto text-accent w-[80%]">We've gotten everything prepared down for you</p>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 lg:gap-3 md:gap-3 mt-6 px-5 w-[95%] lg:w-[95%] mx-auto">
-        <div className="bg-white p-7 rounded-xl mb-4">
+        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
           <div className="bg-primary p-2 rounded-md inline-block">
             <FiEdit color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">Campaign Builder</h1>
           <p className="text-accent text-sm mt-1 font-open">Create personalized campaigns with ease, add descriptions, upload lead magnets and get a sharable link instantly</p>
         </div>
-        <div className="bg-white p-7 rounded-xl mb-4">
+        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
           <div className="bg-primary p-2 rounded-md inline-block">
             <FiUsers color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">Leads Organization</h1>
           <p className="text-accent text-sm mt-1 font-open">Collect, view and manage all your leads, sort by any category and export data for later use</p>
         </div>
-        <div className="bg-white p-7 rounded-xl mb-4">
+        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
           <div className="bg-primary p-2 rounded-md inline-block">
             <TbCsv color="white" size={25} />
           </div>
           <h1 className="font-open mt-1 text-xl">CSV Support</h1>
           <p className="text-accent text-sm mt-1 font-open">Easily import audiences in csv files, also export campaign subscribers for personal use.</p>
         </div>
-        <div className="bg-white p-7 rounded-xl mb-4">
+        <div className="bg-white p-7 rounded-xl mb-4 border-1 border-bg2">
           <div className="bg-primary p-2 rounded-md inline-block">
             <FiMail color="white" size={25} />
           </div>

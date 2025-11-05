@@ -45,12 +45,12 @@ const DashboardPage = () => {
   return (
     <section className="md:ml-[170px] mt-[50px] px-4 pt-2 pb-25 min-h-[calc(100vh-4rem)]">
       {/* stats */}
-      <h1 className="text-2xl text-primary font-inter mt-5 dark:text-white">Hello, {user?.name}</h1>
-      <p className="text-sm text-accent font-open mt-1">Welcome back, Here's what's happening with your email campaigns</p>
+      <h1 className="text-lg text-primary font-inter mt-6 dark:text-white">Hello, {user?.name}</h1>
+      <p className="text-[12px] text-accent font-open mt-1">Welcome back, Here's what's happening with your email campaigns</p>
       <div className="grid md:grid-cols-3 gap-3 mt-4">
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
           <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
-            <CgMail size={20} color="#2f299cff" />
+            <CgMail size={20} color="#6964c9ff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Total Campaigns</p>
@@ -59,7 +59,7 @@ const DashboardPage = () => {
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
           <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
-            <FiUsers size={18} color="#2f299cff" />
+            <FiUsers size={18} color="#6964c9ff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Total Subscribers</p>
@@ -68,7 +68,7 @@ const DashboardPage = () => {
         </div>
         <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
           <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
-            <FaRegHandPointer size={17} color="#2f299cff" />
+            <FaRegHandPointer size={17} color="#6964c9ff" />
           </div>
           <div>
             <p className="font-outfit text-sm text-accent">Total Campaign Clicks</p>

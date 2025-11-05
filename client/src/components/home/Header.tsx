@@ -34,7 +34,7 @@ const Header = () => {
             <img src={logo} alt="Logo" className="h-[30px]" />
             <h1 className="text-xl font-inter text-primary ml-1">MailDrop</h1>
           </div>
-          <div className="flex-between gap-4 max-sm:hidden">
+          <div className="flex-between gap-4 max-sm:hidden ">
             <NavLink 
               to={"/"} 
               className={({ isActive }) => isActive ? "home-dsk-link-active" : "home-dsk-link"}

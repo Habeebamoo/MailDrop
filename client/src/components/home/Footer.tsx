@@ -27,7 +27,7 @@ const Footer = () => {
         <img src={logo} className="h-[30px]" />
         <span className="text-xl font-outfit ml-2 text-white">MailDrop</span>
       </div>
-      <p className="text-accent mt-1">The future of email marketing is here</p>
+      <p className="text-gray-500 text-sm mt-1 font-inter">The future of email marketing is here</p>
       <div className="mt-6 sm:grid sm:grid-cols-3 sm:gap-2">
         <div className="mb-7">
           <p className="text-white mb-1">Links</p>
@@ -45,7 +45,7 @@ const Footer = () => {
         </div>
       </div>
       <hr className="text-fade mt-10" />
-      <p className="mt-6 mb-2 text-accent font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
+      <p className="mt-6 mb-2 text-accent text-sm font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
     </footer>
   )
 }

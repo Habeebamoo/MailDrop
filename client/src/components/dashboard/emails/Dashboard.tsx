@@ -63,7 +63,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
             <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
-              <FiEdit size={20} color="#2f299cff" />
+              <FiEdit size={20} color="#6964c9ff" />
             </div>
             <div>
               <p className="font-outfit text-sm text-accent">Total Campaigns</p>
@@ -73,7 +73,7 @@ const Dashboard = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetSta
 
           <div className="bg-white dark:bg-gray-900 border-1 border-bg2 dark:border-gray-800 p-4 rounded-xl flex-start gap-4">
             <div className="bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
-              <CgMail size={20} color="#2f299cff" />
+              <CgMail size={20} color="#6964c9ff" />
             </div>
             <div>
               <p className="font-outfit text-sm text-accent">Emails Sent</p>

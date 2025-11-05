@@ -20,11 +20,11 @@ const Hero = () => {
               <span className="ml-1">New: Email Marketing Platform</span>
             </p>
           </div>
-          <h1 data-aos="zoom-in" className="font-inter text-primary text-3xl mt-6">Email Marketing Made Simple & Secure</h1>
-          <p data-aos="zoom-in" className="text-sm max-lg:mt-4 lg:mt-2 text-accent">
+          <h1 data-aos="zoom-in" className="font-inter text-primary text-3xl mt-4">Email Marketing Made Simple & Secure</h1>
+          <p data-aos="zoom-in" className="text-sm mt-2 text-accent font-inter">
             Experience the future of email marketing with MailDrop. Intelligent organization, bulletproof security and lightning-fast perfomance in one beautiful package
           </p>
-          <button data-aos="slide-up" onClick={toLogin} className="max-md:py-2 max-lg:mt-6 lg:mt-4 px-4 btn-primary flex-center">
+          <button data-aos="slide-up" onClick={toLogin} className="max-md:py-2 mt-4 text-sm px-4 btn-primary flex-center">
             <span className="mr-2">Get Started</span>
             <FaArrowRight size={14} />
           </button>
