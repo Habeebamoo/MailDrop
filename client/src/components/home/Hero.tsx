@@ -11,7 +11,7 @@ const Hero = () => {
   }
 
   return (
-    <section className="pt-[100px] pb-5 bg-bg px-2 ">
+    <section className="pt-[100px] pb-6 bg-bg px-2">
       <div className="lg:grid lg:grid-cols-2 lg:gap-2 lg:w-[80%] mx-auto">
         <div className="lg:mt-10 max-lg:px-4">
           <div className="inline-block" data-aos="zoom-in">

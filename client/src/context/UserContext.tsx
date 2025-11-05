@@ -23,23 +23,10 @@ type initUserContext = {
 const UserContext = createContext<initUserContext | undefined>(undefined)
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>({
-  userId: "sd",
-  name: "sd",
-  email: "sd",
-  verified: true,
-  profile: {
-    profilePic: "d",
-    bio: "sd",
-    totalCampaigns: 3,
-    totalSubscribers: 8,
-    totalClicks: 0,
-    totalEmails: 7,
-  }
-})
-  const [loading, setLoading] = useState<boolean>(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
-  /*useEffect(() => {
+  useEffect(() => {
     let mounted = true;
 
     const fetchUser = async () => {
@@ -74,7 +61,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       mounted = false;
     }
-  }, [])*/
+  }, [])
   
   return (
     <UserContext value={{ user, loading }}>
