@@ -24,7 +24,7 @@
 
 @layer base {
 	small {
-		@apply text-accent block mb-1 font-inter cursor-pointer hover:text-white;
+		@apply text-gray-500 block mb-1 font-inter cursor-pointer hover:text-white;
 	}
 }
 

@@ -125,6 +125,10 @@ const NewEmail = ({ setActiveTab }: { setActiveTab: React.Dispatch<React.SetStat
   }
 
   const nextStep = () => {
+    if (!campaignSelected || !form.subject) {
+      toast.error("Fields are required")
+      return
+    }
     setStep(step + 1)
   }
 
