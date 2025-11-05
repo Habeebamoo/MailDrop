@@ -45,7 +45,7 @@ const Footer = () => {
         </div>
       </div>
       <hr className="text-gray-500 mt-10" />
-      <p className="mt-6 mb-2 text-accent text-sm font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
+      <p className="mt-6 mb-2 text-gray-500 text-sm font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
     </footer>
   )
 }
