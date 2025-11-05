@@ -44,7 +44,7 @@ const Footer = () => {
           <small>Privacy Policy</small>
         </div>
       </div>
-      <hr className="text-fade mt-10" />
+      <hr className="text-gray-500 mt-10" />
       <p className="mt-6 mb-2 text-accent text-sm font-outfit text-center">&copy; {year} MailDrop. All rights reserved</p>
     </footer>
   )
