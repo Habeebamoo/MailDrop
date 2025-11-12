@@ -60,18 +60,19 @@ MailDrop is a simple and powerful email campaign management system designed to h
 ### Backend (Go)
 
 ```bash
-# Clone the repo
-git clone
-https://github.com/Habeebamoo/MailDrop.git
+#Clone the repo
+git clone https://github.com/Habeebamoo/MailDrop.git
 cd MailDrop/server
 
-# Install dependencies
+# Install packages
 go mod tidy
 
-# Run the server
-go run main.go
-```
+# Build the binary
+go build -o app ./cmd
 
+# Start the server
+./app
+```
 
 ### Frontend (React)
 
