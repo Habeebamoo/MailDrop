@@ -1,6 +1,6 @@
 # MailDrop 
 
-MailDrop is a simple and powerful email campaign management system designed to help users manage subscribers, send campaigns mails, and track management with ease. MailDrop provides a secure solution for modern email marketing.
+MailDrop is a simple and powerful email campaign management system designed to help users manage subscribers, send campaigns mails, and track management with ease.
 
 ## Usage
 
@@ -26,19 +26,20 @@ MailDrop is a simple and powerful email campaign management system designed to h
 - Create, update, and delete campaigns.
 - Manage subscribers for each campaign
 - Unsubscribe functionality with feedback (reason/comments)
+- Collect emails by importing csv files
+- Export subscribers in csv format
 
 **Email System**
 - Dynamic email composer with **rich text editor** (Tiptap)
 - Lead magnet reward email on subscription
-- Reset password and OTP verification emails with custom branding
-- Subscription and unsubscription notification emails
+- Subscription and unsubscribtion notification emails
 
 **Security**
 - JWT expiration validation
 - XSS prevention
 - API rate limiting
 - SQL injections prevention
-- Proper request validation in both client & server
+- Proper request validation innotification & server
 
 ---
 
