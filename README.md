@@ -39,7 +39,7 @@ MailDrop is a simple and powerful email campaign management system designed to h
 - XSS prevention
 - API rate limiting
 - SQL injections prevention
-- Proper request validation innotification & server
+- Proper request validation on both client and server 
 
 ---
 
