@@ -7,7 +7,7 @@ const ContactPage = () => {
   return (
     <>
       <Header />
-      <main className="bg-bg pt-25 pb-15 min-h-[calc(100vh-4rem)]">
+      <main className="bg-gray-50 pt-25 pb-15 min-h-[calc(100vh-4rem)]">
         <h1 className="text-center font-inter text-2xl mt-2" data-aos="zoom-in">Get in Touch</h1>
         <p className="text-sm text-center mt-1 mx-auto text-accent w-[80%]" data-aos="zoom-in">Have a question about our platform? Drop us a message.</p>
         <div className="mt-6">

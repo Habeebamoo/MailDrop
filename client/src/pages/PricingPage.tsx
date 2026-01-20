@@ -17,7 +17,7 @@ const PricingPage = () => {
   return (
     <>
       <Header />
-      <main className="bg-bg pt-25 pb-15 min-h-[calc(100vh-4rem)]">
+      <main className="bg-gray-50 pt-25 pb-15 min-h-[calc(100vh-4rem)]">
         <h1 className="font-inter text-center text-2xl" data-aos="zoom-in">Choose Your Plan</h1>
         <p className="text-center text-sm text-accent mt-1" data-aos="zoom-in">Start your email marketing journey with our flexible plans</p>
         <div className="mt-6">

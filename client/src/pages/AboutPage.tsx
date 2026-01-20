@@ -5,7 +5,7 @@ const AboutPage = () => {
   return (
     <>
       <Header />
-      <main className="bg-bg pt-25 pb-15 min-h-[calc(100vh-4rem)]">
+      <main className="bg-gray-50 pt-25 pb-15 min-h-[calc(100vh-4rem)]">
         <div className="flex-center mt-1" data-aos="zoom-in">
           <p className="bg-bg2 font-outfit py-1 px-2 rounded font-open text-sm text-primary">
           <span className="ml-1">About MailDrop</span>
