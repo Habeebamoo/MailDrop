@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom"
 import { useUser } from "../../context/UserContext"
 import { MdCancel } from "react-icons/md"
+import { motion } from "framer-motion"
+import { navVariant } from "../../utils/animation"
 
 interface Props {
   setNavShown: React.Dispatch<React.SetStateAction<boolean>>
@@ -22,7 +24,12 @@ const NavBar = ({ setNavShown }: Props) => {
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 z-20 bg-black/80 sm:hidden">
-      <div className="absolute bottom-0 left-0 right-0 bg-white border-t pt-10 px-6 pb-10 rounded-t-2xl">
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={navVariant} 
+        className="absolute bottom-0 left-0 right-0 bg-white border-t pt-10 px-6 pb-10 rounded-t-2xl"
+      >
         <div
           onClick={() => setNavShown(false)} 
           className="mb-10 flex-end cursor-pointer"
@@ -61,7 +68,7 @@ const NavBar = ({ setNavShown }: Props) => {
         >
           {autoSignInText}
         </button>
-      </div>
+      </motion.div>
     </div>
   )
 }
