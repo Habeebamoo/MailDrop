@@ -27,8 +27,8 @@ const Header = () => {
   }
 
   return (
-    <header className="pt-3 px-3 backdrop-blur-md fixed top-0 left-0 right-0 z-10">
-      <nav className="bg-white p-3 rounded-md border-1 border-accentLight md:w-[90%] mx-auto shadow">
+    <header className="pt-3 px-3 fixed top-0 left-0 right-0 z-10">
+      <nav className="bg-white p-3 md:p-4 px-6 md:px-8 rounded-full border-1 border-gray-200 md:w-[90%] mx-auto">
         <div className="flex-between">
           <div className="flex-start">
             <img src={logo} alt="Logo" className="h-[30px]" />
@@ -60,12 +60,20 @@ const Header = () => {
               Contact
             </NavLink>          
           </div>
-          <button onClick={autoSignIn} className="max-sm:hidden btn-primary">{autoSignInText}</button>
+
+          <button 
+            onClick={autoSignIn} 
+            className="max-sm:hidden font-jsans rounded-full px-6 py-2 btn-primary"
+          >
+            {autoSignInText}
+          </button>
+
           <div onClick={toggleNav} className="sm:hidden cursor-pointer">
             {menuIcon}
           </div>
         </div>
-        {navShown && <NavBar />}
+
+        {navShown && <NavBar setNavShown={setNavShown} />}
       </nav>
     </header>
   )

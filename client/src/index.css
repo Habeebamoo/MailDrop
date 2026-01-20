@@ -54,11 +54,11 @@
 }
 
 @utility home-mobile-link {
-	@apply mb-5 cursor-pointer font-open;
+	@apply mb-5 cursor-pointer font-open block;
 }
 
 @utility home-mobile-link-active {
-	@apply text-lg mb-5 text-primary cursor-pointer font-open;
+	@apply text-lg mb-5 text-primary cursor-pointer font-open block;
 }
 
 @utility home-dsk-link {
