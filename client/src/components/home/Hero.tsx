@@ -11,7 +11,7 @@ const Hero = () => {
   }
 
   return (
-    <section className="bg-gray-50 pt-35 pb-30 relative">
+    <section className="bg-gray-50 pt-45 pb-30 relative">
       <img src={heroImg} className="mx-auto" />
 
       <div className="flex-center backdrop-blur-3xl absolute top-0 left-0 right-0 bottom-0 flex-col px-4 md:px-6">
