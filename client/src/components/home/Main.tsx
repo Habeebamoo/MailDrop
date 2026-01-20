@@ -28,7 +28,7 @@ const Main = () => {
   })
 
   return (
-    <section className="py-6 bg-accentXLight border-t-1 border-t-accentLight">
+    <section className="py-6 bg-gray-50 border-t border-gray-100">
       {/* Features */}
       <div className="flex-center">
         <p className="bg-bg2 font-outfit py-1 px-2 rounded font-open text-sm text-primary">

@@ -1,7 +1,7 @@
-import { FaStar } from "react-icons/fa"
 import { FaArrowRight } from "react-icons/fa6"
 import heroImg from "../../assets/hero.png"
 import { useNavigate } from "react-router-dom"
+import { BsStarFill } from "react-icons/bs"
 
 const Hero = () => {
   const navigate = useNavigate()
@@ -11,29 +11,34 @@ const Hero = () => {
   }
 
   return (
-    <section className="pt-[100px] pb-6 bg-bg px-2">
-      <div className="lg:grid lg:grid-cols-2 lg:gap-2 lg:w-[80%] mx-auto">
-        <div className="lg:mt-10 max-lg:px-4">
-          <div className="flex-center sm:flex-start">
-            <p className="bg-bg2 font-outfit max-sm:flex-center flex-start py-1 px-2 rounded font-open text-sm text-primary">
-              <FaStar color="gold" />
-              <span className="ml-1">New: Email Marketing Platform</span>
-            </p>
+    <section className="bg-gray-50 pt-35 pb-30 relative">
+      <img src={heroImg} className="mx-auto" />
+
+      <div className="flex-center backdrop-blur-3xl absolute top-0 left-0 right-0 bottom-0 flex-col px-4 md:px-6">
+        <div className="bg-gray-200 border border-gray-300 py-2 px-4 lg:px-20 rounded-full font-open text-[12px] md:text-sm flex-center gap-1 md:gap-2">
+          <div className="flex-start gap-2">
+            <BsStarFill color="gold" />
+            <span>New:</span>
           </div>
-          <h1 data-aos="zoom-in" className="font-inter text-primary text-3xl mt-4 max-sm:text-center">Email Marketing Made Simple & Secure</h1>
-          <p data-aos="zoom-in" className="text-sm mt-2 text-accent max-sm:text-center font-inter">
-            Experience the future of email marketing with MailDrop. Intelligent organization, bulletproof security and lightning-fast perfomance in one beautiful package
-          </p>
-          <button data-aos="slide-up" onClick={toLogin} className="max-md:py-2 mt-4 text-sm px-4 btn-primary flex-center max-sm:mx-auto">
-            <span className="mr-2">Get Started</span>
-            <FaArrowRight size={14} />
-          </button>
+
+          <p>Email marketing platform</p>
         </div>
-        <div className="max-sm:my-22 lg:ml-5">
-          <div className="flex-center" data-aos="zoom-in">
-            <img src={heroImg} className="max-lg:h-[250px] lg:h-[250px]" />
-          </div>
-        </div>
+
+        <h1 className="text-4xl mt-6 md:text-5xl lg:text-6xl text-center font-jsans">
+          Email marketing made <span className="text-primary">simple and secure</span>
+        </h1>
+
+        <p className="text-black font-outfit mt-4 max-lg:w-[80%] text-[13px] sm:text-[14px] md:text-[16px] text-center">
+          Design, grow, and manage email campaigns with full control over your audience and delivery
+        </p>
+
+        <button
+          onClick={toLogin} 
+          className="btn-primary mt-6 font-open flex-center gap-3 rounded-full py-3 px-8"
+        >
+          <span>Get Started</span>
+          <FaArrowRight />
+        </button>
       </div>
     </section>
   )
