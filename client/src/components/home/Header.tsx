@@ -30,7 +30,10 @@ const Header = () => {
     <header className="bg-white py-4 px-6 md:px-10 xl:px-15 border-b border-gray-100 fixed top-0 left-0 right-0 z-10">
       <nav>
         <div className="flex-between">
-          <img src={logo} alt="Logo" className="h-[45px]" />
+          <div className="flex-start gap-1">
+            <img src={logo} alt="Logo" className="h-[30px] md:h-[35px]" />
+            <h1 className="text-primary text-xl md:text-2xl font-outfit">MailDrop</h1>
+          </div>
 
           <div className="flex-between gap-4 max-sm:hidden">
             <NavLink 

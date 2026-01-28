@@ -22,7 +22,7 @@ const Hero = () => {
           <p>Email marketing platform</p>
         </div>
 
-        <h1 className="text-5xl leading-13 mt-4 lg:text-6xl lg:w-[80%] mx-auto text-center font-outfit">
+        <h1 className="text-5xl leading-13 mt-4 lg:text-6xl md:w-[80%] mx-auto text-center font-outfit">
           Email marketing made <span className="text-primary">simple and secure</span>
         </h1>
 
